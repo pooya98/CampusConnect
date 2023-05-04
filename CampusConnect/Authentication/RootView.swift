@@ -13,6 +13,7 @@ struct RootView: View {
     
     var body: some View {
         ZStack {
+            // Default View after successful login
             SettingsView(showLoginView: $showLoginView)
         }
         .onAppear {
@@ -24,7 +25,7 @@ struct RootView: View {
         }
         .fullScreenCover(isPresented: $showLoginView) {
             NavigationStack{
-                LoginView()
+                LoginView(showLoginView: $showLoginView)
             }
         }
         

@@ -17,14 +17,14 @@ final class CreateAccountViewModel: ObservableObject {
     @Published var isInvalidPassword = false
     
     //method 1
-//    func createAccount() async throws {
+//    func createAccount() {
 //        //TODO: validate forms
 //
 //        let returnedUserData = try await AuthenticationManager.shared.createUser(email: email, password: password)
 //    }
     
     //method 2
-    func createAccount() {
+    func createAccount()  async throws{
         //TODO: validate forms
         guard validateEmail(strToValidate: email) == true else{
             isInvalidEmail = true
@@ -42,17 +42,7 @@ final class CreateAccountViewModel: ObservableObject {
 
         isInvalidPassword = false
         
-        //TODO: display error when email is used by another account
-        Task {
-            do{
-                let returnedUserData = try await AuthenticationManager.shared.createUser(email: email, password: password)
-                print("New created")
-                print(returnedUserData)
-            }catch{
-                print("Error: \(error)")
-            }
-        }
-        
+        try await AuthenticationManager.shared.createUser(email: email, password: password)
     }
     
     
@@ -90,25 +80,19 @@ final class CreateAccountViewModel: ObservableObject {
     }
     
     func validatePassword(strToValidate: String) -> Bool {
+        
+        // .{8,} or (?=.{8,}) - At least 8 characters
+        
+        // (?=.*[A-Z]) - At least one capital letter
 
-        //use raw strings
-        let passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[ !$%&?~@=#^*()<>+{}:;._-]).{8,}$"
-        // At least 8 characters
-        //.{8,} or
-        //(?=.{8,})
+        // (?=.*[a-z]) - At least one lowercase letter
 
-        // At least one capital letter
-        //(?=.*[A-Z])
-
-        // At least one lowercase letter
-        //(?=.*[a-z])
-
-        // At least one digit
-        //"(?=.*\d)" or
-        //(?=.*[0-9])
+        // (?=.*\d)" or (?=.*[0-9]) - At least one digit
 
         // At least one special character
         //(?=.*[ !$%&?~@=#^*()<>+{}:;._-])
+        
+        let passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[ !$%&?~@=#^*()<>+{}:;._-]).{8,}$"
 
         let passwordTest = NSPredicate(format: "SELF MATCHES %@", passwordPattern)
 
@@ -121,6 +105,8 @@ final class CreateAccountViewModel: ObservableObject {
 struct CreateAccountView: View {
     
     @StateObject var createAccountViewmodel = CreateAccountViewModel()
+    @Environment(\.dismiss) var dismiss
+    @State private var accountCreationAlert = false
     
     var body: some View {
         VStack{
@@ -136,8 +122,8 @@ struct CreateAccountView: View {
 //                .cornerRadius(10)
 
             TextField("Email", text: $createAccountViewmodel.email)
-                .autocapitalization(.none)
-                .textCase(.lowercase)
+//                .autocapitalization(.none)
+//                .textCase(.lowercase)
                 .padding()
                 .background(Color.gray.opacity(0.4))
                 .cornerRadius(10)
@@ -148,7 +134,7 @@ struct CreateAccountView: View {
                     .font(.footnote)
             }
             
-            TextField("password", text: $createAccountViewmodel.password)
+            TextField("Password", text: $createAccountViewmodel.password)
                 .padding()
                 .background(Color.gray.opacity(0.4))
                 .cornerRadius(10)
@@ -165,7 +151,19 @@ struct CreateAccountView: View {
 //                    .cornerRadius(10)
             
             Button {
-                createAccountViewmodel.createAccount()
+                Task {
+                    do{
+                        try await createAccountViewmodel.createAccount()
+                        // dismiss current view
+                        dismiss()
+                        accountCreationAlert = true
+                        
+
+                    }catch{
+                        //TODO: display error when email is used by another account
+                        print("Error: \(error)")
+                    }
+                }
             } label: {
                 Text("Create Account")
                     .font(.headline)
@@ -176,6 +174,13 @@ struct CreateAccountView: View {
                     .cornerRadius(10)
             }
             .padding(.top, 40)
+            .alert("Account Created", isPresented: $accountCreationAlert){
+                
+                // Add buttons like OK, CANCEL here
+                
+            } message: {
+                Text("You can now login.")
+            }
             
         }
         .padding()
