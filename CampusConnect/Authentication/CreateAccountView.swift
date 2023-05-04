@@ -13,7 +13,8 @@ final class CreateAccountViewModel: ObservableObject {
 //    @Published var lastname = ""
     @Published var email = ""
     @Published var password = ""
-//    @Published var isValidEmail = false
+    @Published var isInvalidEmail = false
+    @Published var isInvalidPassword = false
     
     //method 1
 //    func createAccount() async throws {
@@ -25,13 +26,21 @@ final class CreateAccountViewModel: ObservableObject {
     //method 2
     func createAccount() {
         //TODO: validate forms
+        guard validateEmail(strToValidate: email) == true else{
+            isInvalidEmail = true
+            print("Create Account Error: Invalid email address")
+            return
+        }
         
-//        guard validateEmail(strToValidate: email) == true else{
-//            isValidEmail = false
-//            return
-//        }
-//
-//        isValidEmail = true
+        isInvalidEmail = false
+        
+        guard validatePassword(strToValidate: password) == true else {
+            isInvalidPassword = true
+            print("Create Account Error: Invalid password pattern")
+            return
+        }
+
+        isInvalidPassword = false
         
         //TODO: display error when email is used by another account
         Task {
@@ -80,6 +89,33 @@ final class CreateAccountViewModel: ObservableObject {
         return true
     }
     
+    func validatePassword(strToValidate: String) -> Bool {
+
+        //use raw strings
+        let passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[ !$%&?~@=#^*()<>+{}:;._-]).{8,}$"
+        // At least 8 characters
+        //.{8,} or
+        //(?=.{8,})
+
+        // At least one capital letter
+        //(?=.*[A-Z])
+
+        // At least one lowercase letter
+        //(?=.*[a-z])
+
+        // At least one digit
+        //"(?=.*\d)" or
+        //(?=.*[0-9])
+
+        // At least one special character
+        //(?=.*[ !$%&?~@=#^*()<>+{}:;._-])
+
+        let passwordTest = NSPredicate(format: "SELF MATCHES %@", passwordPattern)
+
+        return passwordTest.evaluate(with: strToValidate)
+        
+    }
+    
 }
 
 struct CreateAccountView: View {
@@ -106,17 +142,24 @@ struct CreateAccountView: View {
                 .background(Color.gray.opacity(0.4))
                 .cornerRadius(10)
             
-            
-//            Text("Invalid email address")
-//                .foregroundColor(.red)
-//                .font(.footnote)
+            if(createAccountViewmodel.isInvalidEmail){
+                Text("Invalid email address")
+                    .foregroundColor(.red)
+                    .font(.footnote)
+            }
             
             TextField("password", text: $createAccountViewmodel.password)
                 .padding()
                 .background(Color.gray.opacity(0.4))
                 .cornerRadius(10)
             
-//                TextField("Confirm Password", text: $createAccount.password)
+            if(createAccountViewmodel.isInvalidPassword){
+                Text("Password must be at least 8 characters and contain number, lowercase, uppercase, special character")
+                    .foregroundColor(.red)
+                    .font(.footnote)
+            }
+            
+//                TextField("Confirm Password", text: $createAccountViewmodel.password)
 //                    .padding()
 //                    .background(Color.gray.opacity(0.4))
 //                    .cornerRadius(10)
