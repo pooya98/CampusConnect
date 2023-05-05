@@ -95,6 +95,8 @@ struct LoginView: View {
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView(showLoginView: .constant(false))
+        NavigationStack {
+            LoginView(showLoginView: .constant(false))
+        }
     }
 }

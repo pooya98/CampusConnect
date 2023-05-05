@@ -21,7 +21,7 @@ struct AuthDataResultModel {
     }
 }
 
-class AuthenticationManager {
+final class AuthenticationManager {
     
     static let shared = AuthenticationManager() //instance of the class
     private init() { }
@@ -42,6 +42,7 @@ class AuthenticationManager {
     
     func getAuthenticatedUser() throws -> AuthDataResultModel {
         guard let user = Auth.auth().currentUser else {
+            //user not signed in
             //TODO: cutomize error message
             throw URLError(.badServerResponse) // auth might not have finished initializing
         }

@@ -13,8 +13,18 @@ struct RootView: View {
     
     var body: some View {
         ZStack {
-            // Default View after successful login
-            SettingsView(showLoginView: $showLoginView)
+            NavigationStack {
+                if showLoginView  == false{ // prevents page from displaying before successful login
+                    
+                    // Default View after successful login
+                    SettingsView(showLoginView: $showLoginView)
+                }
+                
+            }
+            
+            //SettingsView(showLoginView: $showLoginView)
+            
+            
         }
         .onAppear {
             //fetch authenticated user from firebase

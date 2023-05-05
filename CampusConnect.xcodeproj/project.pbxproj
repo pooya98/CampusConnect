@@ -20,6 +20,9 @@
 		E523A3A72A02782700A81A14 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = E523A3A62A02782700A81A14 /* FirebaseAuth */; };
 		E523A3A92A02783D00A81A14 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = E523A3A82A02783D00A81A14 /* FirebaseFirestore */; };
 		E523A3AB2A02784900A81A14 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = E523A3AA2A02784900A81A14 /* FirebaseFirestoreSwift */; };
+		E59B12F72A0537270079AA9E /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59B12F62A0537270079AA9E /* ProfileView.swift */; };
+		E59B12FA2A053AE90079AA9E /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59B12F92A053AE90079AA9E /* AccountView.swift */; };
+		E59B12FD2A05514F0079AA9E /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59B12FC2A05514F0079AA9E /* UserManager.swift */; };
 		E5EA47DE2A02941300D2A5E7 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5EA47DD2A02941300D2A5E7 /* RootView.swift */; };
 		E5EA47E32A029D2B00D2A5E7 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5EA47E22A029D2B00D2A5E7 /* SettingsView.swift */; };
 /* End PBXBuildFile section */
@@ -34,6 +37,9 @@
 		E523A39F2A024D0D00A81A14 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		E523A3A12A02629100A81A14 /* CreateAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountView.swift; sourceTree = "<group>"; };
 		E523A3A32A02725A00A81A14 /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
+		E59B12F62A0537270079AA9E /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		E59B12F92A053AE90079AA9E /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
+		E59B12FC2A05514F0079AA9E /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		E5EA47DD2A02941300D2A5E7 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		E5EA47E22A029D2B00D2A5E7 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -77,7 +83,9 @@
 				82F058CD2A010F410015480C /* CampusConnectApp.swift */,
 				82F058CF2A010F410015480C /* ContentView.swift */,
 				E523A39E2A024CC000A81A14 /* Authentication */,
+				E59B12F52A0536A90079AA9E /* Profile */,
 				E5EA47E12A029CA400D2A5E7 /* Settings */,
+				E59B12FB2A0550A90079AA9E /* FirestoreManager */,
 				82F058D12A010F420015480C /* Assets.xcassets */,
 				E50D6B7F2A0216A200C43970 /* GoogleService-Info.plist */,
 				82F058D32A010F420015480C /* Preview Content */,
@@ -111,10 +119,27 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		E59B12F52A0536A90079AA9E /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				E59B12F62A0537270079AA9E /* ProfileView.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		E59B12FB2A0550A90079AA9E /* FirestoreManager */ = {
+			isa = PBXGroup;
+			children = (
+				E59B12FC2A05514F0079AA9E /* UserManager.swift */,
+			);
+			path = FirestoreManager;
+			sourceTree = "<group>";
+		};
 		E5EA47E12A029CA400D2A5E7 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
 				E5EA47E22A029D2B00D2A5E7 /* SettingsView.swift */,
+				E59B12F92A053AE90079AA9E /* AccountView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -200,12 +225,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E59B12F72A0537270079AA9E /* ProfileView.swift in Sources */,
 				E5EA47E32A029D2B00D2A5E7 /* SettingsView.swift in Sources */,
 				E523A3A02A024D0D00A81A14 /* LoginView.swift in Sources */,
 				82F058D02A010F410015480C /* ContentView.swift in Sources */,
 				E5EA47DE2A02941300D2A5E7 /* RootView.swift in Sources */,
 				E523A3A22A02629100A81A14 /* CreateAccountView.swift in Sources */,
+				E59B12FA2A053AE90079AA9E /* AccountView.swift in Sources */,
 				E523A3A42A02725A00A81A14 /* AuthenticationManager.swift in Sources */,
+				E59B12FD2A05514F0079AA9E /* UserManager.swift in Sources */,
 				82F058CE2A010F410015480C /* CampusConnectApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

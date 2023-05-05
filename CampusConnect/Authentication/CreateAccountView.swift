@@ -7,21 +7,31 @@
 
 import SwiftUI
 
+
+struct UserDetails {
+    
+    let firstName: String?
+    let lastName: String?
+    //let dateOfBirth: String?
+    //let studentNumber: String?
+    
+}
+
 @MainActor // concurrency
 final class CreateAccountViewModel: ObservableObject {
-//    @Published var firstname = ""
-//    @Published var lastname = ""
+    @Published var firstName = ""
+    @Published var lastName = ""
     @Published var email = ""
     @Published var password = ""
     @Published var isInvalidEmail = false
     @Published var isInvalidPassword = false
     
     //method 1
-//    func createAccount() {
-//        //TODO: validate forms
-//
-//        let returnedUserData = try await AuthenticationManager.shared.createUser(email: email, password: password)
-//    }
+    /*func createAccount() {
+        //TODO: validate forms
+        
+        let returnedUserData = try await AuthenticationManager.shared.createUser(email: email, password: password)
+    }*/
     
     //method 2
     func createAccount()  async throws{
@@ -42,7 +52,11 @@ final class CreateAccountViewModel: ObservableObject {
 
         isInvalidPassword = false
         
-        try await AuthenticationManager.shared.createUser(email: email, password: password)
+        let authDataResult = try await AuthenticationManager.shared.createUser(email: email, password: password)
+        
+        let userInfo = UserDetails(firstName: firstName, lastName: lastName)
+        
+        try await UserManager.shared.createNewUser(authData: authDataResult, userDetails: userInfo)
     }
     
     
@@ -111,19 +125,19 @@ struct CreateAccountView: View {
     var body: some View {
         VStack{
             
-//            TextField("First Name", text: $createAccount.firstname)
-//                .padding()
-//                .background(Color.gray.opacity(0.4))
-//                .cornerRadius(10)
-//
-//            TextField("Last Name", text: $createAccount.lastname)
-//                .padding()
-//                .background(Color.gray.opacity(0.4))
-//                .cornerRadius(10)
+            TextField("First Name", text: $createAccountViewmodel.firstName)
+                .padding()
+                .background(Color.gray.opacity(0.4))
+                .cornerRadius(10)
+
+            TextField("Last Name", text: $createAccountViewmodel.lastName)
+                .padding()
+                .background(Color.gray.opacity(0.4))
+                .cornerRadius(10)
 
             TextField("Email", text: $createAccountViewmodel.email)
-//                .autocapitalization(.none)
-//                .textCase(.lowercase)
+                //.autocapitalization(.none)
+                //.textCase(.lowercase)
                 .padding()
                 .background(Color.gray.opacity(0.4))
                 .cornerRadius(10)
@@ -145,10 +159,10 @@ struct CreateAccountView: View {
                     .font(.footnote)
             }
             
-//                TextField("Confirm Password", text: $createAccountViewmodel.password)
-//                    .padding()
-//                    .background(Color.gray.opacity(0.4))
-//                    .cornerRadius(10)
+            /*TextField("Confirm Password", text: $createAccountViewmodel.password)
+                .padding()
+                .background(Color.gray.opacity(0.4))
+                .cornerRadius(10)*/
             
             Button {
                 Task {
@@ -180,6 +194,7 @@ struct CreateAccountView: View {
                 
             } message: {
                 Text("You can now login.")
+                    .fontWeight(.medium)
             }
             
         }
@@ -191,6 +206,9 @@ struct CreateAccountView: View {
 
 struct CreateAccountView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateAccountView()
+        NavigationStack {
+            CreateAccountView()
+        }
+        
     }
 }
