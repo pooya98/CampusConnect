@@ -23,6 +23,8 @@ final class CreateAccountViewModel: ObservableObject {
     @Published var lastName = ""
     @Published var email = ""
     @Published var password = ""
+    @Published var firstNameNotfilled = false
+    @Published var lastNameNotfilled = false
     @Published var isInvalidEmail = false
     @Published var isInvalidPassword = false
     
@@ -34,12 +36,28 @@ final class CreateAccountViewModel: ObservableObject {
     }*/
     
     //method 2
-    func createAccount()  async throws{
+    func createAccount()  async throws -> Bool {
         //TODO: validate forms
+        guard firstName.isEmpty == false else {
+            firstNameNotfilled = true
+            print("First Name required!")
+            return false
+        }
+        
+        firstNameNotfilled = false
+        
+        guard lastName.isEmpty == false else {
+            lastNameNotfilled = true
+            print("First Name required!")
+            return false
+        }
+        lastNameNotfilled = false
+        
+        
         guard validateEmail(strToValidate: email) == true else{
             isInvalidEmail = true
             print("Create Account Error: Invalid email address")
-            return
+            return false
         }
         
         isInvalidEmail = false
@@ -47,7 +65,7 @@ final class CreateAccountViewModel: ObservableObject {
         guard validatePassword(strToValidate: password) == true else {
             isInvalidPassword = true
             print("Create Account Error: Invalid password pattern")
-            return
+            return false
         }
 
         isInvalidPassword = false
@@ -57,6 +75,8 @@ final class CreateAccountViewModel: ObservableObject {
         let userInfo = UserDetails(firstName: firstName, lastName: lastName)
         
         try await UserManager.shared.createNewUser(authData: authDataResult, userDetails: userInfo)
+        
+        return true
     }
     
     
@@ -129,11 +149,23 @@ struct CreateAccountView: View {
                 .padding()
                 .background(Color.gray.opacity(0.4))
                 .cornerRadius(10)
+            
+            if(createAccountViewmodel.firstNameNotfilled){
+                Text("Required")
+                    .foregroundColor(.red)
+                    .font(.footnote)
+            }
 
             TextField("Last Name", text: $createAccountViewmodel.lastName)
                 .padding()
                 .background(Color.gray.opacity(0.4))
                 .cornerRadius(10)
+            
+            if(createAccountViewmodel.lastNameNotfilled){
+                Text("Required")
+                    .foregroundColor(.red)
+                    .font(.footnote)
+            }
 
             TextField("Email", text: $createAccountViewmodel.email)
                 //.autocapitalization(.none)
@@ -167,10 +199,13 @@ struct CreateAccountView: View {
             Button {
                 Task {
                     do{
-                        try await createAccountViewmodel.createAccount()
+                        let createAccountSuccess = try await createAccountViewmodel.createAccount()
                         // dismiss current view
                         dismiss()
-                        accountCreationAlert = true
+                        
+                        if createAccountSuccess {
+                            accountCreationAlert = true
+                        }
                         
 
                     }catch{
