@@ -76,6 +76,13 @@ final class CreateAccountViewModel: ObservableObject {
         
         try await UserManager.shared.createNewUser(authData: authDataResult, userDetails: userInfo)
         
+        printLoginStatus()
+        
+        // logs out the user who was automatically logged in during account creation
+        try AuthenticationManager.shared.signOut()
+        
+        printLoginStatus()
+
         return true
     }
     
@@ -132,6 +139,13 @@ final class CreateAccountViewModel: ObservableObject {
 
         return passwordTest.evaluate(with: strToValidate)
         
+    }
+    
+    
+    func printLoginStatus() {
+        let authenticatedUser =  try? AuthenticationManager.shared.getAuthenticatedUser()
+        let loginStatus = authenticatedUser == nil ? "automatically logged out" : "automatically logged in "
+        print("User Login Status: \(loginStatus)")
     }
     
 }
@@ -200,10 +214,10 @@ struct CreateAccountView: View {
                 Task {
                     do{
                         let createAccountSuccess = try await createAccountViewmodel.createAccount()
-                        // dismiss current view
-                        dismiss()
                         
                         if createAccountSuccess {
+                            // dismiss current view
+                            dismiss()
                             accountCreationAlert = true
                         }
                         
@@ -223,6 +237,9 @@ struct CreateAccountView: View {
                     .cornerRadius(10)
             }
             .padding(.top, 40)
+            
+            // MARK: - Account Created Alert
+            
             .alert("Account Created", isPresented: $accountCreationAlert){
                 
                 // Add buttons like OK, CANCEL here

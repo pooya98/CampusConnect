@@ -27,8 +27,10 @@ final class AuthenticationManager {
     private init() { }
     
    
+    // creates a user and automatically logs them in, that is,
+    // the authentiction data is locally cached in on the device
     @discardableResult
-    func createUser (email: String, password: String) async throws -> AuthDataResultModel {
+    func createUser (email: String, password: String) async throws -> AuthDataResultModel { // async since it pings the server and waits for a response
         let authDataResult = try await Auth.auth().createUser(withEmail: email, password: password)
         return AuthDataResultModel(user: authDataResult.user)
     }
@@ -40,6 +42,7 @@ final class AuthenticationManager {
     }
     
     
+    // get the loccally cached in authetication data
     func getAuthenticatedUser() throws -> AuthDataResultModel {
         guard let user = Auth.auth().currentUser else {
             //user not signed in

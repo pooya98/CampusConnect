@@ -14,7 +14,7 @@ struct RootView: View {
     var body: some View {
         ZStack {
             NavigationStack {
-                if showLoginView  == false{ // prevents page from displaying before successful login
+                if showLoginView == false { // prevents page from displaying before successful login
                     
                     // Default View after successful login
                     SettingsView(showLoginView: $showLoginView)
@@ -30,6 +30,9 @@ struct RootView: View {
             //fetch authenticated user from firebase
             //TODO: cutomize error when user is  not authenticated
             let authenticatedUser = try? AuthenticationManager.shared.getAuthenticatedUser()
+            
+            let loginStatus = authenticatedUser == nil ? "logged out" : "logged in"
+            print("User Login Status: \(loginStatus)")
             
             self.showLoginView = authenticatedUser == nil
         }
