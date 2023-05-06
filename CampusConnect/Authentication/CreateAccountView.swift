@@ -8,7 +8,7 @@
 import SwiftUI
 
 
-struct UserDetails {
+struct AccountRegistrationDetails {
     
     let firstName: String?
     let lastName: String?
@@ -28,23 +28,18 @@ final class CreateAccountViewModel: ObservableObject {
     @Published var isInvalidEmail = false
     @Published var isInvalidPassword = false
     
-    //method 1
-    /*func createAccount() {
-        //TODO: validate forms
-        
-        let returnedUserData = try await AuthenticationManager.shared.createUser(email: email, password: password)
-    }*/
     
-    //method 2
+    // returns true on successuful creation of account
+    // otherwise it returns false
     func createAccount()  async throws -> Bool {
-        //TODO: validate forms
+        //TODO: Ensure Textfield validaiton works properly
         guard firstName.isEmpty == false else {
             firstNameNotfilled = true
             print("First Name required!")
             return false
         }
-        
         firstNameNotfilled = false
+        
         
         guard lastName.isEmpty == false else {
             lastNameNotfilled = true
@@ -59,22 +54,22 @@ final class CreateAccountViewModel: ObservableObject {
             print("Create Account Error: Invalid email address")
             return false
         }
-        
         isInvalidEmail = false
+        
         
         guard validatePassword(strToValidate: password) == true else {
             isInvalidPassword = true
             print("Create Account Error: Invalid password pattern")
             return false
         }
-
         isInvalidPassword = false
+        
         
         let authDataResult = try await AuthenticationManager.shared.createUser(email: email, password: password)
         
-        let userInfo = UserDetails(firstName: firstName, lastName: lastName)
+        let regDetails = AccountRegistrationDetails(firstName: firstName, lastName: lastName)
         
-        try await UserManager.shared.createNewUser(authData: authDataResult, userDetails: userInfo)
+        try await UserManager.shared.createNewUser(authData: authDataResult, registrationDetails: regDetails)
         
         printLoginStatus()
         
@@ -154,7 +149,9 @@ struct CreateAccountView: View {
     
     @StateObject var createAccountViewmodel = CreateAccountViewModel()
     @Environment(\.dismiss) var dismiss
-    @State private var accountCreationAlert = false
+    @State private var showAccountCreatedAlert = false
+    @State private var showCreateAccountError = false
+    @State private var createAccountErrorMsg = ""
     
     var body: some View {
         VStack{
@@ -165,7 +162,7 @@ struct CreateAccountView: View {
                 .cornerRadius(10)
             
             if(createAccountViewmodel.firstNameNotfilled){
-                Text("Required")
+                Text("First Name Required")
                     .foregroundColor(.red)
                     .font(.footnote)
             }
@@ -176,7 +173,7 @@ struct CreateAccountView: View {
                 .cornerRadius(10)
             
             if(createAccountViewmodel.lastNameNotfilled){
-                Text("Required")
+                Text("Last Name Required")
                     .foregroundColor(.red)
                     .font(.footnote)
             }
@@ -218,13 +215,13 @@ struct CreateAccountView: View {
                         if createAccountSuccess {
                             // dismiss current view
                             dismiss()
-                            accountCreationAlert = true
+                            showAccountCreatedAlert = true
                         }
                         
-
                     }catch{
-                        //TODO: display error when email is used by another account
-                        print("Error: \(error)")
+                        showCreateAccountError = true
+                        print("Create Account Error: \(error)")
+                        createAccountErrorMsg = error.localizedDescription
                     }
                 }
             } label: {
@@ -238,14 +235,20 @@ struct CreateAccountView: View {
             }
             .padding(.top, 40)
             
-            // MARK: - Account Created Alert
+            // MARK: - Created Alert
             
-            .alert("Account Created", isPresented: $accountCreationAlert){
-                
+            .alert("Account Created", isPresented: $showAccountCreatedAlert){
                 // Add buttons like OK, CANCEL here
-                
             } message: {
                 Text("You can now login.")
+                    .fontWeight(.medium)
+            }
+            
+            // MARK: - Failed Alert
+            .alert("Account Creation Failed", isPresented: $showCreateAccountError) {
+                
+            } message: {
+                Text(createAccountErrorMsg)
                     .fontWeight(.medium)
             }
             

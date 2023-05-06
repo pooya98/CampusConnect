@@ -13,17 +13,19 @@ final class LoginViewModel: ObservableObject {
     @Published var password = ""
     @Published var EmailPasswordNotFilled = false
     
-    
-    func loginUser() async throws{
+    // returns true on successful login
+    func loginUser() async throws -> Bool {
         guard email.isEmpty == false, password.isEmpty == false else {
             EmailPasswordNotFilled = true
             print("No email or password found.")
-            return
+            return false
         }
         
         EmailPasswordNotFilled = false
         
         try await AuthenticationManager.shared.signInUser(email: email, password: password)
+        
+        return true
     }
 }
 
@@ -31,6 +33,8 @@ struct LoginView: View {
     
     @StateObject var loginViewModel = LoginViewModel()
     @Binding var showLoginView: Bool
+    @State private var loginErrorAlert = false
+    @State private var loginErrorMessage = ""
     
     var body: some View {
         VStack{
@@ -54,10 +58,23 @@ struct LoginView: View {
             Button {
                 Task{
                     do {
-                        try await loginViewModel.loginUser()
-                        showLoginView = false
-                    }catch {
-                        print(error)
+                        print("show login view1: \(showLoginView)")
+                        let loginSuccess = try await loginViewModel.loginUser()
+                        print("show login view2: \(showLoginView)")
+                        
+                        if loginSuccess {
+                            showLoginView = false
+                            print("show login view3: \(showLoginView)")
+                        }
+                    
+                    } catch {
+                        loginErrorAlert = true
+                        
+                        // TODO: cutomize login error
+                        print("show login view4: \(showLoginView)")
+                        print("Login Error: \(error)")
+                        loginErrorMessage = error.localizedDescription
+                       
                     }
                 }
                 
@@ -70,13 +87,19 @@ struct LoginView: View {
                     .background(Color.blue)
                     .cornerRadius(10)
             }
+            .alert("Login Failed", isPresented: $loginErrorAlert) {
+                // Add buttons like OK, CANCEL here
+            } message: {
+                Text(loginErrorMessage)
+                    .fontWeight(.medium)
+            }
             
-//                Spacer()
-//
-//                Divider()
-//                    .padding()
-//
-//                Spacer()
+            /*Spacer()
+            
+            Divider()
+                .padding()
+            
+            Spacer()*/
             
             //TODO: login with apple id
             

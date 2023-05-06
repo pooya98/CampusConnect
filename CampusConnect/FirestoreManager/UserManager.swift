@@ -26,7 +26,7 @@ final class UserManager {
     static let shared = UserManager()
     private init() { }
     
-    func createNewUser(authData: AuthDataResultModel, userDetails: UserDetails) async throws {
+    func createNewUser(authData: AuthDataResultModel, registrationDetails: AccountRegistrationDetails) async throws {
         var userData : [String:Any] = [
             "user_id": authData.uid,
             "date_created" : Timestamp() // from firebase SDK
@@ -41,11 +41,11 @@ final class UserManager {
             userData["photo_url"] = photoUrl
         }
         
-        if let firstName = userDetails.firstName {
+        if let firstName = registrationDetails.firstName {
             userData["first_name"] = firstName
         }
         
-        if let lastName = userDetails.lastName {
+        if let lastName = registrationDetails.lastName {
             userData["last_name"] = lastName
         }
         
