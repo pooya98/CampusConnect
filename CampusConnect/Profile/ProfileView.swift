@@ -11,6 +11,7 @@ import SwiftUI
 final class ProfileViewModel: ObservableObject {
     
     @Published private(set) var user: DBUser? = nil
+    @Published var newEmail = ""
     
 //    func loadCurrentUser() async throws {
 //        let authDataResult = try await AuthenticationManager.shared.getAuthenticatedUser()
@@ -19,6 +20,12 @@ final class ProfileViewModel: ObservableObject {
     func loadCurrentUser() async throws {
         let authDataResult = try AuthenticationManager.shared.getAuthenticatedUser()
         self.user = try await UserManager.shared.getUser(userId: authDataResult.uid)
+    }
+
+    // TODO: implement UI to get new email address that should be set
+    // get value from user input
+    func updateEmail (email: String) async throws {
+        try await AuthenticationManager.shared.updateEmail(email: email)
     }
 
     

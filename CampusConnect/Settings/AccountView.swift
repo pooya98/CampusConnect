@@ -16,6 +16,13 @@ struct AccountView: View {
                 Text("Profile")
                     .foregroundColor(.blue)
             }
+            
+            NavigationLink{
+                PasswordAndSecurityView()
+            } label: {
+                Text("Password and Security")
+                    .foregroundColor(.blue)
+            }
         }.navigationTitle("Account")
     }
 }

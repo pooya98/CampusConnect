@@ -53,6 +53,39 @@ final class AuthenticationManager {
         return AuthDataResultModel(user: user)
     }
     
+    /*func reauthenticateUser(credential: AuthCredential) async throws {
+        guard let user = Auth.auth().currentUser else {
+            //user not signed in
+            //TODO: cutomize error message
+            throw URLError(.badServerResponse) // auth might not have finished initializing
+        }
+        try await user.reauthenticate(with: credential)
+    }*/
+    
+    
+    func updateEmail(email: String) async throws {
+        guard let user = Auth.auth().currentUser else {
+            //user not signed in
+            //TODO: cutomize error message
+            throw URLError(.badServerResponse) // auth might not have finished initializing
+        }
+        
+        try await user.updateEmail(to: email)
+    }
+    
+    
+    func updatePassword(password: String) async throws {
+        guard let user = Auth.auth().currentUser else {
+            //user not signed in
+            //TODO: cutomize error message
+            throw URLError(.badServerResponse) // auth might not have finished initializing
+        }
+        
+        try await user.updatePassword(to: password)
+    }
+    
+    
+    
     func signOut() throws {
         try Auth.auth().signOut()
     }

@@ -44,7 +44,7 @@ struct LoginView: View {
                 .background(Color.gray.opacity(0.4))
                 .cornerRadius(10)
             
-            TextField("Password", text: $loginViewModel.password)
+            SecureField("Password", text: $loginViewModel.password)
                 .padding()
                 .background(Color.gray.opacity(0.4))
                 .cornerRadius(10)
@@ -58,13 +58,13 @@ struct LoginView: View {
             Button {
                 Task{
                     do {
-                        print("show login view1: \(showLoginView)")
+                        //print("show login view1: \(showLoginView)")
                         let loginSuccess = try await loginViewModel.loginUser()
-                        print("show login view2: \(showLoginView)")
+                        //print("show login view2: \(showLoginView)")
                         
                         if loginSuccess {
                             showLoginView = false
-                            print("show login view3: \(showLoginView)")
+                            //print("show login view3: \(showLoginView)")
                         }
                     
                     } catch {
@@ -87,6 +87,9 @@ struct LoginView: View {
                     .background(Color.blue)
                     .cornerRadius(10)
             }
+            .padding(.top, 20)
+            
+            // MARK: - Login Failed Alert
             .alert("Login Failed", isPresented: $loginErrorAlert) {
                 // Add buttons like OK, CANCEL here
             } message: {
@@ -123,3 +126,5 @@ struct LoginView_Previews: PreviewProvider {
         }
     }
 }
+
+// TODO: fix bug: Textfields don't clear when user enters values then moves to the create account view and comes back to login view
