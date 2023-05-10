@@ -74,7 +74,7 @@ struct LoginSheetView: View {
                 Text("Enter Login Password")
                     .font(.title3)
                 
-                TextField("Password", text: $loginSheetViewModel.password)
+                SecureField("Password", text: $loginSheetViewModel.password)
                     .padding()
                     .background(Color.gray.opacity(0.4))
                     .cornerRadius(10)
@@ -109,7 +109,7 @@ struct LoginSheetView: View {
                     }
                     
                 } label: {
-                    Text("OK")
+                    Text("Login")
                         .font(.headline)
                         .foregroundColor(.white)
                         .frame(height: 55)

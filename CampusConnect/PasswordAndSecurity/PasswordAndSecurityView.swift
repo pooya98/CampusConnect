@@ -10,7 +10,7 @@ import SwiftUI
 
 struct PasswordAndSecurityView: View {
     
-    @StateObject private var passAndSecViewModel = PasswordAndSecurityViewModel()
+    //@StateObject private var passAndSecViewModel = PasswordAndSecurityViewModel()
     @State private var showLoginSheet = false
     @State private var showChangePassSheet = false
     @State var showChangedPassAlert = false

@@ -85,8 +85,23 @@ final class AuthenticationManager {
     }
     
     
+    // successful when no error is thrown
+    func resetPassword(email: String) async throws{
+       try await Auth.auth().sendPasswordReset(withEmail: email)
+    }
+    
     
     func signOut() throws {
         try Auth.auth().signOut()
+    }
+    
+    func deleteUser() async throws {
+        guard let user = Auth.auth().currentUser else {
+            //user not signed in
+            //TODO: cutomize error message
+            throw URLError(.badServerResponse) // auth might not have finished initializing
+        }
+        
+        try await user.delete()
     }
 }

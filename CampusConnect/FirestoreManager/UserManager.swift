@@ -17,6 +17,7 @@ struct DBUser {
     let email: String?
     let photoUrl: String?
     let dateCreated: Date?
+    //let isActive: Bool = true
     
 }
 

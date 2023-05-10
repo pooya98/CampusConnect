@@ -106,11 +106,28 @@ struct LoginView: View {
             
             //TODO: login with apple id
             
-            NavigationLink{
+            HStack{
+                NavigationLink{
+                    CreateAccountView()
+                } label: {
+                    Text("Create Account")
+                }
+                
+                Spacer()
+                
+                NavigationLink{
+                    ResetPasswordView()
+                } label: {
+                    Text("Forgot Password?")
+                }
+            }
+            .padding(.top)
+            
+            /*NavigationLink{
                 CreateAccountView()
             } label: {
                 Text("Create Account")
-            }
+            }*/
             
         }
         .padding()
