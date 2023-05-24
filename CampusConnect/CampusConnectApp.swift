@@ -14,4 +14,10 @@ struct CampusConnectApp: App {
             MainTabView()
         }
     }
+    
+    let appearance: UITabBarAppearance = UITabBarAppearance()
+    
+    init() {
+        UITabBar.appearance().scrollEdgeAppearance = appearance
+    }
 }
