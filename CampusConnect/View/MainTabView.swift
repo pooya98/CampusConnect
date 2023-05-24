@@ -24,7 +24,7 @@ struct MainTabView: View {
     }
     
     var home: some View {
-        Text("홈")
+        HomeView()
             .tag(Tabs.home)
             .tabItem {
                 Image(systemName: "circle")
@@ -33,7 +33,7 @@ struct MainTabView: View {
     }
     
     var group: some View {
-        Text("내모임")
+        GroupView()
             .tag(Tabs.group)
             .tabItem {
                 Image(systemName: "circle")
@@ -42,7 +42,7 @@ struct MainTabView: View {
     }
     
     var create: some View {
-        Text("생성")
+        CreateView()
             .tag(Tabs.create)
             .tabItem {
                 Image(systemName: "circle")
@@ -51,7 +51,7 @@ struct MainTabView: View {
     }
     
     var chat: some View {
-        Text("채팅")
+        ChatView()
             .tag(Tabs.chat)
             .tabItem {
                 Image(systemName: "circle")
@@ -60,7 +60,7 @@ struct MainTabView: View {
     }
     
     var myPage: some View {
-        Text("마이페이지")
+        MyPageView()
             .tag(Tabs.myPage)
             .tabItem {
                 Image(systemName: "circle")
