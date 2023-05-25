@@ -9,7 +9,7 @@ import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-struct DBUser {
+struct DBUser: Codable {
     
     let userId: String
     let firstName: String?
@@ -23,9 +23,28 @@ struct DBUser {
 
 final class UserManager {
     
-    //singleton design pattern
+    // singleton design pattern
     static let shared = UserManager()
     private init() { }
+    
+    private let userCollection = Firestore.firestore().collection("users")
+    
+    private func userDocument(userId: String) -> DocumentReference {
+        return userCollection.document(userId)
+    }
+    
+    private let encoder: Firestore.Encoder = {
+        let encode = Firestore.Encoder()
+        encode.keyEncodingStrategy = .convertToSnakeCase
+        return encode
+    }()
+    
+    // async function not available at time of creation
+    func createNewUser(user: DBUser) async throws {
+        //try userDocument(userId: user.userId).setData(from: user, merge: false, encoder: encoder)
+        try userDocument(userId: user.userId).setData(from: user, merge: false)
+        print("UserData set")
+    }
     
     func createNewUser(authData: AuthDataResultModel, registrationDetails: AccountRegistrationDetails) async throws {
         var userData : [String:Any] = [
@@ -50,15 +69,15 @@ final class UserManager {
             userData["last_name"] = lastName
         }
         
-        
-        try await Firestore.firestore().collection("users").document(authData.uid).setData(userData, merge: false)
+        try await userDocument(userId: authData.uid).setData(userData, merge: false)
     }
     
     
     func getUser(userId: String) async throws -> DBUser {
-        let snapshot = try await Firestore.firestore().collection("users").document(userId).getDocument()
+        let snapshot = try await userDocument(userId: userId).getDocument()
         
         guard let data = snapshot.data(), let userId = data["user_id"] as? String else { // userId should aleays have a value
+            // TODO: create custom error message
             throw URLError(.badServerResponse)
         }
         
@@ -69,5 +88,9 @@ final class UserManager {
         let dateCreated = data["date_created"] as? Date
         
         return DBUser(userId: userId, firstName: firstName, lastName: lastName, email: email, photoUrl: photoUrl, dateCreated: dateCreated)
+    }
+    
+    func deleteUserData(userId: String) async throws{
+        try await Firestore.firestore().collection("users").document(userId).delete()
     }
 }

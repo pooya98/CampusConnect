@@ -23,10 +23,13 @@ final class CreateAccountViewModel: ObservableObject {
     @Published var lastName = ""
     @Published var email = ""
     @Published var password = ""
+    @Published var reEnteredPassword = ""
     @Published var firstNameNotfilled = false
     @Published var lastNameNotfilled = false
     @Published var isInvalidEmail = false
     @Published var isInvalidPassword = false
+    @Published var passwordsDontMatch = false
+    @Published var passwordNotFilled = false
     
     
     // returns true on successuful creation of account
@@ -56,6 +59,13 @@ final class CreateAccountViewModel: ObservableObject {
         }
         isInvalidEmail = false
         
+        guard password.isEmpty == false else {
+            passwordNotFilled = true
+            print("Password not provided provided")
+            return false
+        }
+        passwordNotFilled = false
+        
         
         guard validatePassword(strToValidate: password) == true else {
             isInvalidPassword = true
@@ -65,11 +75,20 @@ final class CreateAccountViewModel: ObservableObject {
         isInvalidPassword = false
         
         
+        guard password == reEnteredPassword else {
+            print("Passwords don't match")
+            passwordsDontMatch = true
+            return false
+        }
+        passwordsDontMatch = false
+        
         let authDataResult = try await AuthenticationManager.shared.createUser(email: email, password: password)
         
-        let regDetails = AccountRegistrationDetails(firstName: firstName, lastName: lastName)
+        //let regDetails = AccountRegistrationDetails(firstName: firstName, lastName: lastName)
+        //try await UserManager.shared.createNewUser(authData: authDataResult, registrationDetails: regDetails)
         
-        try await UserManager.shared.createNewUser(authData: authDataResult, registrationDetails: regDetails)
+        let userDetails = DBUser(userId: authDataResult.uid, firstName: firstName, lastName: lastName, email: authDataResult.email, photoUrl: authDataResult.photoUrl, dateCreated: Date())
+        try await UserManager.shared.createNewUser(user: userDetails)
         
         printLoginStatus()
         

@@ -23,6 +23,7 @@
 		E58F9AE62A078FB1007CF2AB /* ChangePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E58F9AE52A078FB1007CF2AB /* ChangePasswordView.swift */; };
 		E58F9AE82A079DC8007CF2AB /* CreateAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E58F9AE72A079DC8007CF2AB /* CreateAccountViewModel.swift */; };
 		E5934BA02A0B54F800383A01 /* ResetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5934B9F2A0B54F800383A01 /* ResetPasswordView.swift */; };
+		E5934BA42A0BA7AA00383A01 /* EmailReauthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5934BA32A0BA7AA00383A01 /* EmailReauthView.swift */; };
 		E59B12F72A0537270079AA9E /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59B12F62A0537270079AA9E /* ProfileView.swift */; };
 		E59B12FA2A053AE90079AA9E /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59B12F92A053AE90079AA9E /* AccountView.swift */; };
 		E59B12FD2A05514F0079AA9E /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59B12FC2A05514F0079AA9E /* UserManager.swift */; };
@@ -46,6 +47,7 @@
 		E58F9AE52A078FB1007CF2AB /* ChangePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordView.swift; sourceTree = "<group>"; };
 		E58F9AE72A079DC8007CF2AB /* CreateAccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountViewModel.swift; sourceTree = "<group>"; };
 		E5934B9F2A0B54F800383A01 /* ResetPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordView.swift; sourceTree = "<group>"; };
+		E5934BA32A0BA7AA00383A01 /* EmailReauthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailReauthView.swift; sourceTree = "<group>"; };
 		E59B12F62A0537270079AA9E /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		E59B12F92A053AE90079AA9E /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		E59B12FC2A05514F0079AA9E /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 			children = (
 				E5EA47E22A029D2B00D2A5E7 /* SettingsView.swift */,
 				E59B12F92A053AE90079AA9E /* AccountView.swift */,
+				E5934BA32A0BA7AA00383A01 /* EmailReauthView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -254,6 +257,7 @@
 				E59B12F72A0537270079AA9E /* ProfileView.swift in Sources */,
 				E58F9AE82A079DC8007CF2AB /* CreateAccountViewModel.swift in Sources */,
 				E5EA47E32A029D2B00D2A5E7 /* SettingsView.swift in Sources */,
+				E5934BA42A0BA7AA00383A01 /* EmailReauthView.swift in Sources */,
 				E59B13002A0696180079AA9E /* PasswordAndSecurityView.swift in Sources */,
 				E523A3A02A024D0D00A81A14 /* LoginView.swift in Sources */,
 				82F058D02A010F410015480C /* ContentView.swift in Sources */,

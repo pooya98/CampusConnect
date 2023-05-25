@@ -86,7 +86,7 @@ final class AuthenticationManager {
     
     
     // successful when no error is thrown
-    func resetPassword(email: String) async throws{
+    func resetPassword(email: String) async throws {
        try await Auth.auth().sendPasswordReset(withEmail: email)
     }
     
@@ -102,6 +102,7 @@ final class AuthenticationManager {
             throw URLError(.badServerResponse) // auth might not have finished initializing
         }
         
+        //deletes and signs out the user
         try await user.delete()
     }
 }

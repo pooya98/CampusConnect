@@ -19,56 +19,76 @@ struct CreateAccountView: View {
     var body: some View {
         VStack{
             
-            TextField("First Name", text: $createAccountViewModel.firstName)
-                .padding()
-                .background(Color.gray.opacity(0.4))
-                .cornerRadius(10)
-            
-            if(createAccountViewModel.firstNameNotfilled){
-                Text("First Name Required")
-                    .foregroundColor(.red)
-                    .font(.footnote)
-            }
+            Group{
+                TextField("First Name", text: $createAccountViewModel.firstName)
+                    .padding()
+                    .background(Color.gray.opacity(0.4))
+                    .cornerRadius(10)
+                    .disableAutocorrection(true)
+                
+                
+                if(createAccountViewModel.firstNameNotfilled){
+                    Text("First Name Required")
+                        .foregroundColor(.red)
+                        .font(.footnote)
+                }
 
-            TextField("Last Name", text: $createAccountViewModel.lastName)
-                .padding()
-                .background(Color.gray.opacity(0.4))
-                .cornerRadius(10)
-            
-            if(createAccountViewModel.lastNameNotfilled){
-                Text("Last Name Required")
-                    .foregroundColor(.red)
-                    .font(.footnote)
-            }
+                TextField("Last Name", text: $createAccountViewModel.lastName)
+                    .padding()
+                    .background(Color.gray.opacity(0.4))
+                    .cornerRadius(10)
+                    .disableAutocorrection(true)
+                
+                
+                if(createAccountViewModel.lastNameNotfilled){
+                    Text("Last Name Required")
+                        .foregroundColor(.red)
+                        .font(.footnote)
+                }
 
-            TextField("Email", text: $createAccountViewModel.email)
-                //.autocapitalization(.none)
-                //.textCase(.lowercase)
-                .padding()
-                .background(Color.gray.opacity(0.4))
-                .cornerRadius(10)
-            
-            if(createAccountViewModel.isInvalidEmail){
-                Text("Invalid email address")
-                    .foregroundColor(.red)
-                    .font(.footnote)
+                TextField("Email", text: $createAccountViewModel.email)
+                    //.autocapitalization(.none)
+                    //.textCase(.lowercase)
+                    .padding()
+                    .background(Color.gray.opacity(0.4))
+                    .cornerRadius(10)
+                    .disableAutocorrection(true)
+                
+                if(createAccountViewModel.isInvalidEmail){
+                    Text("Invalid email address")
+                        .foregroundColor(.red)
+                        .font(.footnote)
+                }
+                
             }
             
-            SecureField("Password", text: $createAccountViewModel.password)
-                .padding()
-                .background(Color.gray.opacity(0.4))
-                .cornerRadius(10)
             
-            if(createAccountViewModel.isInvalidPassword){
-                Text("Your password must be at least 8 characters, include and a number, lowercase letter, uppercase letter and a special character")
-                    .foregroundColor(.red)
-                    .font(.footnote)
+            Group {
+                SecureField("Password", text: $createAccountViewModel.password)
+                SecureField("re-enter password", text: $createAccountViewModel.reEnteredPassword)
             }
+            .padding()
+            .background(Color.gray.opacity(0.4))
+            .cornerRadius(10)
             
-            /*SecureField("Confirm Password", text: $createAccountViewModel.password)
-                .padding()
-                .background(Color.gray.opacity(0.4))
-                .cornerRadius(10)*/
+            
+            Group{
+                
+                if(createAccountViewModel.passwordNotFilled) {
+                    Text("Enter password")
+                }
+                
+                if(createAccountViewModel.isInvalidPassword){
+                    Text("Your password must be at least 8 characters, include and a number, lowercase letter, uppercase letter and a special character")
+                }
+                
+                if(createAccountViewModel.passwordsDontMatch) {
+                    Text("Password and re-entered password must match")
+                }
+            }
+            .foregroundColor(.red)
+            .font(.footnote)
+            
             
             Button {
                 Task {
@@ -76,8 +96,7 @@ struct CreateAccountView: View {
                         let createAccountSuccess = try await createAccountViewModel.createAccount()
                         
                         if createAccountSuccess {
-                            // dismiss current view
-                            dismiss()
+                            // dispaly success alert
                             showAccountCreatedAlert = true
                         }
                         
@@ -98,16 +117,20 @@ struct CreateAccountView: View {
             }
             .padding(.top, 20)
             
-            // MARK: - Created Alert
+            // MARK: - Account Created Alert
             
             .alert("Account Created", isPresented: $showAccountCreatedAlert){
                 // Add buttons like OK, CANCEL here
+                Button("OK",role: .cancel) {
+                    // dismiss current view
+                    dismiss()
+                }
             } message: {
                 Text("You can now login.")
                     .fontWeight(.medium)
             }
             
-            // MARK: - Failed Alert
+            // MARK: - Creation Failed Alert
             .alert("Account Creation Failed", isPresented: $showCreateAccountError) {
                 
             } message: {
