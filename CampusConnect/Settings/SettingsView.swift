@@ -47,7 +47,7 @@ extension SettingsView {
     private var accountSection: some View {
         Section {
             NavigationLink{
-                AccountView()
+                AccountView(showLoginView: $showLoginView)
             } label: {
                 Text("Account")
                     .foregroundColor(.blue)
