@@ -12,7 +12,12 @@
 		823EA4862A1E1DB800A58361 /* CreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823EA4852A1E1DB800A58361 /* CreateView.swift */; };
 		823EA4882A1E1DCA00A58361 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823EA4872A1E1DCA00A58361 /* ChatView.swift */; };
 		823EA48A2A1E1DD400A58361 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823EA4892A1E1DD400A58361 /* MyPageView.swift */; };
+		824751882A21EFA6009C0076 /* DummyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824751872A21EFA6009C0076 /* DummyView.swift */; };
 		824AECCB2A1DE21300AC9321 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824AECCA2A1DE21300AC9321 /* MainTabView.swift */; };
+		82EC574C2A2070F000827B6D /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82EC574B2A2070EF00827B6D /* Chat.swift */; };
+		82EC574E2A20714B00827B6D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82EC574D2A20714B00827B6D /* User.swift */; };
+		82EC57502A20F50400827B6D /* ChatRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82EC574F2A20F50400827B6D /* ChatRow.swift */; };
+		82EC57522A2114FD00827B6D /* ChatDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82EC57512A2114FD00827B6D /* ChatDetailView.swift */; };
 		82F058CE2A010F410015480C /* CampusConnectApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F058CD2A010F410015480C /* CampusConnectApp.swift */; };
 		82F058D22A010F420015480C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82F058D12A010F420015480C /* Assets.xcassets */; };
 		82F058D52A010F420015480C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82F058D42A010F420015480C /* Preview Assets.xcassets */; };
@@ -24,7 +29,12 @@
 		823EA4852A1E1DB800A58361 /* CreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateView.swift; sourceTree = "<group>"; };
 		823EA4872A1E1DCA00A58361 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		823EA4892A1E1DD400A58361 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
+		824751872A21EFA6009C0076 /* DummyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyView.swift; sourceTree = "<group>"; };
 		824AECCA2A1DE21300AC9321 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		82EC574B2A2070EF00827B6D /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
+		82EC574D2A20714B00827B6D /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		82EC574F2A20F50400827B6D /* ChatRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRow.swift; sourceTree = "<group>"; };
+		82EC57512A2114FD00827B6D /* ChatDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDetailView.swift; sourceTree = "<group>"; };
 		82F058CA2A010F410015480C /* CampusConnect.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CampusConnect.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82F058CD2A010F410015480C /* CampusConnectApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampusConnectApp.swift; sourceTree = "<group>"; };
 		82F058D12A010F420015480C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -50,9 +60,21 @@
 				823EA4832A1E1DAD00A58361 /* GroupView.swift */,
 				823EA4852A1E1DB800A58361 /* CreateView.swift */,
 				823EA4872A1E1DCA00A58361 /* ChatView.swift */,
+				82EC57512A2114FD00827B6D /* ChatDetailView.swift */,
+				82EC574F2A20F50400827B6D /* ChatRow.swift */,
 				823EA4892A1E1DD400A58361 /* MyPageView.swift */,
+				824751872A21EFA6009C0076 /* DummyView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		82EC574A2A2070C800827B6D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				82EC574B2A2070EF00827B6D /* Chat.swift */,
+				82EC574D2A20714B00827B6D /* User.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		82F058C12A010F410015480C = {
@@ -76,6 +98,7 @@
 			children = (
 				82F058CD2A010F410015480C /* CampusConnectApp.swift */,
 				823EA47A2A1E1BD500A58361 /* View */,
+				82EC574A2A2070C800827B6D /* Model */,
 				82F058D12A010F420015480C /* Assets.xcassets */,
 				82F058D32A010F420015480C /* Preview Content */,
 			);
@@ -161,11 +184,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				823EA48A2A1E1DD400A58361 /* MyPageView.swift in Sources */,
+				824751882A21EFA6009C0076 /* DummyView.swift in Sources */,
 				823EA4822A1E1DA100A58361 /* HomeView.swift in Sources */,
 				82F058CE2A010F410015480C /* CampusConnectApp.swift in Sources */,
 				823EA4842A1E1DAD00A58361 /* GroupView.swift in Sources */,
 				824AECCB2A1DE21300AC9321 /* MainTabView.swift in Sources */,
+				82EC574E2A20714B00827B6D /* User.swift in Sources */,
+				82EC574C2A2070F000827B6D /* Chat.swift in Sources */,
+				82EC57522A2114FD00827B6D /* ChatDetailView.swift in Sources */,
 				823EA4882A1E1DCA00A58361 /* ChatView.swift in Sources */,
+				82EC57502A20F50400827B6D /* ChatRow.swift in Sources */,
 				823EA4862A1E1DB800A58361 /* CreateView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
