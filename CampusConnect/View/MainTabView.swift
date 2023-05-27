@@ -22,7 +22,9 @@ struct MainTabView: View {
             myPage
         }.edgesIgnoringSafeArea(.top)
     }
-    
+}
+
+extension MainTabView {
     var home: some View {
         HomeView()
             .tag(Tabs.home)
@@ -51,7 +53,7 @@ struct MainTabView: View {
     }
     
     var chat: some View {
-        ChatView()
+        ChatView(chatlist: ChatSamples)
             .tag(Tabs.chat)
             .tabItem {
                 Image(systemName: "circle")

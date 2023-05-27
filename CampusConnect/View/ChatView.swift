@@ -8,13 +8,57 @@
 import SwiftUI
 
 struct ChatView: View {
+    let chatlist : [Chat]
+    
     var body: some View {
-        Text("Chat")
+        NavigationView {
+            VStack{
+                titlebar
+                Divider()
+                Spacer()
+                chatList
+                
+            }
+        }
+    }
+}
+
+extension ChatView {
+    var titlebar : some View {
+        HStack {
+            Text("채팅")
+                .font(.title)
+                .fontWeight(.bold)
+            Spacer()
+            Button(action: {
+                print("Configuration Button")
+            }) {
+                Image(systemName: "gearshape")
+                    .resizable()
+                    .frame(width: 25, height: 25)
+                    .foregroundColor(.black)
+            }
+        }
+        .padding([.leading, .trailing], 20)
+        .padding([.top, .bottom], 10)
+    }
+    
+    var chatList : some View {
+        List(chatlist){ chat in
+            ZStack {
+                ChatRow(chat: chat)
+                NavigationLink(destination: ChatDetailView()) {
+                    EmptyView()
+                }.opacity(0)
+                
+            }
+        }
+        .listStyle(.inset)
     }
 }
 
 struct ChatView_Previews: PreviewProvider {
     static var previews: some View {
-        ChatView()
+        ChatView(chatlist: ChatSamples)
     }
 }
