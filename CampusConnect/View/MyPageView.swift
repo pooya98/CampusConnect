@@ -8,21 +8,29 @@
 import SwiftUI
 
 struct MyPageView: View {
+    
+    let DBuser: User = CurrentUser
+    
     var body: some View {
-        VStack{
-            titlebar
-            ScrollView(.vertical, showsIndicators: false) {
-                VStack(alignment: .leading) {
-                    Divider()
-                    profile
-                    Divider()
-                    myActivity
-                    Divider()
-                    mySchool
+        NavigationView{
+            VStack{
+                titlebar
+                ScrollView(.vertical, showsIndicators: false) {
+                    VStack(alignment: .leading) {
+                        Divider()
+                        profile
+                        Divider()
+                        myActivity
+                        Divider()
+                        mySchool
+                    }
                 }
             }
         }
     }
+}
+
+extension MyPageView {
     
     var titlebar : some View {
         HStack {
@@ -45,56 +53,66 @@ struct MyPageView: View {
     
     var profile : some View {
         VStack{
-            HStack{
-                Image(systemName: "person.crop.circle.fill")
-                    .resizable()
-                    .frame(width: 70, height: 70)
-                VStack(alignment: .leading){
-                    Text("name")
-                        .font(.title2)
-                        .fontWeight(.bold)
-                    
-                    Text("usercode")
-                        .font(.subheadline)
-                        .fontWeight(.regular)
-                        .foregroundColor(.gray)
+            NavigationLink(destination: DummyView()){
+                HStack{
+                    Image(DBuser.imageURL)
+                        .resizable()
+                        .frame(width: 70, height: 70)
+                    VStack(alignment: .leading){
+                        Text(DBuser.firstName)
+                            .font(.title2)
+                            .fontWeight(.bold)
+                        
+                        Text(DBuser.firebaseID)
+                            .font(.subheadline)
+                            .fontWeight(.regular)
+                            .foregroundColor(.gray)
+                    }
+                    .padding([.leading, .trailing], 10)
+                    Spacer()
+                    Image(systemName: "chevron.right")
                 }
-                .padding([.leading, .trailing], 10)
-                Spacer()
-                Image(systemName: "chevron.right")
+                .padding([.bottom], 15)
             }
             
-            .padding([.bottom], 15)
             HStack{
                 Spacer()
-                VStack{
-                    Image(systemName: "circle.fill")
-                        .resizable()
-                        .frame(width: 50, height: 50)
-                    Text("Hosting")
-                        .font(.footnote)
+                NavigationLink(destination: DummyView()){
+                    VStack{
+                        Image(systemName: "circle.fill")
+                            .resizable()
+                            .frame(width: 50, height: 50)
+                        Text("Hosting")
+                            .font(.footnote)
+                    }
+                }
+                
+                Spacer()
+                NavigationLink(destination: DummyView()){
+                    VStack{
+                        Image(systemName: "circle.fill")
+                            .resizable()
+                            .frame(width: 50, height: 50)
+                        Text("Attendance")
+                            .font(.footnote)
+                    }
                 }
                 Spacer()
-                VStack{
-                    Image(systemName: "circle.fill")
-                        .resizable()
-                        .frame(width: 50, height: 50)
-                    Text("Attendance")
-                        .font(.footnote)
-                }
-                Spacer()
-                VStack{
-                    Image(systemName: "circle.fill")
-                        .resizable()
-                        .frame(width: 50, height: 50)
-                    Text("관심목록")
-                        .font(.footnote)
+                NavigationLink(destination: DummyView()){
+                    VStack{
+                        Image(systemName: "circle.fill")
+                            .resizable()
+                            .frame(width: 50, height: 50)
+                        Text("관심목록")
+                            .font(.footnote)
+                    }
                 }
                 Spacer()
             }
         }
         .padding([.leading, .trailing], 20)
         .padding([.top, .bottom], 15)
+        .foregroundColor(.black)
     }
     
     var myActivity : some View {
