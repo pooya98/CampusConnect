@@ -82,13 +82,15 @@ final class CreateAccountViewModel: ObservableObject {
         }
         passwordsDontMatch = false
         
+        // Create user in Firebase Authentication
         let authDataResult = try await AuthenticationManager.shared.createUser(email: email, password: password)
         
-        //let regDetails = AccountRegistrationDetails(firstName: firstName, lastName: lastName)
-        //try await UserManager.shared.createNewUser(authData: authDataResult, registrationDetails: regDetails)
+        // Write user detail to Firestore
+        let regDetails = AccountRegistrationDetails(firstName: firstName, lastName: lastName)
+        try await UserManager.shared.createNewUser(authData: authDataResult, registrationDetails: regDetails)
         
-        let userDetails = DBUser(userId: authDataResult.uid, firstName: firstName, lastName: lastName, email: authDataResult.email, photoUrl: authDataResult.photoUrl, dateCreated: Date())
-        try await UserManager.shared.createNewUser(user: userDetails)
+        //let userDetails = DBUser(authData: authDataResult, accountDetails: regDetails)
+        //try UserManager.shared.createNewUser(user: userDetails)
         
         printLoginStatus()
         

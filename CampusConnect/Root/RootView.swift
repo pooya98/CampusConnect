@@ -12,15 +12,24 @@ struct RootView: View {
     @State private var showLoginView: Bool = false
     
     var body: some View {
-        ZStack {
+        VStack {
             NavigationStack {
                 if showLoginView == false { // prevents page from displaying before successful login
                     
                     // Default View after successful login
-                    SettingsView(showLoginView: $showLoginView)
+                    MainView(showLoginView: $showLoginView)
+                    //SettingsView(showLoginView: $showLoginView)
                 }
                 
             }
+            
+            
+            /*if showLoginView == false { // prevents page from displaying before successful login
+                
+                // Default View after successful login
+                MainView(showLoginView: $showLoginView)
+                //SettingsView(showLoginView: $showLoginView)
+            }*/
             
             //SettingsView(showLoginView: $showLoginView)
             

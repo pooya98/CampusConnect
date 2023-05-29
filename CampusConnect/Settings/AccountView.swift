@@ -17,12 +17,12 @@ struct AccountView: View {
     
     var body: some View {
         List {
-            NavigationLink{
+            /*NavigationLink{
                 ProfileView()
             } label: {
                 Text("Profile")
                     .foregroundColor(.blue)
-            }
+            }*/
             
             NavigationLink{
                 PasswordAndSecurityView()
@@ -38,8 +38,6 @@ struct AccountView: View {
 }
 
 extension AccountView {
-    
-   
     
     private var deleteSection: some View {
         Section {
