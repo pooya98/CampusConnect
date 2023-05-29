@@ -10,8 +10,7 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 struct DBUser: Codable {
-    //let id: UUID // to confirm to type Identifiable
-    let userId: String
+    let userId: String // Use this in ForEach id to confirm to type Identifiable
     let firstName: String?
     let lastName: String?
     let email: String?
@@ -20,12 +19,12 @@ struct DBUser: Codable {
     let profileImageUrl: String?
     let profileImagePath: String?
     let friendList: [String]?
+    
     //let isActive: Bool = true
     
     // TODO: Create CodingKeys
     
     init(authData: AuthDataResultModel, accountDetails: AccountRegistrationDetails) {
-        //self.id = UUID()
         self.userId = authData.uid
         self.firstName = accountDetails.firstName
         self.lastName = accountDetails.lastName
@@ -180,7 +179,7 @@ final class UserManager {
     
     func checkFriendExists(userId: String, friendId: String) async throws -> Bool {
         
-        // the query contains a single document since userId is unique
+        // The query contains a single document since userId is unique
         let querySnapshot = try await userCollection
             .whereField("user_id", isEqualTo: userId)
             .whereField("friend_list", arrayContains: friendId).getDocuments()
