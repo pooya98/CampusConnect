@@ -19,6 +19,8 @@ struct DBUser: Codable {
     let profileImageUrl: String?
     let profileImagePath: String?
     let friendList: [String]?
+    let department: String?
+    let studentId: String?
     
     //let isActive: Bool = true
     
@@ -34,6 +36,9 @@ struct DBUser: Codable {
         self.profileImageUrl = nil
         self.profileImagePath = nil
         self.friendList =  nil
+        // TODO: Modify department and studentId initialization to a value provided by the user
+        self.department = nil
+        self.studentId = nil
     }
     
 }

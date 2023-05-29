@@ -17,6 +17,7 @@ struct FriendTagView: View {
             HStack() {
 
                 // Display profile picture
+                /*
                 if let url = profilePicUrl {
                     AsyncImage(url: URL(string: url)) { image in
                         image
@@ -32,7 +33,9 @@ struct FriendTagView: View {
                 }else {
                     ProfileAvatarView(personSize: 40, frameSize: 60)
                 }
+                */
                 
+                ProfileAvatarView(profilePicUrl: profilePicUrl, personSize: 40, frameSize: 60)
                 
                 VStack(alignment: .leading) {
                     Text(name)

@@ -12,6 +12,7 @@ import PhotosUI
 final class EditProfileViewModel: ObservableObject {
     @Published private(set) var user: DBUser? = nil
     @Published var newEmail = ""
+    @Published var selectedPhoto: PhotosPickerItem?  = nil
     
     func loadCurrentUser() async throws {
         let authDataResult = try AuthenticationManager.shared.getAuthenticatedUser()
@@ -67,13 +68,15 @@ final class EditProfileViewModel: ObservableObject {
 
 struct EditProfileView: View {
     @StateObject var editProfileViewModel = EditProfileViewModel()
-    @State private var selectedPhoto: PhotosPickerItem?  = nil
+    
     
     var body: some View {
         VStack(spacing: 30){
             
-            PhotosPicker(selection: $selectedPhoto, matching: .images, photoLibrary: .shared()) {
+            PhotosPicker(selection: $editProfileViewModel.selectedPhoto, matching: .images, photoLibrary: .shared()) {
+                
                 // Load profile image
+                /*
                 if let urlString = editProfileViewModel.user?.profileImageUrl, let url = URL(string: urlString) {
                     AsyncImage(url: url) { image in
                         image
@@ -86,11 +89,12 @@ struct EditProfileView: View {
                             .frame(width: 100, height: 100)
                     }
                     
-                    
-                    
                 } else {
                     ProfileAvatarView(personSize: 80, frameSize: 100)
                 }
+                */
+                
+                ProfileAvatarView(profilePicUrl: editProfileViewModel.user?.profileImageUrl, personSize: 80, frameSize: 100)
             }
             
             VStack(spacing: 20) {
@@ -111,7 +115,7 @@ struct EditProfileView: View {
         .task{
             try? await editProfileViewModel.loadCurrentUser()
         }
-        .onChange(of: selectedPhoto, perform: { newValue in
+        .onChange(of: editProfileViewModel.selectedPhoto, perform: { newValue in
             if let newValue {
                 editProfileViewModel.saveProfileImage(item: newValue)
             }

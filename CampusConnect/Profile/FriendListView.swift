@@ -43,15 +43,27 @@ struct FriendListView: View {
     
     
     var body: some View {
-        VStack(alignment: .leading) {
-            
-            List {
-                ForEach(friendListViewModel.friends, id: \.userId) { friend in
-                    FriendTagView(name: friend.firstName ?? "Anonymous Friend", department: "컴퓨터학부", profilePicUrl: friend.profileImageUrl)
+        
+        VStack {
+            if(friendListViewModel.friends.isEmpty) {
+                ProfileAvatarView(personSize: 40, frameSize: 60)
+                
+                Text("No Friends Added")
+                    .font(.title3)
+                    .foregroundColor(.gray)
+                    .fontWeight(.medium)
+            }
+            else {
+                VStack(alignment: .leading) {
+                    List {
+                        ForEach(friendListViewModel.friends, id: \.userId) { friend in
+                            FriendTagView(name: friend.firstName ?? "Anonymous Friend", department: "컴퓨터학부", profilePicUrl: friend.profileImageUrl)
+                        }
+                    }
+                    
+                    
                 }
             }
-            
-            
         }
         .task {
             try? await friendListViewModel.loadCurrentUser()

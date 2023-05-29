@@ -120,6 +120,7 @@ struct AddFriendView: View {
                 if(addFriendViewModel.matchFound) {
                     
                     // Display profile picture
+                    /*
                     if let url = addFriendViewModel.seekedUser?.profileImageUrl {
                         AsyncImage(url: URL(string: url)) { image in
                             image
@@ -135,6 +136,9 @@ struct AddFriendView: View {
                     }else {
                         ProfileAvatarView(personSize: 80, frameSize: 100)
                     }
+                    */
+                    
+                    ProfileAvatarView(profilePicUrl: addFriendViewModel.seekedUser?.profileImageUrl, personSize: 80, frameSize: 100)
                     
                     // Display user name
                     Text(addFriendViewModel.seekedUser?.firstName ?? "matching user")

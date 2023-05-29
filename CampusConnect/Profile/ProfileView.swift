@@ -100,18 +100,23 @@ extension ProfileView {
         HStack {
             
             // Load Profile image
+            /*
             if let urlString = profileViewModel.user?.profileImageUrl, let url = URL(string: urlString) {
                 AsyncImage(url: url) { image in
                     
-                    ProfileHeaderView(name: "Herbert", department: "컴퓨터학부", studentId: "2020110876", image: image)
+                    ProfileHeaderView(name: profileViewModel.user?.firstName, department: profileViewModel.user?.department, studentId: profileViewModel.user?.studentId, image: image)
+                    
                 } placeholder: {
                     ProgressView()
                         .frame(width: 100, height: 100)
                 }
                 
             }else {
-                ProfileHeaderView(name: "Herbert", department: "컴퓨터학부", studentId: "2020110876")
+                ProfileHeaderView(name: profileViewModel.user?.firstName, department: profileViewModel.user?.department, studentId: profileViewModel.user?.studentId)
             }
+            */
+            
+            ProfileHeaderView(name: profileViewModel.user?.firstName, department: profileViewModel.user?.department, studentId: profileViewModel.user?.studentId, profilePicUrl: profileViewModel.user?.profileImageUrl)
             
         }
         .padding()

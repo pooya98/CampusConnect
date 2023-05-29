@@ -187,13 +187,8 @@
 		E597D6B92A20A0D90008C4B2 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				E597D6BA2A20A1150008C4B2 /* ChatTitleView.swift */,
-				E597D6BF2A20AD860008C4B2 /* MessageBubbleView.swift */,
-				E597D6C12A20C5D90008C4B2 /* MessageFieldView.swift */,
-				E597D6CA2A226C1F0008C4B2 /* ProfileHeaderView.swift */,
-				E597D6CE2A2290DF0008C4B2 /* ProfileAvatarView.swift */,
-				E597D6D82A23C6470008C4B2 /* MessageGilmpseView.swift */,
-				E56A21D02A24628C00279853 /* FriendTagView.swift */,
+				E5FF1FE22A24AD2F00F6DA48 /* ProfileComponents */,
+				E5FF1FE12A24AD0100F6DA48 /* ChatComponents */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -253,6 +248,27 @@
 				E5934BA32A0BA7AA00383A01 /* EmailReauthView.swift */,
 			);
 			path = Settings;
+			sourceTree = "<group>";
+		};
+		E5FF1FE12A24AD0100F6DA48 /* ChatComponents */ = {
+			isa = PBXGroup;
+			children = (
+				E597D6BA2A20A1150008C4B2 /* ChatTitleView.swift */,
+				E597D6BF2A20AD860008C4B2 /* MessageBubbleView.swift */,
+				E597D6C12A20C5D90008C4B2 /* MessageFieldView.swift */,
+				E597D6D82A23C6470008C4B2 /* MessageGilmpseView.swift */,
+			);
+			path = ChatComponents;
+			sourceTree = "<group>";
+		};
+		E5FF1FE22A24AD2F00F6DA48 /* ProfileComponents */ = {
+			isa = PBXGroup;
+			children = (
+				E56A21D02A24628C00279853 /* FriendTagView.swift */,
+				E597D6CA2A226C1F0008C4B2 /* ProfileHeaderView.swift */,
+				E597D6CE2A2290DF0008C4B2 /* ProfileAvatarView.swift */,
+			);
+			path = ProfileComponents;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
