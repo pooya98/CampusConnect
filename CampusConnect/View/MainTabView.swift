@@ -16,8 +16,8 @@ struct MainTabView: View {
     var body: some View {
         TabView(selection: $selectedTab) {
             home
+            mymap
             group
-            create
             chat
             myPage
         }.edgesIgnoringSafeArea(.top)
@@ -43,12 +43,12 @@ extension MainTabView {
             }
     }
     
-    var create: some View {
-        CreateView()
+    var mymap: some View {
+        myMapView()
             .tag(Tabs.create)
             .tabItem {
                 Image(systemName: "circle")
-                Text("생성")
+                Text("map")
             }
     }
     

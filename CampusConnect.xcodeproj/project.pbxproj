@@ -14,6 +14,9 @@
 		823EA48A2A1E1DD400A58361 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823EA4892A1E1DD400A58361 /* MyPageView.swift */; };
 		824751882A21EFA6009C0076 /* DummyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824751872A21EFA6009C0076 /* DummyView.swift */; };
 		824AECCB2A1DE21300AC9321 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824AECCA2A1DE21300AC9321 /* MainTabView.swift */; };
+		826AFD512A260399008B87A9 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826AFD502A260399008B87A9 /* SearchView.swift */; };
+		826AFD542A2603B8008B87A9 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826AFD532A2603B8008B87A9 /* NotificationView.swift */; };
+		826AFD5B2A260535008B87A9 /* myMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826AFD5A2A260535008B87A9 /* myMapView.swift */; };
 		82EC574C2A2070F000827B6D /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82EC574B2A2070EF00827B6D /* Chat.swift */; };
 		82EC574E2A20714B00827B6D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82EC574D2A20714B00827B6D /* User.swift */; };
 		82EC57502A20F50400827B6D /* ChatRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82EC574F2A20F50400827B6D /* ChatRow.swift */; };
@@ -31,6 +34,14 @@
 		823EA4892A1E1DD400A58361 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
 		824751872A21EFA6009C0076 /* DummyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyView.swift; sourceTree = "<group>"; };
 		824AECCA2A1DE21300AC9321 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		826AFD502A260399008B87A9 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		826AFD532A2603B8008B87A9 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
+		826AFD552A2603DA008B87A9 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
+		826AFD562A2603DA008B87A9 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		826AFD572A260403008B87A9 /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
+		826AFD582A26040B008B87A9 /* LogInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInView.swift; sourceTree = "<group>"; };
+		826AFD592A260419008B87A9 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		826AFD5A2A260535008B87A9 /* myMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myMapView.swift; sourceTree = "<group>"; };
 		82EC574B2A2070EF00827B6D /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		82EC574D2A20714B00827B6D /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		82EC574F2A20F50400827B6D /* ChatRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRow.swift; sourceTree = "<group>"; };
@@ -55,17 +66,65 @@
 		823EA47A2A1E1BD500A58361 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				826AFD522A2603A2008B87A9 /* PreView */,
+				826AFD4D2A260327008B87A9 /* Home */,
+				826AFD4E2A26032C008B87A9 /* Group */,
+				826AFD4F2A260347008B87A9 /* Chat */,
+				826AFD4C2A26031E008B87A9 /* MyPage */,
 				824AECCA2A1DE21300AC9321 /* MainTabView.swift */,
-				823EA4812A1E1DA100A58361 /* HomeView.swift */,
-				823EA4832A1E1DAD00A58361 /* GroupView.swift */,
+				824751872A21EFA6009C0076 /* DummyView.swift */,
+				826AFD5A2A260535008B87A9 /* myMapView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		826AFD4C2A26031E008B87A9 /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+				823EA4892A1E1DD400A58361 /* MyPageView.swift */,
+			);
+			path = MyPage;
+			sourceTree = "<group>";
+		};
+		826AFD4D2A260327008B87A9 /* Home */ = {
+			isa = PBXGroup;
+			children = (
 				823EA4852A1E1DB800A58361 /* CreateView.swift */,
+				826AFD532A2603B8008B87A9 /* NotificationView.swift */,
+				826AFD502A260399008B87A9 /* SearchView.swift */,
+				823EA4812A1E1DA100A58361 /* HomeView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		826AFD4E2A26032C008B87A9 /* Group */ = {
+			isa = PBXGroup;
+			children = (
+				823EA4832A1E1DAD00A58361 /* GroupView.swift */,
+			);
+			path = Group;
+			sourceTree = "<group>";
+		};
+		826AFD4F2A260347008B87A9 /* Chat */ = {
+			isa = PBXGroup;
+			children = (
 				823EA4872A1E1DCA00A58361 /* ChatView.swift */,
 				82EC57512A2114FD00827B6D /* ChatDetailView.swift */,
 				82EC574F2A20F50400827B6D /* ChatRow.swift */,
-				823EA4892A1E1DD400A58361 /* MyPageView.swift */,
-				824751872A21EFA6009C0076 /* DummyView.swift */,
 			);
-			path = View;
+			path = Chat;
+			sourceTree = "<group>";
+		};
+		826AFD522A2603A2008B87A9 /* PreView */ = {
+			isa = PBXGroup;
+			children = (
+				826AFD592A260419008B87A9 /* SignUpView.swift */,
+				826AFD582A26040B008B87A9 /* LogInView.swift */,
+				826AFD572A260403008B87A9 /* ForgotPasswordView.swift */,
+				826AFD562A2603DA008B87A9 /* OnboardingView.swift */,
+				826AFD552A2603DA008B87A9 /* SplashView.swift */,
+			);
+			path = PreView;
 			sourceTree = "<group>";
 		};
 		82EC574A2A2070C800827B6D /* Model */ = {
@@ -183,10 +242,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				826AFD512A260399008B87A9 /* SearchView.swift in Sources */,
 				823EA48A2A1E1DD400A58361 /* MyPageView.swift in Sources */,
+				826AFD542A2603B8008B87A9 /* NotificationView.swift in Sources */,
 				824751882A21EFA6009C0076 /* DummyView.swift in Sources */,
 				823EA4822A1E1DA100A58361 /* HomeView.swift in Sources */,
 				82F058CE2A010F410015480C /* CampusConnectApp.swift in Sources */,
+				826AFD5B2A260535008B87A9 /* myMapView.swift in Sources */,
 				823EA4842A1E1DAD00A58361 /* GroupView.swift in Sources */,
 				824AECCB2A1DE21300AC9321 /* MainTabView.swift in Sources */,
 				82EC574E2A20714B00827B6D /* User.swift in Sources */,
