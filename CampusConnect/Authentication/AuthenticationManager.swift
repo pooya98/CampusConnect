@@ -42,6 +42,8 @@ final class AuthenticationManager {
     }
     
     
+    // MARK: - TODO
+    
     // get the loccally cached in authetication data
     func getAuthenticatedUser() throws -> AuthDataResultModel {
         guard let user = Auth.auth().currentUser else {
@@ -62,6 +64,7 @@ final class AuthenticationManager {
         try await user.reauthenticate(with: credential)
     }*/
     
+    // MARK: - TODO
     
     func updateEmail(email: String) async throws {
         guard let user = Auth.auth().currentUser else {
@@ -73,6 +76,7 @@ final class AuthenticationManager {
         try await user.updateEmail(to: email)
     }
     
+    // MARK: - TODO
     
     func updatePassword(password: String) async throws {
         guard let user = Auth.auth().currentUser else {
@@ -94,6 +98,8 @@ final class AuthenticationManager {
     func signOut() throws {
         try Auth.auth().signOut()
     }
+    
+    // MARK: - TODO
     
     func deleteUser() async throws {
         guard let user = Auth.auth().currentUser else {

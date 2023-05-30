@@ -19,6 +19,7 @@ final class EditProfileViewModel: ObservableObject {
         self.user = try await UserManager.shared.getUser(userId: authDataResult.uid)
     }
     
+    // MARK: - TODO
     // TODO: implement UI to get new email address that should be set after editing currrent email
     // NOTE: remember to reauthenticate user before updating email
     // get value from user input
@@ -73,27 +74,16 @@ struct EditProfileView: View {
     var body: some View {
         VStack(spacing: 30){
             
+            // MARK: - TODO
+            
+            // TODO: Display new profile pic immediately after selection
+            // Currently the profile pic image is not updated immediately after selection.
+            // The user has to exit the view an reopen it to see an updated
+            // version displayed
             PhotosPicker(selection: $editProfileViewModel.selectedPhoto, matching: .images, photoLibrary: .shared()) {
                 
                 // Load profile image
-                /*
-                if let urlString = editProfileViewModel.user?.profileImageUrl, let url = URL(string: urlString) {
-                    AsyncImage(url: url) { image in
-                        image
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 100, height: 100)
-                            .cornerRadius(50)
-                    } placeholder: {
-                        ProgressView()
-                            .frame(width: 100, height: 100)
-                    }
-                    
-                } else {
-                    ProfileAvatarView(personSize: 80, frameSize: 100)
-                }
-                */
-                
+                // Displays default avatar image if url is nil
                 ProfileAvatarView(profilePicUrl: editProfileViewModel.user?.profileImageUrl, personSize: 80, frameSize: 100)
             }
             

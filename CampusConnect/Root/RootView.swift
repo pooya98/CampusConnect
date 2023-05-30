@@ -36,8 +36,11 @@ struct RootView: View {
             
         }
         .onAppear {
-            //fetch authenticated user from firebase
+            // MARK: - TODO
+            
+            
             //TODO: cutomize error when user is  not authenticated
+            //fetch authenticated user from firebase
             let authenticatedUser = try? AuthenticationManager.shared.getAuthenticatedUser()
             
             let loginStatus = authenticatedUser == nil ? "logged out" : "logged in"

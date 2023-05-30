@@ -19,7 +19,7 @@ final class FriendListViewModel: ObservableObject {
     
     
     func getFriendList() async throws {
-        try await loadCurrentUser()
+        //try await loadCurrentUser()
         
         // Ensure that currentUser has a value
         guard let user else { return }
@@ -28,10 +28,10 @@ final class FriendListViewModel: ObservableObject {
             
             let result = try await UserManager.shared.getUser(userId: friend)
             self.friends.append(result)
-            print(friends)
+            //print(friends)
         }
         
-        try await loadCurrentUser()
+        //try await loadCurrentUser()
     }
     
     
@@ -39,6 +39,7 @@ final class FriendListViewModel: ObservableObject {
 
 struct FriendListView: View {
     @StateObject private var friendListViewModel = FriendListViewModel()
+    @State private var showChatRoom = false
     
     
     
@@ -48,19 +49,33 @@ struct FriendListView: View {
             if(friendListViewModel.friends.isEmpty) {
                 ProfileAvatarView(personSize: 40, frameSize: 60)
                 
+                // MARK: - ISSUE
+                
+                // TODO: fix No Friend Added brief display when page is opened
+                // Displays briefly before being dissmissed even though user has a friend
                 Text("No Friends Added")
                     .font(.title3)
                     .foregroundColor(.gray)
                     .fontWeight(.medium)
             }
             else {
+                
                 VStack(alignment: .leading) {
                     List {
                         ForEach(friendListViewModel.friends, id: \.userId) { friend in
-                            FriendTagView(name: friend.firstName ?? "Anonymous Friend", department: "컴퓨터학부", profilePicUrl: friend.profileImageUrl)
+                            Button {
+                                //ChatView(profileImageUrl: friend.profileImageUrl, name: friend.firstName)
+                                showChatRoom.toggle()
+                            } label: {
+                                FriendTagView(name: friend.firstName ?? "Anonymous Friend", department: "컴퓨터학부", profilePicUrl: friend.profileImageUrl)
+                            }
+                            .fullScreenCover(isPresented: $showChatRoom) {
+                                //ChatView(profileImageUrl: friend.profileImageUrl, name: friend.firstName)
+                                ChatView(showChatRoom: $showChatRoom, profileImageUrl: friend.profileImageUrl, name: friend.firstName)
+                                
+                            }
                         }
                     }
-                    
                     
                 }
             }
@@ -80,6 +95,7 @@ struct FriendListView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
             FriendListView()
+                //.preferredColorScheme(.dark)
         }
         
     }

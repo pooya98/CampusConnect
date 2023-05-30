@@ -24,6 +24,8 @@ final class ProfileViewModel: ObservableObject {
         self.user = try await UserManager.shared.getUser(userId: authDataResult.uid)
     }
 
+    // MARK: - TODO
+    
     // TODO: implement UI to get new email address that should be set after editing currrent email
     // NOTE: remember to reauthenticate user before updating email
     // get value from user input
@@ -98,24 +100,12 @@ extension ProfileView {
     
     private var ProfileHeaderSection: some View {
         HStack {
+            // MARK: - ISSUE
             
-            // Load Profile image
-            /*
-            if let urlString = profileViewModel.user?.profileImageUrl, let url = URL(string: urlString) {
-                AsyncImage(url: url) { image in
-                    
-                    ProfileHeaderView(name: profileViewModel.user?.firstName, department: profileViewModel.user?.department, studentId: profileViewModel.user?.studentId, image: image)
-                    
-                } placeholder: {
-                    ProgressView()
-                        .frame(width: 100, height: 100)
-                }
-                
-            }else {
-                ProfileHeaderView(name: profileViewModel.user?.firstName, department: profileViewModel.user?.department, studentId: profileViewModel.user?.studentId)
-            }
-            */
+            // TODO: fix Anonymous brief display when page is opened
+            // Displays briefly before being dissmissed even though user has a name
             
+            // Load profile pic image and display header
             ProfileHeaderView(name: profileViewModel.user?.firstName, department: profileViewModel.user?.department, studentId: profileViewModel.user?.studentId, profilePicUrl: profileViewModel.user?.profileImageUrl)
             
         }
@@ -127,6 +117,7 @@ extension ProfileView {
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
         ProfileView(showLoginView: .constant(false))
+            //.preferredColorScheme(.dark)
         //RootView()
     }
 }

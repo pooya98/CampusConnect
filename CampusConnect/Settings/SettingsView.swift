@@ -23,13 +23,20 @@ struct SettingsView: View {
         List{
             accountSection
             
+            // MARK: - ISSUE
+            // The last visited page befoe logout is displyed when user logs in again .
+            // The home page should be displayed on every login and not the last visited page
+            
             Button {
                 Task {
                     do {
                         try viewModel.logout()
                         showLoginView = true
                     }catch{
-                        //TODO: handle failed logout error
+                        // MARK: - TODO
+                        
+                        // TODO: handle failed logout error
+                        // e.g display reason for failed logout on screen
                         print(error)
                     }
                 }

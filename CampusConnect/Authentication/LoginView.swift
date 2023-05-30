@@ -104,6 +104,8 @@ struct LoginView: View {
             
             Spacer()*/
             
+            // MARK: - TODO
+            
             //TODO: login with apple id
             
             HStack{
@@ -144,4 +146,6 @@ struct LoginView_Previews: PreviewProvider {
     }
 }
 
-// TODO: fix bug: Textfields don't clear when user enters values then moves to the create account view and comes back to login view
+// MARK: - ISSUE
+
+// TODO: fix bug - Textfields don't clear when user enters values then moves to the create account view and comes back to login view

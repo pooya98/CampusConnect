@@ -9,14 +9,34 @@ import SwiftUI
 
 
 struct ChatView: View {
+    @Binding var showChatRoom: Bool
     @State var showNameAndTime: Bool = true
     
+    var profileImageUrl: String?
+    var name: String?
     var messageArray = ["Hey you", "Yoooo, what's up. How have you been?", "I'm doing well. What about you?", "I'm fine. Just doing my best to graduate", "Hey you", "Yoooo, what's up. How have you been?", "I'm doing well. What about you?", "I'm fine. Just doing my best to graduate"]
     
     var body: some View {
         VStack {
             VStack {
-                ChatTitleView()
+                
+                HStack{
+                    Button {
+                        showChatRoom = false
+                    } label: {
+                        Image(systemName: "chevron.backward")
+                            .resizable()
+                            //.foregroundColor(.black)
+                            .frame(width: 10, height: 18)
+                        Text("Back").font(.title3)
+                            
+                    }
+                    .padding(.horizontal, 20)
+                    Spacer()
+                }
+               
+
+                ChatTitleView(profileimageUrl: profileImageUrl, name: name)
                 
                 ScrollView {
                     ForEach(messageArray, id: \.self) { content in
@@ -36,6 +56,6 @@ struct ChatView: View {
 
 struct ChatView_Previews: PreviewProvider {
     static var previews: some View {
-        ChatView()
+        ChatView(showChatRoom: .constant(true))
     }
 }

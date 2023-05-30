@@ -48,9 +48,19 @@ final class AddFriendViewModel: ObservableObject {
         // Ensure that seekedUser has a value
         guard let seekedUser else { return }
         
+        // Add to friend List
         try await UserManager.shared.addFriend(userId: currentUser.userId, friendId: seekedUser.userId)
-        
         print("Added \(seekedUser.firstName ?? "matched user")")
+        
+        // MARK: - Create Group
+        
+        
+        let groupData = ChatGroup(groupMembers: [currentUser.userId, seekedUser.userId])
+            
+        try await ChatManager.shared.createChatGroup(groupData: groupData)
+        print("Created chat room")
+        
+        
         
         // Refetch data to appear on the screen
         
@@ -61,7 +71,8 @@ final class AddFriendViewModel: ObservableObject {
 struct AddFriendView: View {
     
     @StateObject var addFriendViewModel = AddFriendViewModel()
-    @State var buttonDisabled = true
+    @State var okButtonDisabled = true
+    @State var addFriendButtonDisabled = false
     
     
     var body: some View {
@@ -73,10 +84,10 @@ struct AddFriendView: View {
                 .cornerRadius(10)
                 .onChange(of: addFriendViewModel.emailID) { newValue in
                     if (newValue != "") {
-                        buttonDisabled = false
+                        okButtonDisabled = false
                     }
                     else {
-                        buttonDisabled = true
+                        okButtonDisabled = true
                     }
                 }
                
@@ -87,7 +98,7 @@ struct AddFriendView: View {
                 }
                 
             } label: {
-                if buttonDisabled {
+                if okButtonDisabled {
                     Text("OK")
                         .font(.headline)
                         .foregroundColor(.black.opacity(0.9))
@@ -106,10 +117,9 @@ struct AddFriendView: View {
                 }
             }
             .padding(.top, 20)
-            .disabled(buttonDisabled)
+            .disabled(okButtonDisabled)
             
             VStack{
-                
                 if (addFriendViewModel.showResultsNotFound) {
                     Text("No results found")
                         .font(.title3)
@@ -120,29 +130,12 @@ struct AddFriendView: View {
                 if(addFriendViewModel.matchFound) {
                     
                     // Display profile picture
-                    /*
-                    if let url = addFriendViewModel.seekedUser?.profileImageUrl {
-                        AsyncImage(url: URL(string: url)) { image in
-                            image
-                                .resizable()
-                                .foregroundColor(.white)
-                                .frame(width: 100, height: 100)
-                                .cornerRadius(50)
-                        } placeholder: {
-                            ProgressView()
-                                .frame(width: 100, height: 100)
-                        }
-
-                    }else {
-                        ProfileAvatarView(personSize: 80, frameSize: 100)
-                    }
-                    */
-                    
                     ProfileAvatarView(profilePicUrl: addFriendViewModel.seekedUser?.profileImageUrl, personSize: 80, frameSize: 100)
                     
                     // Display user name
                     Text(addFriendViewModel.seekedUser?.firstName ?? "matching user")
                     
+                    // MARK: - TODO
                     
                     // Display different button labels based on:
                     // 1: match found is current User(account owner)
@@ -152,8 +145,14 @@ struct AddFriendView: View {
                     Button {
                         // Add friend to friend list
                         if (!addFriendViewModel.accountOwner && !addFriendViewModel.friend) {
+                            // TODO: Add progress spinner
                             Task {
                                 try await addFriendViewModel.addFriend()
+                                
+                                // Disables button after friend is added to the friend list
+                                addFriendButtonDisabled = true
+                                
+                                // MARK: - Friend added Alert
                             }
                         }
                         
@@ -180,19 +179,36 @@ struct AddFriendView: View {
                         }
                         
                         if(!addFriendViewModel.accountOwner && !addFriendViewModel.friend) {
-                            Text("Add Friend")
-                                .font(.headline)
-                                .foregroundColor(.white)
-                                .frame(height: 55)
-                                .frame(maxWidth: 150)
-                                .background(Color.blue)
-                                .cornerRadius(10)
+                            
+                            // Disableed button
+                            if (addFriendButtonDisabled) {
+                                Text("Add Friend")
+                                    .font(.headline)
+                                    .foregroundColor(.black.opacity(0.9))
+                                    .frame(height: 55)
+                                    .frame(maxWidth: 150)
+                                    .background(Color.gray.opacity(0.9))
+                                    .cornerRadius(10)
+                                
+                            }else {
+                                // Enabled button
+                                Text("Add Friend")
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+                                    .frame(height: 55)
+                                    .frame(maxWidth: 150)
+                                    .background(Color.blue)
+                                    .cornerRadius(10)
+                            }
+                            
                         }
                     }
 
                 }
                 
-            }.padding(.top, 70)
+            }
+            .padding(.top, 70)
+            .disabled(addFriendButtonDisabled)
             
            
             Spacer()

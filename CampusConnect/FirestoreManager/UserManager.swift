@@ -49,9 +49,9 @@ final class UserManager {
     static let shared = UserManager()
     private init() { }
     
-    private let userCollection = Firestore.firestore().collection("users")
+    let userCollection = Firestore.firestore().collection("users")
     
-    private func userDocument(userId: String) -> DocumentReference {
+    func userDocument(userId: String) -> DocumentReference {
         return userCollection.document(userId)
     }
     
@@ -199,4 +199,23 @@ final class UserManager {
         
         return false
     }
+}
+
+
+
+
+// MARK: - Generic Fetch function
+// Use generic to fetch all documents
+// The generic function gets any document of type T  and returns [T]
+extension Query {
+    
+    func fetchDocumets<T>(as type: T.Type) async throws -> [T] where T: Decodable {
+        let snapshot = try await self.getDocuments()
+        
+        return  try snapshot.documents.map({document in
+            return  try document.data(as: T.self)
+        })
+        
+    }
+    
 }

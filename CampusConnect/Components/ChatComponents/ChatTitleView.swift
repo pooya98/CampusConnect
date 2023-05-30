@@ -8,23 +8,24 @@
 import SwiftUI
 
 struct ChatTitleView: View {
-    var imageUrl = URL(string:"https://cdn.pixabay.com/photo/2016/03/31/20/57/captain-1296107_1280.png")
-    
-    var name = "Skipper"
+    var profileimageUrl: String?
+    var name: String?
     
     var body: some View {
         HStack(spacing: 20) {
-            AsyncImage(url: imageUrl) { image in
+            /*AsyncImage(url: imageUrl) { image in
                 image.resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 50, height: 50)
                     .cornerRadius(50)
             } placeholder: {
                 ProgressView()
-            }
+            }*/
+            
+            ProfileAvatarView(profilePicUrl: profileimageUrl, personSize: 37, frameSize: 50)
             
             VStack(alignment: .leading) {
-                Text(name)
+                Text(name ?? "Anonymous")
                     .font(.title)
                     .bold()
                 Text("Online")
@@ -47,7 +48,7 @@ struct ChatTitleView: View {
 
 struct ChatTitleView_Previews: PreviewProvider {
     static var previews: some View {
-        ChatTitleView()
+        ChatTitleView(profileimageUrl: nil, name: "Skipper")
             .background(Color("SmithApple"))
     }
 }

@@ -32,7 +32,7 @@ final class CreateAccountViewModel: ObservableObject {
     @Published var passwordNotFilled = false
     
     
-    // returns true on successuful creation of account
+    // Returns true on successuful creation of account,
     // otherwise it returns false
     func createAccount()  async throws -> Bool {
         //TODO: Ensure Textfield validaiton works properly
@@ -94,7 +94,7 @@ final class CreateAccountViewModel: ObservableObject {
         
         printLoginStatus()
         
-        // logs out the user who was automatically logged in during account creation
+        // Logs out the user who was automatically logged in during account creation
         try AuthenticationManager.shared.signOut()
         
         printLoginStatus()
@@ -115,8 +115,8 @@ final class CreateAccountViewModel: ObservableObject {
             range: rangeOfStrToValidate)
         
         
-        // Ensure that only a single email address was matched
-        //Else the validation fails
+        // Ensure that only a single email address was matched,
+        // else the validation fails
         guard matches?.count == 1 else {
             return false
         }

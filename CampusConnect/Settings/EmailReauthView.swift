@@ -34,13 +34,13 @@ final class EmailReauthViewModel: ObservableObject {
             return false
         }
         
-        // reauth user by logging in
+        // Reauth user by logging in
         try await AuthenticationManager.shared.signInUser(email: email, password: password)
         
         return true
     }
     
-    // delete auth data
+    // Delete auth data
     func deleteAccount() async throws {
         
         guard let _ = try? await  AuthenticationManager.shared.deleteUser() else {
@@ -53,7 +53,7 @@ final class EmailReauthViewModel: ObservableObject {
     }
     
     
-    // delete data from firestore
+    // Delete data from firestore
     func deleteAccountData() async throws {
         guard let _ = try? await UserManager.shared.deleteUserData(userId: userId) else {
             print("Account Data Deletion failed due to an Error")
@@ -79,7 +79,7 @@ struct EmailReauthView: View {
         ZStack(alignment: .topLeading) {
             
             Button {
-                // dismiss EmailReauthView
+                // Dismiss EmailReauthView
                 showReauthSheet = false
             } label: {
                 Text("Cancel")
@@ -112,19 +112,19 @@ struct EmailReauthView: View {
                             let reauthSuccess = try await emailReauthViewModel.reauthUser()
                             
                             if reauthSuccess {
-                                // dismiss EmailReauthView
+                                // Dismiss EmailReauthView
                                 showReauthSheet = false
                                 
-                                // user reauthenticated
-                                // delete account
+                                // User reauthenticated
+                                // Delete account
                                 try await emailReauthViewModel.deleteAccount()
                                 
-                                // delete account data
+                                // Delete account data
                                 try await emailReauthViewModel.deleteAccountData()
                                 
                                 print("Logged out")
                                 
-                                // display login screen
+                                // Display login screen
                                 showLoginView = true
                             }
                             
