@@ -55,6 +55,8 @@ struct LoginView: View {
                     .font(.footnote)
             }
             
+            // MARK: - TODO
+            // TODO: Add loading spinner
             Button {
                 Task{
                     do {

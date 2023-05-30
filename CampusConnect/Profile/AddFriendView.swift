@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+//import AlertToast
 
 @MainActor
 final class AddFriendViewModel: ObservableObject {
@@ -73,12 +74,16 @@ struct AddFriendView: View {
     @StateObject var addFriendViewModel = AddFriendViewModel()
     @State var okButtonDisabled = true
     @State var addFriendButtonDisabled = false
+    @State private var showLoading = false
+    @State private var showChatRoom = false
     
     
     var body: some View {
         VStack{
             
             TextField("Campus Connect Email", text: $addFriendViewModel.emailID)
+                .autocapitalization(.none)
+                .textCase(.lowercase)
                 .padding()
                 .background(Color.gray.opacity(0.4))
                 .cornerRadius(10)
@@ -120,12 +125,12 @@ struct AddFriendView: View {
             .disabled(okButtonDisabled)
             
             VStack{
-                if (addFriendViewModel.showResultsNotFound) {
+                /*if (addFriendViewModel.showResultsNotFound) {
                     Text("No results found")
                         .font(.title3)
                         .foregroundColor(.gray)
                         .fontWeight(.medium)
-                }
+                }*/
                 
                 if(addFriendViewModel.matchFound) {
                     
@@ -142,19 +147,151 @@ struct AddFriendView: View {
                     // 2: match found already exits in user's friend list
                     // 3: friend not in user's friend list
                     // TODO: add button action for all the labels
-                    Button {
-                        // Add friend to friend list
-                        if (!addFriendViewModel.accountOwner && !addFriendViewModel.friend) {
+                    if(addFriendViewModel.accountOwner) {
+                        // Display my profile
+                        Button {
+                            
+                        } label: {
+                            Text("My Account")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .frame(height: 55)
+                                .frame(maxWidth: 150)
+                                .background(Color.blue)
+                                .cornerRadius(10)
+                        }
+
+                    }
+                    
+                    if (addFriendViewModel.friend) {
+                        
+                        // Display chat room
+                        Button {
+                            showChatRoom = true
+                        } label: {
+                            Text("Message Friend")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .frame(height: 55)
+                                .frame(maxWidth: 150)
+                                .background(Color.blue)
+                                .cornerRadius(10)
+                        }
+
+                        
+                        /*print("disabled: 1: \(addFriendButtonDisabled)")
+                        addFriendButtonDisabled = false
+                        print("disabled: 2: \(addFriendButtonDisabled)")
+                        */
+                    }
+                    
+                    if(!addFriendViewModel.accountOwner && !addFriendViewModel.friend) {
+                        
+                        // Enable button incase it's disabled
+                        /*if(addFriendButtonDisabled) {
+                            addFriendButtonDisabled = true
+                        }*/
+                        
+                        // Add Friend to friend list
+                        Button {
+                            
+                            // MARK: - TODO
                             // TODO: Add progress spinner
+                            
+                            showLoading.toggle()
                             Task {
                                 try await addFriendViewModel.addFriend()
                                 
                                 // Disables button after friend is added to the friend list
                                 addFriendButtonDisabled = true
+                            }
+                            showLoading.toggle()
+                            
+                            // MARK: - Friend Added Toast
+                            
+                        } label: {
+                            // Disabled button
+                            if (addFriendButtonDisabled) {
+                                Text("Add Friend")
+                                    .font(.headline)
+                                    .foregroundColor(.black.opacity(0.9))
+                                    .frame(height: 55)
+                                    .frame(maxWidth: 150)
+                                    .background(Color.gray.opacity(0.9))
+                                    .cornerRadius(10)
                                 
-                                // MARK: - Friend added Alert
+                            }else {
+                                // Enabled button
+                                Text("Add Friend")
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+                                    .frame(height: 55)
+                                    .frame(maxWidth: 150)
+                                    .background(Color.blue)
+                                    .cornerRadius(10)
                             }
                         }
+                        .disabled(addFriendButtonDisabled)
+                        
+                    }
+                    
+                    /*Button {
+                        
+                        // Display Profile page
+                        if(addFriendViewModel.accountOwner) {
+                            
+                        }
+                        else if (addFriendViewModel.friend) {
+                            // Display chat room
+                            print("disabled: 1: \(addFriendButtonDisabled)")
+                            addFriendButtonDisabled = false
+                            print("disabled: 2: \(addFriendButtonDisabled)")
+                            
+                        }else {
+                            // MARK: - TODO
+                            // TODO: Add progress spinner
+                            
+                            showLoading.toggle()
+                            Task {
+                                try await addFriendViewModel.addFriend()
+                                
+                                // Disables button after friend is added to the friend list
+                                addFriendButtonDisabled = true
+                            }
+                            showLoading.toggle()
+                            
+                            // MARK: - Friend Added Toast
+                        }
+                            
+                            
+                        // Display chat room
+                        /*if(addFriendViewModel.friend) {
+                            
+                            if(addFriendButtonDisabled) {
+                                addFriendButtonDisabled = false
+                            }
+                            
+                        }*/
+                        
+                        
+                        // Add friend to friend list
+                        /*if (!addFriendViewModel.accountOwner && !addFriendViewModel.friend) {
+                            
+                            // MARK: - TODO
+                            // TODO: Add progress spinner
+                            
+                            showLoading.toggle()
+                            Task {
+                                try await addFriendViewModel.addFriend()
+                                
+                                // Disables button after friend is added to the friend list
+                                addFriendButtonDisabled = true
+                            }
+                            showLoading.toggle()
+                            
+                            // MARK: - Friend Added Toast
+                        }
+                         */
                         
                         
                     } label: {
@@ -176,6 +313,7 @@ struct AddFriendView: View {
                                 .frame(maxWidth: 150)
                                 .background(Color.blue)
                                 .cornerRadius(10)
+                            
                         }
                         
                         if(!addFriendViewModel.accountOwner && !addFriendViewModel.friend) {
@@ -202,14 +340,26 @@ struct AddFriendView: View {
                             }
                             
                         }
-                    }
+                    }*/
 
+                }
+                else {
+                    Text("No results found")
+                        .font(.title3)
+                        .foregroundColor(.gray)
+                        .fontWeight(.medium)
                 }
                 
             }
             .padding(.top, 70)
-            .disabled(addFriendButtonDisabled)
-            
+            .fullScreenCover(isPresented: $showChatRoom) {
+                ChatView(showChatRoom: $showChatRoom, profileImageUrl: addFriendViewModel.seekedUser?.profileImageUrl, name: addFriendViewModel.seekedUser?.firstName)
+                
+            }
+//            .toast(isPresenting: showLoading) {
+//                AlertToast(type: .loading)
+//            }
+
            
             Spacer()
             
