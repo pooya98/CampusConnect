@@ -29,14 +29,14 @@ struct MessageBubbleView: View {
         VStack(alignment: message.received ? .leading : .trailing) {
             
             if(showNameAndTime){
-                Text(message.senderName)
+                Text(message.senderName ?? "Anonymous")
                     .font(.caption)
                     .foregroundColor(.gray)
                     .padding(message.received ? .leading : .trailing, 25)
             }
             
             HStack {
-                Text(message.content)
+                Text(message.content ?? "")
                     .padding()
                     .background(message.received ? Color("LavenderGray") : Color("SmithApple"))
                     .cornerRadius(35)

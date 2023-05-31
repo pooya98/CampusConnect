@@ -11,6 +11,7 @@ import SwiftUI
 final class FriendListViewModel: ObservableObject {
     @Published private(set) var user: DBUser? = nil
     @Published private(set) var friends: [DBUser] = []
+    @Published var selectedFriend: DBUser? = nil
     
     func loadCurrentUser() async throws {
         let authDataResult = try AuthenticationManager.shared.getAuthenticatedUser()
@@ -64,17 +65,20 @@ struct FriendListView: View {
                     List {
                         ForEach(friendListViewModel.friends, id: \.userId) { friend in
                             Button {
+                                
+                                friendListViewModel.selectedFriend = friend
                                 //ChatView(profileImageUrl: friend.profileImageUrl, name: friend.firstName)
                                 showChatRoom.toggle()
                             } label: {
                                 FriendTagView(name: friend.firstName ?? "Anonymous Friend", department: "컴퓨터학부", profilePicUrl: friend.profileImageUrl)
                             }
-                            .fullScreenCover(isPresented: $showChatRoom) {
-                                //ChatView(profileImageUrl: friend.profileImageUrl, name: friend.firstName)
-                                ChatView(showChatRoom: $showChatRoom, profileImageUrl: friend.profileImageUrl, name: friend.firstName)
-                                
-                            }
                         }
+                    }
+                    .fullScreenCover(isPresented: $showChatRoom) {
+                        //ChatView(profileImageUrl: friend.profileImageUrl, name: friend.firstName)
+                        //ChatView(showChatRoom: $showChatRoom, profileImageUrl: friend.profileImageUrl, name: friend.firstName)
+                        /*ChatView(showChatRoom: $showChatRoom, profileImageUrl: friendListViewModel.selectedFriend?.profileImageUrl, name: friendListViewModel.selectedFriend?.firstName)*/
+                        
                     }
                     
                 }

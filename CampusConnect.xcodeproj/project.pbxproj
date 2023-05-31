@@ -232,9 +232,9 @@
 		E59B12FE2A0694450079AA9E /* PasswordAndSecurity */ = {
 			isa = PBXGroup;
 			children = (
+				E59B13052A0751B70079AA9E /* LoginSheetView.swift */,
 				E59B13072A0752720079AA9E /* PasswordAndSecurityViewModel.swift */,
 				E59B12FF2A0696180079AA9E /* PasswordAndSecurityView.swift */,
-				E59B13052A0751B70079AA9E /* LoginSheetView.swift */,
 				E58F9AE52A078FB1007CF2AB /* ChangePasswordView.swift */,
 			);
 			path = PasswordAndSecurity;

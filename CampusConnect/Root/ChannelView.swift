@@ -12,6 +12,12 @@ struct ChannelView: View {
     var body: some View {
         NavigationView{
             VStack {
+                /*NavigationLink {
+                    ChatView(showChatRoom: <#T##Binding<Bool>#>)
+                } label: {
+                    Text("Account")
+                        .foregroundColor(.blue)
+                }*/
                 
             }.navigationTitle("Chats")
         }

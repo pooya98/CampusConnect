@@ -35,10 +35,13 @@ struct ChatTitleView: View {
             
             Spacer()
     
-            Image(systemName: "phone.fill")
-                .foregroundColor(.gray)
-                .padding(10).background(.white)
-                .cornerRadius(50)
+            Image(systemName: "line.3.horizontal")
+                .resizable()
+                .frame(width: 20, height: 20)
+                //.foregroundColor(.black)
+                //.padding(10)
+                //.background(.black)
+                //.cornerRadius(50)
         }
         .padding()
         .frame(maxWidth: .infinity)

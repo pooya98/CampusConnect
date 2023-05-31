@@ -21,6 +21,7 @@ struct DBUser: Codable {
     let friendList: [String]?
     let department: String?
     let studentId: String?
+    let groups: [String]?
     
     //let isActive: Bool = true
     
@@ -39,6 +40,7 @@ struct DBUser: Codable {
         // TODO: Modify department and studentId initialization to a value provided by the user
         self.department = nil
         self.studentId = nil
+        self.groups = nil
     }
     
 }

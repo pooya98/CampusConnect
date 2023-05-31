@@ -8,6 +8,8 @@
 import SwiftUI
 //import AlertToast
 
+
+
 @MainActor
 final class AddFriendViewModel: ObservableObject {
     @Published private(set) var seekedUser: DBUser? = nil
@@ -18,7 +20,14 @@ final class AddFriendViewModel: ObservableObject {
     @Published var friend: Bool = false
     @Published var showResultsNotFound = false
     
+    
+    enum GroupType: String {
+        case twoPersosn = "two-person"
+    }
+   
+    
     func findUser() async throws {
+        
         let authDataResult = try AuthenticationManager.shared.getAuthenticatedUser()
         self.currentUser = try await UserManager.shared.getUser(userId: authDataResult.uid)
         
@@ -41,8 +50,6 @@ final class AddFriendViewModel: ObservableObject {
     
     
     func addFriend() async throws {
-        // let authDataResult = try AuthenticationManager.shared.getAuthenticatedUser()
-        // let currentUser = try await UserManager.shared.getUser(userId: authDataResult.uid)
         
         // Ensure that currentUser has a value
         guard let currentUser else { return }
@@ -53,15 +60,31 @@ final class AddFriendViewModel: ObservableObject {
         try await UserManager.shared.addFriend(userId: currentUser.userId, friendId: seekedUser.userId)
         print("Added \(seekedUser.firstName ?? "matched user")")
         
+        
         // MARK: - Create Group
+    
+        // Checks whether groups exists before creating a group
         
+        // How it works
+        // 1. Find an group which the seekedUser created
+        // 2. If the group doesn't exist create a new group
+        // 3. If it exists skip group creation
         
-        let groupData = ChatGroup(groupMembers: [currentUser.userId, seekedUser.userId])
+        let groupExists = try await ChatManager.shared.groupExists(adminId: seekedUser.userId, memberId: currentUser.userId)
+        
+        print("Group exists: \(groupExists)")
+        
+        if(!groupExists) {
             
-        try await ChatManager.shared.createChatGroup(groupData: groupData)
-        print("Created chat room")
-        
-        
+            // currentUser(group creator) is assigned as the admin by default
+            let groupData = ChatGroup(groupMembers: [currentUser.userId, seekedUser.userId], groupType: GroupType.twoPersosn.rawValue)
+                
+            try await ChatManager.shared.createChatGroup(groupData: groupData)
+            print("Created chat room")
+        }
+        else {
+            print("No chat room created")
+        }
         
         // Refetch data to appear on the screen
         
@@ -96,15 +119,27 @@ struct AddFriendView: View {
                     }
                 }
                
-            
+            // MARK: - TODO
+            // TODO: Add progress spinner
             Button {
                 Task{
                     try await addFriendViewModel.findUser()
                 }
                 
+                // Enable add friend button when user finds an new friend
+                //addFriendButtonDisabled = false
+                
+                if(!addFriendViewModel.accountOwner && !addFriendViewModel.friend) {
+                    print("New Friend: true")
+                    if(addFriendButtonDisabled){
+                        addFriendButtonDisabled = false
+                        
+                    }
+                }
+                
             } label: {
                 if okButtonDisabled {
-                    Text("OK")
+                    Text("SEARCH")
                         .font(.headline)
                         .foregroundColor(.black.opacity(0.9))
                         .frame(height: 55)
@@ -112,7 +147,7 @@ struct AddFriendView: View {
                         .background(Color.gray.opacity(0.9))
                         .cornerRadius(10)
                 }else{
-                    Text("OK")
+                    Text("SEARCH")
                         .font(.headline)
                         .foregroundColor(.white)
                         .frame(height: 55)
@@ -125,13 +160,16 @@ struct AddFriendView: View {
             .disabled(okButtonDisabled)
             
             VStack{
-                /*if (addFriendViewModel.showResultsNotFound) {
+                if (addFriendViewModel.showResultsNotFound) {
                     Text("No results found")
                         .font(.title3)
                         .foregroundColor(.gray)
                         .fontWeight(.medium)
-                }*/
+                }
                 
+                // MARK: - ISSUE
+                // When a friend is found it displays add friend label for  a brief moment then the message label is displayed.
+                // This occurs when a serach is performed immediately afer the page is opened
                 if(addFriendViewModel.matchFound) {
                     
                     // Display profile picture
@@ -162,38 +200,39 @@ struct AddFriendView: View {
                         }
 
                     }
-                    
-                    if (addFriendViewModel.friend) {
+                    else if (addFriendViewModel.friend) {
                         
-                        // Display chat room
-                        Button {
-                            showChatRoom = true
+                        NavigationLink {
+                            
+                            ChatView(profileImageUrl: addFriendViewModel.seekedUser?.profileImageUrl, name: addFriendViewModel.seekedUser?.firstName)
+                            
                         } label: {
-                            Text("Message Friend")
+                            // Display chat room when clicked
+                            Text("Message")
                                 .font(.headline)
                                 .foregroundColor(.white)
                                 .frame(height: 55)
                                 .frame(maxWidth: 150)
                                 .background(Color.blue)
                                 .cornerRadius(10)
+                            /*Button {
+                                showChatRoom = true
+                            } label: {
+                                Text("Message")
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+                                    .frame(height: 55)
+                                    .frame(maxWidth: 150)
+                                    .background(Color.blue)
+                                    .cornerRadius(10)
+                            }*/
                         }
 
-                        
-                        /*print("disabled: 1: \(addFriendButtonDisabled)")
-                        addFriendButtonDisabled = false
-                        print("disabled: 2: \(addFriendButtonDisabled)")
-                        */
                     }
-                    
-                    if(!addFriendViewModel.accountOwner && !addFriendViewModel.friend) {
-                        
-                        // Enable button incase it's disabled
-                        /*if(addFriendButtonDisabled) {
-                            addFriendButtonDisabled = true
-                        }*/
-                        
+                    else {
                         // Add Friend to friend list
                         Button {
+                            
                             
                             // MARK: - TODO
                             // TODO: Add progress spinner
@@ -203,6 +242,7 @@ struct AddFriendView: View {
                                 try await addFriendViewModel.addFriend()
                                 
                                 // Disables button after friend is added to the friend list
+                                // A disalbed button is enabled when search button is pressed is pressed
                                 addFriendButtonDisabled = true
                             }
                             showLoading.toggle()
@@ -235,6 +275,7 @@ struct AddFriendView: View {
                         
                     }
                     
+                    
                     /*Button {
                         
                         // Display Profile page
@@ -243,9 +284,7 @@ struct AddFriendView: View {
                         }
                         else if (addFriendViewModel.friend) {
                             // Display chat room
-                            print("disabled: 1: \(addFriendButtonDisabled)")
-                            addFriendButtonDisabled = false
-                            print("disabled: 2: \(addFriendButtonDisabled)")
+                            showChatRoom = true
                             
                         }else {
                             // MARK: - TODO
@@ -262,37 +301,6 @@ struct AddFriendView: View {
                             
                             // MARK: - Friend Added Toast
                         }
-                            
-                            
-                        // Display chat room
-                        /*if(addFriendViewModel.friend) {
-                            
-                            if(addFriendButtonDisabled) {
-                                addFriendButtonDisabled = false
-                            }
-                            
-                        }*/
-                        
-                        
-                        // Add friend to friend list
-                        /*if (!addFriendViewModel.accountOwner && !addFriendViewModel.friend) {
-                            
-                            // MARK: - TODO
-                            // TODO: Add progress spinner
-                            
-                            showLoading.toggle()
-                            Task {
-                                try await addFriendViewModel.addFriend()
-                                
-                                // Disables button after friend is added to the friend list
-                                addFriendButtonDisabled = true
-                            }
-                            showLoading.toggle()
-                            
-                            // MARK: - Friend Added Toast
-                        }
-                         */
-                        
                         
                     } label: {
                         if(addFriendViewModel.accountOwner) {
@@ -306,7 +314,7 @@ struct AddFriendView: View {
                         }
                         
                         if(addFriendViewModel.friend) {
-                            Text("Friend")
+                            Text("Message")
                                 .font(.headline)
                                 .foregroundColor(.white)
                                 .frame(height: 55)
@@ -340,22 +348,17 @@ struct AddFriendView: View {
                             }
                             
                         }
-                    }*/
+                    }.disabled(addFriendButtonDisabled)*/
 
-                }
-                else {
-                    Text("No results found")
-                        .font(.title3)
-                        .foregroundColor(.gray)
-                        .fontWeight(.medium)
                 }
                 
             }
             .padding(.top, 70)
-            .fullScreenCover(isPresented: $showChatRoom) {
+            /*.fullScreenCover(isPresented: $showChatRoom) {
                 ChatView(showChatRoom: $showChatRoom, profileImageUrl: addFriendViewModel.seekedUser?.profileImageUrl, name: addFriendViewModel.seekedUser?.firstName)
                 
             }
+            */
 //            .toast(isPresenting: showLoading) {
 //                AlertToast(type: .loading)
 //            }

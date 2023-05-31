@@ -11,53 +11,56 @@ import FirebaseFirestoreSwift
 
 
 struct Message: Identifiable, Codable {
-    var id: String
-    let content: String
-    let senderId: String
-    let senderName: String
+    var id: String?
+    let content: String?
+    let senderId: String?
+    let senderName: String?
     let dateCreated: Date
     var received: Bool
     //let messageType: String
     
 }
 
-struct ChatGroup {
-    let groupId: String?
+struct ChatGroup: Codable {
+    var groupId: String?
     let groupName: String?
     let groupMembers: [String]?
     let groupAdmin: String?
-    let recentMessage: RecentMessage?
+    let recentMessage: Message?
     let groupProfileImage: String?
+    let groupType: String?
     let dateCreated: Date
-    //let groupType: String
     
-    init(groupMembers: [String]?) {
+    
+    init(groupMembers: [String], groupType: String) {
         self.groupId = nil
         self.groupName = nil
         self.groupMembers = groupMembers
-        self.groupAdmin = nil
+        self.groupAdmin = groupMembers.first
         self.recentMessage = nil
         self.groupProfileImage = nil
+        self.groupType = groupType
         self.dateCreated = Date()
     }
     
-    init(groupId: String?, groupName: String?, groupMembers: [String]?, groupAdmin: String?, recentMessage: RecentMessage?, groupProfileImage: String?, dateCreated: Date) {
+    init(groupId: String?, groupName: String?, groupMembers: [String]?, groupAdmin: String?, recentMessage: Message?, groupProfileImage: String?, groupType: String?, dateCreated: Date) {
         self.groupId = groupId
         self.groupName = groupName
         self.groupMembers = groupMembers
         self.groupAdmin = groupAdmin
         self.recentMessage = recentMessage
         self.groupProfileImage = groupProfileImage
+        self.groupType = groupType
         self.dateCreated = dateCreated
     }
    
     
 }
 
-struct RecentMessage {
+struct RecentMessage: Codable {
     //var id: String
     let content: String
-    //let senderId: String
+    let senderId: String
     let senderName: String
     let messageType: String
     let dateCreated: Date
@@ -69,6 +72,21 @@ final class ChatManager {
     static let shared = ChatManager()
     private init() { }
     
+   
+    private let enconder: Firestore.Encoder = {
+        let encoder = Firestore.Encoder()
+        encoder.keyEncodingStrategy = .convertToSnakeCase
+        return encoder
+    }()
+    
+    private let dencoder: Firestore.Decoder = {
+        let decoder = Firestore.Decoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        return decoder
+    }()
+    
+    
+    
     //private let userCollection = Firestore.firestore().collection("users")
     private let groupCollection = Firestore.firestore().collection("groups")
     
@@ -79,6 +97,12 @@ final class ChatManager {
     
     // *--------------------------------- Chat Functions ---------------------------------* //
     private let chatCollection = Firestore.firestore().collection("chats")
+   
+    
+    private func chatDocument(groupId: String) -> DocumentReference {
+        return chatCollection.document(groupId)
+    }
+    
     
     // write to sender channel
     private func channelDocument(userId: String) -> DocumentReference {
@@ -157,6 +181,10 @@ final class ChatManager {
             data["group_profile_image"] = groupProfileImage
         }
         
+        if let groupType = groupData.groupType {
+            data["group_type"] = groupType
+        }
+        
         
         // TODO: Updatee recent messages field
         // let recentMessage: RecentMessage?
@@ -197,7 +225,85 @@ final class ChatManager {
         }
     }
     
-    // MARK: TODO: invite persom
+    // MARK: - TODO: invite persom
     // TODO: add invite member function
+    
+    
+    // Sends messages to a group
+    func sendMessage(groupId: String,  message: Message) async throws{
+        var data : [String:Any] = [
+            "received": message.received,
+            "date_created" : Timestamp(),   // from firebase SDK
+        ]
+        
+        if let content = message.content {
+            data["content"] = content
+        }
+        
+        if let senderId = message.senderId {
+            data["sender_id"] = senderId
+        }
+        
+        if let senderName = message.senderName {
+            data["sender_name"] = senderName
+        }
+        
+        if let senderId = message.senderId {
+            data["sender_id"] = senderId
+        }
+        
+        
+        
+        /*if let received = message.received {
+            data["received"] = received
+        }*/
+        
+        // 1. Add Document to messages collection
+        let documentRef = try await chatDocument(groupId: groupId).collection("messages").addDocument(data: data)
+        
+        // 2. Update the message id from the document reference after t
+        try await documentRef.updateData( ["id": documentRef.documentID] )
+        
+        guard let recentMessage = try? enconder.encode(message) else {
+            // TODO: Customize error message
+            throw URLError(.badServerResponse)
+        }
+        // 3. Update recent message in the groups collection
+        try await groupDocument(groupId: groupId).updateData(recentMessage)
+    }
+    
+    
+    // This function is used when creating a group that has only 2 members
+    // It returns whether a group containing the 2 members exist
+    func groupExists(adminId: String, memberId: String)async throws -> Bool {
+        var matchingGroups: [ChatGroup] = []
+        
+        let querySnapshot = try await groupCollection.whereField("group_members", isEqualTo: [adminId, memberId]).getDocuments()
+        
+        for document in querySnapshot.documents {
+            
+            let group = try document.data(as: ChatGroup.self, decoder: dencoder)
+            matchingGroups.append(group)
+        }
+        
+        return matchingGroups.isEmpty ? false : true
+    }
+    
+    // This function is used for multi-person group chat
+    // The first index in the members  contails the group's longest memeber (default admin)
+    func groupExists(members: [String])async throws -> Bool {
+        var matchingGroups: [ChatGroup] = []
+        
+        let querySnapshot = try await groupCollection.whereField("group_members", isEqualTo: members).getDocuments()
+        
+        for document in querySnapshot.documents {
+            
+            let group = try document.data(as: ChatGroup.self, decoder: dencoder)
+            matchingGroups.append(group)
+        }
+        
+        return matchingGroups.isEmpty ? false : true
+    }
+    
     
 }
