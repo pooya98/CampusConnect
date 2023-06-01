@@ -16,8 +16,9 @@ struct Message: Identifiable, Codable {
     let senderId: String?
     let senderName: String?
     let dateCreated: Date
-    var received: Bool
-    //let messageType: String
+    //var received: Bool
+    let messageType: String?
+    
     
 }
 
@@ -57,7 +58,7 @@ struct ChatGroup: Codable {
     
 }
 
-struct RecentMessage: Codable {
+/*struct RecentMessage: Codable {
     //var id: String
     let content: String
     let senderId: String
@@ -65,7 +66,7 @@ struct RecentMessage: Codable {
     let messageType: String
     let dateCreated: Date
     //var received: Bool
-}
+}*/
 
 final class ChatManager {
     
@@ -154,7 +155,9 @@ final class ChatManager {
     }*/
     // *--------------------------------- Chat Functions ---------------------------------* //
     
-    func createChatGroup(groupData: ChatGroup) async throws {
+    
+    // returns the groupId
+    func createChatGroup(groupData: ChatGroup) async throws -> String{
         
         var data : [String:Any] = [
             //"group_members" : [userId],     // group creator
@@ -208,7 +211,7 @@ final class ChatManager {
             try await addGroupToMembersDoc(groupMembers: members, groupId: documentRef.documentID)
         }
        
-        
+        return documentRef.documentID
     }
     
     
@@ -229,10 +232,11 @@ final class ChatManager {
     // TODO: add invite member function
     
     
+    // Hard coded keys
     // Sends messages to a group
     func sendMessage(groupId: String,  message: Message) async throws{
         var data : [String:Any] = [
-            "received": message.received,
+            //"received": message.received,
             "date_created" : Timestamp(),   // from firebase SDK
         ]
         
@@ -252,8 +256,6 @@ final class ChatManager {
             data["sender_id"] = senderId
         }
         
-        
-        
         /*if let received = message.received {
             data["received"] = received
         }*/
@@ -266,16 +268,19 @@ final class ChatManager {
         
         guard let recentMessage = try? enconder.encode(message) else {
             // TODO: Customize error message
+            print("Error adding message to database")
             throw URLError(.badServerResponse)
         }
         // 3. Update recent message in the groups collection
-        try await groupDocument(groupId: groupId).updateData(recentMessage)
+        try await groupDocument(groupId: groupId).updateData(["recent_message" : recentMessage])
     }
+    
+    // TODO: send message urilizing codable
     
     
     // This function is used when creating a group that has only 2 members
     // It returns whether a group containing the 2 members exist
-    func groupExists(adminId: String, memberId: String)async throws -> Bool {
+    func groupExists(adminId: String, memberId: String)async throws -> (isPresent: Bool, groupId: String?) {
         var matchingGroups: [ChatGroup] = []
         
         let querySnapshot = try await groupCollection.whereField("group_members", isEqualTo: [adminId, memberId]).getDocuments()
@@ -286,7 +291,11 @@ final class ChatManager {
             matchingGroups.append(group)
         }
         
-        return matchingGroups.isEmpty ? false : true
+        let existStatus = matchingGroups.isEmpty ? false : true
+        // print("Group exists: ", existStatus)
+        //print("groupId: ", matchingGroups.first?.groupId as Any)
+        return (existStatus, matchingGroups.first?.groupId)
+        
     }
     
     // This function is used for multi-person group chat

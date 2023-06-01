@@ -19,12 +19,68 @@ final class AddFriendViewModel: ObservableObject {
     @Published var accountOwner: Bool = false
     @Published var friend: Bool = false
     @Published var showResultsNotFound = false
+    @Published var groupMessages: [Message]? = nil
+    @Published var groupId: String? = nil
     
     
     enum GroupType: String {
         case twoPersosn = "two-person"
     }
+    
+    
+    
+    // MARK: - Create Group
+    // Checks whether groups exists before creating a group
+    
+    // How it works
+    // 1. Find an group which the seekedUser created or is the admin
+    // 2. If the group doesn't exist create a new group with currentUser(group creator) assigned as the admin and load groupId
+    // 3. If it exists laod groupId and skip group creation
+    
+    func createGroup(currentUserId: String, seekedUserId: String) async throws {
+        
+        var group: (isPresent: Bool, groupId: String?) = (false, nil)
+        
+        let seekedUserGroup = try await ChatManager.shared.groupExists(adminId: seekedUserId, memberId: currentUserId)
+        
+        let currentUserGroup = try await ChatManager.shared.groupExists(adminId: currentUserId, memberId: seekedUserId)
+        
+        if (currentUserGroup.isPresent) {
+            group = currentUserGroup
+            print("groupId: ", group.groupId as Any)
+        }
+        else if(seekedUserGroup.isPresent) {
+            group = seekedUserGroup
+            print("groupId: ", group.groupId as Any)
+        }
+        else {
+            print("groupId: ", group.groupId as Any)
+        }
+       
+        
+        self.groupId = group.groupId
+        
+        print("Group exists: \(group.isPresent)")
+        
+        if(!group.isPresent) {
+            
+            let groupData = ChatGroup(groupMembers: [currentUserId, seekedUserId], groupType: GroupType.twoPersosn.rawValue)
+                
+            self.groupId = try await ChatManager.shared.createChatGroup(groupData: groupData)
+            print("Created new chat room!")
+        }
+        else {
+            print("New chat room not created!")
+            print("Using existing chat room...")
+        }
+    }
+    
    
+    // MARK: - Find User
+    
+    // NOTE: cases where 2 users are friends but don't have a two-person group(chat room) can exist because a user might choose to exit the already established group(chat room)
+    // 1 . A new group(chat room) will be established automatically when current user searches for an already existing friend and no prior two-person group exists where the current user and seeked user are members
+    // That is a group which the currentUser created or the seekedUser created and the currentuser is memeber don't exist
     
     func findUser() async throws {
         
@@ -41,13 +97,25 @@ final class AddFriendViewModel: ObservableObject {
         
         // Ensure that currentUser has a value
         guard let currentUser else { return }
+        
         // Ensure that seekedUser has a value
         guard let seekedUser else { return }
         
         accountOwner = seekedUser.userId == currentUser.userId ? true : false
         friend = try await UserManager.shared.checkFriendExists(userId: currentUser.userId, friendId: seekedUser.userId)
+        
+        // MARK: - Find User And Create Group
+        
+        if(friend) {
+            try await createGroup(currentUserId: currentUser.userId, seekedUserId: seekedUser.userId)
+        }
     }
     
+    
+    // MARK: - Add Friend
+    
+    // NOTE: cases where a user belongs to a group(chat room) but isn't a friend of the the group's(chat room's) creator occurs when when the group's creator adds a non friend to the friend's list
+    // Adding a friend will automatically create a two-person group(chat room), assign the group's creator as admin and add both the admin and the newly added friend to the group
     
     func addFriend() async throws {
         
@@ -61,34 +129,20 @@ final class AddFriendViewModel: ObservableObject {
         print("Added \(seekedUser.firstName ?? "matched user")")
         
         
-        // MARK: - Create Group
-    
-        // Checks whether groups exists before creating a group
+        // MARK: - Add Friend And Create Group
         
-        // How it works
-        // 1. Find an group which the seekedUser created
-        // 2. If the group doesn't exist create a new group
-        // 3. If it exists skip group creation
-        
-        let groupExists = try await ChatManager.shared.groupExists(adminId: seekedUser.userId, memberId: currentUser.userId)
-        
-        print("Group exists: \(groupExists)")
-        
-        if(!groupExists) {
-            
-            // currentUser(group creator) is assigned as the admin by default
-            let groupData = ChatGroup(groupMembers: [currentUser.userId, seekedUser.userId], groupType: GroupType.twoPersosn.rawValue)
-                
-            try await ChatManager.shared.createChatGroup(groupData: groupData)
-            print("Created chat room")
-        }
-        else {
-            print("No chat room created")
-        }
+        try await createGroup(currentUserId: currentUser.userId, seekedUserId: seekedUser.userId)
         
         // Refetch data to appear on the screen
+    }
+    
+    // get all messages from the group
+    func loadMessages() async throws {
         
     }
+    
+    
+    
     
 }
 
@@ -124,18 +178,19 @@ struct AddFriendView: View {
             Button {
                 Task{
                     try await addFriendViewModel.findUser()
+                    
+                    if(!addFriendViewModel.accountOwner && !addFriendViewModel.friend) {
+                        print("New Friend: true.....this section")
+                        if(addFriendButtonDisabled){
+                            addFriendButtonDisabled = false
+                            
+                        }
+                    }
                 }
                 
                 // Enable add friend button when user finds an new friend
                 //addFriendButtonDisabled = false
                 
-                if(!addFriendViewModel.accountOwner && !addFriendViewModel.friend) {
-                    print("New Friend: true")
-                    if(addFriendButtonDisabled){
-                        addFriendButtonDisabled = false
-                        
-                    }
-                }
                 
             } label: {
                 if okButtonDisabled {
@@ -204,7 +259,9 @@ struct AddFriendView: View {
                         
                         NavigationLink {
                             
-                            ChatView(profileImageUrl: addFriendViewModel.seekedUser?.profileImageUrl, name: addFriendViewModel.seekedUser?.firstName)
+                            ChatView(groupId: addFriendViewModel.groupId ?? "lG6CpNumnRMTjyny3755",profileImageUrl: addFriendViewModel.seekedUser?.profileImageUrl, name: addFriendViewModel.seekedUser?.firstName, messages: addFriendViewModel.groupMessages ?? [])
+                            
+                            //ChatView(messages: <#T##[Message]#>)
                             
                         } label: {
                             // Display chat room when clicked
@@ -215,17 +272,6 @@ struct AddFriendView: View {
                                 .frame(maxWidth: 150)
                                 .background(Color.blue)
                                 .cornerRadius(10)
-                            /*Button {
-                                showChatRoom = true
-                            } label: {
-                                Text("Message")
-                                    .font(.headline)
-                                    .foregroundColor(.white)
-                                    .frame(height: 55)
-                                    .frame(maxWidth: 150)
-                                    .background(Color.blue)
-                                    .cornerRadius(10)
-                            }*/
                         }
 
                     }

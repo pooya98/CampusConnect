@@ -45,6 +45,7 @@ struct ChatTitleView: View {
         }
         .padding()
         .frame(maxWidth: .infinity)
+        .background(Color("SmithApple"))
         
     }
 }
@@ -52,6 +53,6 @@ struct ChatTitleView: View {
 struct ChatTitleView_Previews: PreviewProvider {
     static var previews: some View {
         ChatTitleView(profileimageUrl: nil, name: "Skipper")
-            .background(Color("SmithApple"))
+            //.background(Color("SmithApple"))
     }
 }

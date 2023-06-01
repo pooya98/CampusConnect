@@ -19,35 +19,52 @@ final class MessageBubbleViewModel: ObservableObject {
 
 struct MessageBubbleView: View {
     @StateObject private var messageBubbleViewModel = MessageBubbleViewModel()
-    @State private var time: String = ""
-    @Binding var showNameAndTime: Bool
+    var showNameAndTime: () -> Bool
    
     var message: Message
+    var isSentbyMe: Bool
     
     
     var body: some View {
-        VStack(alignment: message.received ? .leading : .trailing) {
+        VStack(alignment: isSentbyMe ? .trailing : .leading) {
             
-            if(showNameAndTime){
+            if(showNameAndTime()){
                 Text(message.senderName ?? "Anonymous")
                     .font(.caption)
                     .foregroundColor(.gray)
-                    .padding(message.received ? .leading : .trailing, 25)
+                    .padding(isSentbyMe ? .trailing : .leading, 25)
             }
             
             HStack {
-                Text(message.content ?? "")
-                    .padding()
-                    .background(message.received ? Color("LavenderGray") : Color("SmithApple"))
-                    .cornerRadius(35)
                 
-                if(showNameAndTime) {
-                    Text("\(message.dateCreated.formatted(.dateTime.hour().minute()))")
-                        .font(.caption)
-                        .foregroundColor(.gray)
+                if(isSentbyMe){
+                    if(showNameAndTime()) {
+                        Text("\(message.dateCreated.formatted(.dateTime.hour().minute()))")
+                            .font(.caption)
+                            .foregroundColor(.gray)
+                    }
+                    
+                    Text(message.content ?? "")
+                        .padding()
+                        .background(isSentbyMe ? Color("SmithApple") : Color("LavenderGray"))
+                        .cornerRadius(35)
+                } else {
+                    
+                    Text(message.content ?? "")
+                        .padding()
+                        .background(isSentbyMe ? Color("SmithApple") : Color("LavenderGray"))
+                        .cornerRadius(35)
+                    
+                    if(showNameAndTime()) {
+                        Text("\(message.dateCreated.formatted(.dateTime.hour().minute()))")
+                            .font(.caption)
+                            .foregroundColor(.gray)
+                    }
+                    
                 }
                 
-            }.frame(maxWidth: 300, alignment: message.received ? .leading : .trailing)
+                
+            }.frame(maxWidth: 300, alignment: isSentbyMe ? .trailing : .leading)
             
             /*Text("\(message.dateCreated.formatted(.dateTime.hour().minute()))")
                 .font(.caption)
@@ -56,14 +73,26 @@ struct MessageBubbleView: View {
              */
             
         }
-        .padding(message.received ? .leading : .trailing)
-        .frame(maxWidth: .infinity, alignment: message.received ? .leading : .trailing)
+        .padding(isSentbyMe ? .trailing : .leading)
+        .frame(maxWidth: .infinity, alignment: isSentbyMe ? .trailing : .leading)
     }
 }
 
 struct MessageBubbleView_Previews: PreviewProvider {
     static var previews: some View {
-        let message = Message(id: "message1", content: "Hi there. Coding is fun as long as you know how to make it fun.", senderId: "pYgifG6NKqYLexX5tOMytADwhVc2", senderName: "Jack Sparrow", dateCreated: Date(), received: true)
-        MessageBubbleView(showNameAndTime: .constant(true), message: message)
+        let message = Message(id: "message1", content: "Hi there. Coding is fun as long as you know how to make it fun.", senderId: "pYgifG6NKqYLexX5tOMytADwhVc2", senderName: "Jack Sparrow", dateCreated: Date(), messageType: "text")
+        
+        MessageBubbleView(showNameAndTime: {
+            return true
+        }, message: message, isSentbyMe: true)
+    }
+}
+
+struct MessageBubbleView_Preview: PreviewProvider {
+    static var previews: some View {
+        let message = Message(id: "message1", content: "Hi there coding bot, you'll soon become a rigid machine machine.", senderId: "pYgifG6NKqYLexX5tOMytADwhVc2", senderName: "Anonymous", dateCreated: Date(), messageType: "text")
+        MessageBubbleView(showNameAndTime: {
+            return true
+        }, message: message, isSentbyMe: false)
     }
 }

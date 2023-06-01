@@ -7,50 +7,84 @@
 
 import SwiftUI
 
+@MainActor
+final class MessageFieldViewModel: ObservableObject {
+    @Published var message: [String] = []
+    
+    func sendTextMessage(groupId: String) async throws {
+        
+        let authDataResult = try AuthenticationManager.shared.getAuthenticatedUser()
+        let user = try await UserManager.shared.getUser(userId: authDataResult.uid)
+        
+        let messageObject = Message(content: message.first, senderId: user.userId, senderName: user.firstName, dateCreated: Date(), messageType: "text")
+        
+        try await ChatManager.shared.sendMessage(groupId: groupId, message: messageObject)
+        
+    }
+}
+
 struct MessageFieldView: View {
-    @State private var message = ""
-    @State private var time: String = ""
-    @Binding var showNameAndTime:Bool
+    @StateObject private var messageFieldViewModel = MessageFieldViewModel()
+    @State private var stateMessage = ""
+    //@State private var time: String = ""
+    //@Binding var showNameAndTime:Bool
+    var groupId: String
     
     var body: some View {
-        HStack {
-            CustomTextField(placeholder: Text("Message..."), text: $message)
-            
-            Button {
-                // display name and time  only when the time differs for messages sent
-                if(time == String(Date().formatted(.dateTime.hour().minute()))) {
-                    showNameAndTime = false
+        VStack {
+            HStack {
+                //CustomTextField(placeholder: Text("Message..."), text: $messageFieldViewModel.message)
+                CustomTextField(placeholder: Text("Message..."), text: $stateMessage)
+                
+                Button {
+                    // display name and time  only when the time differs for messages sent
+                    /*if(time == String(Date().formatted(.dateTime.hour().minute()))) {
+                        showNameAndTime = false
+                    }
+                    else {
+                        showNameAndTime = true
+                    }*/
+                    
+                    // time when message is sent
+                    //time = Date().formatted(.dateTime.hour().minute())
+                    Task{
+                        messageFieldViewModel.message.append(stateMessage)
+                        
+                        // Reset TextField
+                        stateMessage = ""
+
+                        try await messageFieldViewModel.sendTextMessage(groupId: groupId)
+                        
+                        print("Message sent!")
+                        
+                        messageFieldViewModel.message.removeFirst()
+                        
+                    }
+                    
+                    
+                    
+                } label: {
+                    Image(systemName: "paperplane.fill")
+                        .padding(10)
+                        .foregroundColor(.black.opacity(0.7))
+                        .background(Color("LumGreen"))
+                        .cornerRadius(15)
                 }
-                else {
-                    showNameAndTime = true
-                }
-                
-                // time when message is sent
-                time = Date().formatted(.dateTime.hour().minute())
-                
-                print("Message sent!: \(message)")
-                
-                // reset message
-                message = ""
-            } label: {
-                Image(systemName: "paperplane.fill")
-                    .padding(10)
-                    .foregroundColor(.white)
-                    .background(Color("LumGreen"))
-                    .cornerRadius(15)
             }
+            .padding(.horizontal)
+            .padding(.vertical, 10)
+            .background(Color("LavenderGray"))
+            .cornerRadius(20)
+            .padding()
         }
-        .padding(.horizontal)
-        .padding(.vertical, 10)
-        .background(Color("LavenderGray"))
-        .cornerRadius(20)
-        .padding()
+        .background(Color("PlumWeb"))
     }
 }
 
 struct MessageFieldView_Previews: PreviewProvider {
     static var previews: some View {
-        MessageFieldView(showNameAndTime: .constant(true))
+       // MessageFieldView(showNameAndTime: .constant(true))
+        MessageFieldView(groupId: "1234")
     }
 }
 

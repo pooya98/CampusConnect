@@ -7,20 +7,18 @@
 
 import SwiftUI
 
-@MainActor
-
 
 
 struct ChatView: View {
     //@Binding var showChatRoom: Bool
-    @State var showNameAndTime: Bool = true
+    //@State var showNameAndTime: Bool = true
+    @State private var time: String = ""
     
-    var friend: DBUser?
-    var groupId: String?
+    var groupId: String
     var profileImageUrl: String?
     var name: String?
+    var messages: [Message]
     
-    var messageArray = ["Hey you", "Yoooo, what's up. How have you been?", "I'm doing well. What about you?", "I'm fine. Just doing my best to graduate", "gooooo", "fooom, what are you up to. Leoni", "Kuja. Whats up you?", "doing my best to graduate"]
     
     var body: some View {
         VStack {
@@ -45,24 +43,37 @@ struct ChatView: View {
                 ChatTitleView(profileimageUrl: profileImageUrl, name: name)
                 
                 ScrollView {
-                    /*ForEach(messageArray, id: \.self) { content in
-                        MessageBubbleView(showNameAndTime: $showNameAndTime ,message: Message(id: "218323h2bu2", content: content, senderId: "123123213", senderName: "Sparrow", dateCreated: Date(), received: true))
-                        
-                    }*/
+                    VStack {
+                        ForEach(messages, id: \.id) { message in
+                         /*MessageBubbleView(showNameAndTime: $showNameAndTime ,message: Message(id: "218323h2bu2", content: message.content, senderId: "123123213", senderName: "Sparrow", dateCreated: Date(), received: true))*/
+                            
+                            
+                         /*MessageBubbleView(showNameAndTime: {
+                             let newTime = String(message.dateCreated.formatted(.dateTime.hour().minute()))
+                             
+                             return time == newTime ? false : true
+                         }, message: message)*/
+                         
+                         }
+                    }
                 }
                 .padding(.top, 10)
-                .background(.white)
+                //.background(.white)
+                .background(Color(.gray))
+                
             }
-            .background(Color("SmithApple"))
+            //.background(Color("SmithApple"))
             
-            MessageFieldView(showNameAndTime: $showNameAndTime)
+            //MessageFieldView(showNameAndTime: $showNameAndTime)
+            MessageFieldView(groupId: groupId)
         }
     }
 }
 
 struct ChatView_Previews: PreviewProvider {
+    
     static var previews: some View {
         //ChatView(showChatRoom: .constant(true))
-        ChatView()
+        ChatView(groupId: "1234",messages: [Message(content: "Hey you Yoooo, what's up. How have you been?", senderId: "1234", senderName: "Anonymous", dateCreated: Date(), messageType: "text")])
     }
 }
