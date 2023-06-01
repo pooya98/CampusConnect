@@ -19,7 +19,7 @@ final class AddFriendViewModel: ObservableObject {
     @Published var accountOwner: Bool = false
     @Published var friend: Bool = false
     @Published var showResultsNotFound = false
-    @Published var groupMessages: [Message]? = nil
+    //@Published var groupMessages: [Message]? = nil
     @Published var groupId: String? = nil
     
     
@@ -108,6 +108,9 @@ final class AddFriendViewModel: ObservableObject {
         
         if(friend) {
             try await createGroup(currentUserId: currentUser.userId, seekedUserId: seekedUser.userId)
+            
+        // MARK: - Load Messages
+            // try await loadMessages()
         }
     }
     
@@ -137,9 +140,16 @@ final class AddFriendViewModel: ObservableObject {
     }
     
     // get all messages from the group
-    func loadMessages() async throws {
+    // TODO: Add an error message when user can load messages
+    /*func loadMessages() async throws {
         
-    }
+        guard let grupId = groupId else {
+            print("Cant access the group")
+            return
+        }
+        self.groupMessages = try await ChatManager.shared.getMessages(groupId: grupId)
+        print("Messages: ", groupMessages as Any)
+    }*/
     
     
     
@@ -256,10 +266,11 @@ struct AddFriendView: View {
 
                     }
                     else if (addFriendViewModel.friend) {
-                        
+                                                
                         NavigationLink {
                             
-                            ChatView(groupId: addFriendViewModel.groupId ?? "lG6CpNumnRMTjyny3755",profileImageUrl: addFriendViewModel.seekedUser?.profileImageUrl, name: addFriendViewModel.seekedUser?.firstName, messages: addFriendViewModel.groupMessages ?? [])
+                            ChatView(groupId: addFriendViewModel.groupId ?? "lG6CpNumnRMTjyny3755",profileImageUrl: addFriendViewModel.seekedUser?.profileImageUrl, name: addFriendViewModel.seekedUser?.firstName//, messages: addFriendViewModel.groupMessages ?? []
+                            )
                             
                             //ChatView(messages: <#T##[Message]#>)
                             

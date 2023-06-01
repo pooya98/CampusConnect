@@ -22,9 +22,8 @@ struct DBUser: Codable {
     let department: String?
     let studentId: String?
     let groups: [String]?
-    
     //let isActive: Bool = true
-    
+
     // TODO: Create CodingKeys
     
     init(authData: AuthDataResultModel, accountDetails: AccountRegistrationDetails) {

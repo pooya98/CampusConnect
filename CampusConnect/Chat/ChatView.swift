@@ -7,73 +7,103 @@
 
 import SwiftUI
 
-
+@MainActor
+final class ChatViewModel: ObservableObject {
+    @Published private(set) var user: DBUser? = nil
+    @Published private (set) var time: String = ""
+    @Published private(set) var groupMessages: [Message] = []
+    
+    func loadCurrentUser() async throws {
+        let authDataResult = try AuthenticationManager.shared.getAuthenticatedUser()
+        self.user = try await UserManager.shared.getUser(userId: authDataResult.uid)
+        
+        print("User: ", user as Any)
+    }
+    
+    
+    
+    // TODO: Add an error message when user can load messages
+    func loadMessages(groupId: String) async throws {
+        self.groupMessages = try await ChatManager.shared.getMessages(groupId: groupId)
+        print("Messages: ", groupMessages)
+    }
+    
+    // get authenticated userId and compare with senderId
+    func showNameAndTime(message: Message) -> Bool{
+        
+        if(String(message.dateCreated.formatted(.dateTime.hour().minute())) == time) {
+            return false
+                          
+        } else {
+            //time = String(message.dateCreated.formatted(.dateTime.hour().minute()))
+            return true
+        }
+    }
+}
 
 struct ChatView: View {
+    
+    // MARK: - Used observed Object instead of state Object
+    
+    @StateObject private var chatViewModel = ChatViewModel()
     //@Binding var showChatRoom: Bool
     //@State var showNameAndTime: Bool = true
-    @State private var time: String = ""
+    
     
     var groupId: String
     var profileImageUrl: String?
     var name: String?
-    var messages: [Message]
+    //var messages: [Message]
     
     
     var body: some View {
         VStack {
             VStack {
                 
-                /*HStack{
-                    Button {
-                        showChatRoom = false
-                    } label: {
-                        Image(systemName: "chevron.backward")
-                            .resizable()
-                            //.foregroundColor(.black)
-                            .frame(width: 10, height: 18)
-                        Text("Back").font(.title3)
-                            
-                    }
-                    .padding(.horizontal, 20)
-                    Spacer()
-                }*/
-               
-
                 ChatTitleView(profileimageUrl: profileImageUrl, name: name)
                 
                 ScrollView {
                     VStack {
-                        ForEach(messages, id: \.id) { message in
-                         /*MessageBubbleView(showNameAndTime: $showNameAndTime ,message: Message(id: "218323h2bu2", content: message.content, senderId: "123123213", senderName: "Sparrow", dateCreated: Date(), received: true))*/
-                            
-                            
-                         /*MessageBubbleView(showNameAndTime: {
-                             let newTime = String(message.dateCreated.formatted(.dateTime.hour().minute()))
-                             
-                             return time == newTime ? false : true
-                         }, message: message)*/
+                        ForEach(chatViewModel.groupMessages, id: \.id) { message in
                          
+                            MessageBubbleView(message: message) {
+                                chatViewModel.showNameAndTime(message: message)
+                            } isSentByCurrentUser: {
+                                // user.UserId: String
+                                // message.senderId: String?
+                                return chatViewModel.user?.userId == message.senderId
+                            }
+                            
+
                          }
                     }
                 }
                 .padding(.top, 10)
                 //.background(.white)
-                .background(Color(.gray))
+                //.background(Color(.gray))
                 
             }
-            //.background(Color("SmithApple"))
+            .background(chatViewModel.groupMessages.isEmpty ? Color(.white) : Color("SmithApple"))
             
             //MessageFieldView(showNameAndTime: $showNameAndTime)
             MessageFieldView(groupId: groupId)
+        }.task {
+            try? await chatViewModel.loadCurrentUser()
+            print("groupId: ", groupId)
+            try? await chatViewModel.loadMessages(groupId: groupId)
         }
     }
 }
 
 struct ChatView_Previews: PreviewProvider {
     
+   /* static var previews: some View {
+        //ChatView(showChatRoom: .constant(true))
+        ChatView(groupId: "1234",messages: [Message(content: "Hey you Yoooo, what's up. How have you been?", senderId: "1234", senderName: "Anonymous", dateCreated: Date(), messageType: "text"), Message(content: "Hey you Yoooo, what's up. How have you been?", senderId: "1234", senderName: "Anonymous", dateCreated: Date(), messageType: "text"), Message(content: "Hey you Yoooo, what's up. How have you been?", senderId: "1234", senderName: "Anonymous", dateCreated: Date(), messageType: "text")])
+    }*/
+    
     static var previews: some View {
         //ChatView(showChatRoom: .constant(true))
-        ChatView(groupId: "1234",messages: [Message(content: "Hey you Yoooo, what's up. How have you been?", senderId: "1234", senderName: "Anonymous", dateCreated: Date(), messageType: "text")])
+        ChatView(groupId: "1234")
     }
 }

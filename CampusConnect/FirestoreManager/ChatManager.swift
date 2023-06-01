@@ -314,5 +314,38 @@ final class ChatManager {
         return matchingGroups.isEmpty ? false : true
     }
     
+    // Fetch messages utilizing Codable protocol
+    /*func getMessages(groupId: String) async throws -> [Message] {
+        //try await userDocument(userId: userId).getDocument(as: DBUser.self, decoder: dencoder)
+        
+        let documents = try await chatDocument(groupId: groupId).collection("messages").fetchDocumets(as: Message.self)
+        
+        print("Messages", documents)
+        return documents
+    }*/
+    
+    
+    // fetch messeges
+    func getMessages(groupId: String) async throws -> [Message] {
+       
+        var messages: [Message] = []
+        let querySnapshot = try await chatDocument(groupId: groupId).collection("messages").order(by: "date_created").getDocuments()
+        
+        for document in querySnapshot.documents {
+            
+            let message = try document.data(as: Message.self, decoder: dencoder)
+            
+            messages.append(message)
+        }
+        
+        return messages
+        
+    }
+    
+    // Real-time message fetch
+    func fetchMessages(groupId: String) {
+        
+    }
+    
     
 }
