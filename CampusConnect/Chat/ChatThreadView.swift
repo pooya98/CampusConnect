@@ -43,7 +43,8 @@ final class ChatThreadViewModel: ObservableObject {
         ChatManager.shared.removeListenerForMessages()
     }
     
-    
+    // MARK: - TODO
+    // TODO: Modify function to work as intended, messages sent during the same minute don't display name and time since it's displayed by the first message sent during that minute
     // get authenticated userId and compare with senderId
     func showNameAndTime(message: Message) -> Bool{
         
@@ -58,8 +59,6 @@ final class ChatThreadViewModel: ObservableObject {
 }
 
 struct ChatThreadView: View {
-    
-    // MARK: - Used observed Object instead of state Object
     
     @StateObject private var chatThreadViewModel = ChatThreadViewModel()
     @State private var didAppear: Bool = false
@@ -116,7 +115,7 @@ struct ChatThreadView: View {
         }
         .task {
             // MARK: - TODO
-            // TODO: user a do catch to capture the error
+            // TODO: use a do catch to capture the error
             try? await chatThreadViewModel.loadCurrentUser()
             print("groupId: ", groupId)
             
