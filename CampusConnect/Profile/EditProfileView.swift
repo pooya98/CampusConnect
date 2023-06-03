@@ -59,6 +59,8 @@ final class EditProfileViewModel: ObservableObject {
         guard let user, let path = user.profileImagePath else { return }
         
         Task {
+            // MARK: - TODO
+            // user do catch to capture the error
             try await StorageManager.shared.deleteImage(path: path)
             try await UserManager.shared.updateUserProfileImagePath(userId: user.userId, path: nil, url: nil)
         }
@@ -103,6 +105,8 @@ struct EditProfileView: View {
             
         }
         .task{
+            // MARK: - TODO
+            // TODO: use a do catch for the error
             try? await editProfileViewModel.loadCurrentUser()
         }
         .onChange(of: editProfileViewModel.selectedPhoto, perform: { newValue in

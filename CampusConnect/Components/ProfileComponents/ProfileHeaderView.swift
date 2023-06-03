@@ -28,12 +28,13 @@ struct ProfileHeaderView: View {
                    ProfileAvatarView(personSize: 80, frameSize: 100)
                 }*/
                 
-                ProfileAvatarView(profilePicUrl: profilePicUrl, personSize: 80, frameSize: 100 )
+                ProfileAvatarView(profilePicUrl: profilePicUrl, personSize: 47, frameSize: 70 )
                 
                 VStack(alignment: .leading) {
                     Text(name ?? "Anonymous")
-                        .font(.title2)
+                        .font(.title3)
                         .fontWeight(.bold)
+                        .foregroundColor(.black)
                     HStack{
                         Text(department ?? "")
                             .font(.caption)

@@ -17,7 +17,7 @@ struct MainView: View {
                     .tabItem {
                         Label("Home", systemImage: "house")
                     }
-                ChannelView()
+                ChatView()
                     .tabItem {
                         Label("Chat", systemImage: "message")
                     }

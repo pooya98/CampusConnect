@@ -67,7 +67,7 @@ struct FriendListView: View {
                             Button {
                                 
                                 friendListViewModel.selectedFriend = friend
-                                //ChatView(profileImageUrl: friend.profileImageUrl, name: friend.firstName)
+                                //ChatThreadView(profileImageUrl: friend.profileImageUrl, name: friend.firstName)
                                 showChatRoom.toggle()
                             } label: {
                                 FriendTagView(name: friend.firstName ?? "Anonymous Friend", department: "컴퓨터학부", profilePicUrl: friend.profileImageUrl)
@@ -75,9 +75,9 @@ struct FriendListView: View {
                         }
                     }
                     .fullScreenCover(isPresented: $showChatRoom) {
-                        //ChatView(profileImageUrl: friend.profileImageUrl, name: friend.firstName)
-                        //ChatView(showChatRoom: $showChatRoom, profileImageUrl: friend.profileImageUrl, name: friend.firstName)
-                        /*ChatView(showChatRoom: $showChatRoom, profileImageUrl: friendListViewModel.selectedFriend?.profileImageUrl, name: friendListViewModel.selectedFriend?.firstName)*/
+                        //ChatThreadView(profileImageUrl: friend.profileImageUrl, name: friend.firstName)
+                        //ChatThreadView(showChatRoom: $showChatRoom, profileImageUrl: friend.profileImageUrl, name: friend.firstName)
+                        /*ChatThreadView(showChatRoom: $showChatRoom, profileImageUrl: friendListViewModel.selectedFriend?.profileImageUrl, name: friendListViewModel.selectedFriend?.firstName)*/
                         
                     }
                     

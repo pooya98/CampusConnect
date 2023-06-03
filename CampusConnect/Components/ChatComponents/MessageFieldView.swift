@@ -16,7 +16,7 @@ final class MessageFieldViewModel: ObservableObject {
         let authDataResult = try AuthenticationManager.shared.getAuthenticatedUser()
         let user = try await UserManager.shared.getUser(userId: authDataResult.uid)
         
-        let messageObject = Message(content: message.first, senderId: user.userId, senderName: user.firstName, dateCreated: Date(), messageType: "text")
+        let messageObject = Message(id: nil, content: message.first, senderId: user.userId, senderName: user.firstName, dateCreated: Date(), messageType: "text")
         
         try await ChatManager.shared.sendMessage(groupId: groupId, message: messageObject)
         
@@ -52,7 +52,10 @@ struct MessageFieldView: View {
                         
                         // Reset TextField
                         stateMessage = ""
-
+                        
+                        //  MARK: - TODO
+                        // TODO: implement error message when groupID is empty i.e group doesn't exist. Display error message to User
+                        //  Don't forget to change the default groupId set in Add friend View when ChatView is called
                         try await messageFieldViewModel.sendTextMessage(groupId: groupId)
                         
                         print("Message sent!")
@@ -77,7 +80,7 @@ struct MessageFieldView: View {
             .cornerRadius(20)
             .padding()
         }
-        .background(Color("PlumWeb"))
+        //.background(Color("PlumWeb"))
     }
 }
 

@@ -9,41 +9,6 @@ import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-struct DBUser: Codable {
-    let userId: String // Use this in ForEach id to confirm to type Identifiable
-    let firstName: String?
-    let lastName: String?
-    let email: String?
-    let photoUrl: String?
-    let dateCreated: Date?
-    let profileImageUrl: String?
-    let profileImagePath: String?
-    let friendList: [String]?
-    let department: String?
-    let studentId: String?
-    let groups: [String]?
-    //let isActive: Bool = true
-
-    // TODO: Create CodingKeys
-    
-    init(authData: AuthDataResultModel, accountDetails: AccountRegistrationDetails) {
-        self.userId = authData.uid
-        self.firstName = accountDetails.firstName
-        self.lastName = accountDetails.lastName
-        self.email = authData.email
-        self.photoUrl = authData.photoUrl
-        self.dateCreated = Date()
-        self.profileImageUrl = nil
-        self.profileImagePath = nil
-        self.friendList =  nil
-        // TODO: Modify department and studentId initialization to a value provided by the user
-        self.department = nil
-        self.studentId = nil
-        self.groups = nil
-    }
-    
-}
-
 final class UserManager {
     
     // singleton design pattern
@@ -56,65 +21,68 @@ final class UserManager {
         return userCollection.document(userId)
     }
     
-    private let encoder: Firestore.Encoder = {
+   /* private let encoder: Firestore.Encoder = {
         let encoder = Firestore.Encoder()
         encoder.keyEncodingStrategy = .convertToSnakeCase
         return encoder
-    }()
+    }()*/
     
-    private let dencoder: Firestore.Decoder = {
+    /*private let dencoder: Firestore.Decoder = {
         let decoder = Firestore.Decoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         return decoder
-    }()
+    }()*/
     
     // Write Data Method 1: utilizes Codable protocol
     // TODO: Implement a working createNewUser funtion that ulitizes Codable
     // ------------ NOT WOKING ------------
     // async function not available at time of creation
-    /*
-     func createNewUser(user: DBUser) throws {
+    
+     /*func createNewUser(user: DBUser) throws {
         //try userDocument(userId: user.userId).setData(from: user, merge: false, encoder: encoder)
-        
         
         try userDocument(userId: user.userId).setData(from: user, merge: false, encoder: encoder)
         print("UserData set")
         print("userId: \(user.userId)")
-     }
-    */
+     }*/
+    
     // ------------ END NOT WOKING ------------
     
     // Write Data Method 2: hard code key and value
     func createNewUser(authData: AuthDataResultModel, registrationDetails: AccountRegistrationDetails) async throws {
-        var userData : [String:Any] = [
-            "user_id": authData.uid,
-            "date_created" : Timestamp() // from firebase SDK
+        var userData : [String: Any] = [
+            DBUser.CodingKeys.userId.rawValue : authData.uid,
+            DBUser.CodingKeys.dateCreated.rawValue : Timestamp() // from firebase SDK
         ]
         
 
         if let email = authData.email {
-            userData["email"] = email
+            userData[DBUser.CodingKeys.email.rawValue] = email
         }
         
         if let photoUrl = authData.photoUrl {
-            userData["photo_url"] = photoUrl
+            userData[DBUser.CodingKeys.photoUrl.rawValue] = photoUrl
         }
         
         if let firstName = registrationDetails.firstName {
-            userData["first_name"] = firstName
+            userData[DBUser.CodingKeys.firstName.rawValue] = firstName
         }
         
         if let lastName = registrationDetails.lastName {
-            userData["last_name"] = lastName
+            userData[DBUser.CodingKeys.lastName.rawValue] = lastName
         }
         
-        try await userDocument(userId: authData.uid).setData(userData, merge: false)
+        try await userDocument(userId: authData.uid).setData(userData)
     }
     
     
     // Fetch Data Method 2: utilize Codable protocol
-    func getUser(userId: String) async throws -> DBUser {
+    /*func getUser(userId: String) async throws -> DBUser {
         return try await userDocument(userId: userId).getDocument(as: DBUser.self, decoder: dencoder)
+    }*/
+    
+    func getUser(userId: String) async throws -> DBUser {
+        return try await userDocument(userId: userId).getDocument(as: DBUser.self)
     }
     
     // Fetch Data Method 2: hard coded
@@ -138,20 +106,27 @@ final class UserManager {
     
     // Query database to get back a list of users with a specified email
     // Typically returns an array with one user
+    
+    // Method 1. to get users
     func getUser(email: String)  async throws -> [DBUser] {
      
         var matchingUsers: [DBUser] = []
         
-        let querySnapshot = try await userCollection.whereField("email", isEqualTo: email).getDocuments()
+        let querySnapshot = try await userCollection.whereField(DBUser.CodingKeys.email.rawValue, isEqualTo: email).getDocuments()
         
         for document in querySnapshot.documents {
             
-            let user = try document.data(as: DBUser.self, decoder: dencoder)
+            let user = try document.data(as: DBUser.self)
             matchingUsers.append(user)
         }
         
         return matchingUsers
     }
+    
+    // Method 2. fetch users from the firestore
+    /*func getUser(email: String)  async throws -> [DBUser] {
+        return try await userCollection.whereField("email", isEqualTo: email).getDocuments(as: DBUser.self)
+    }*/
     
     
     func deleteUserData(userId: String) async throws{
@@ -167,8 +142,8 @@ final class UserManager {
          */
         
         let data: [String:Any] = [
-            "profile_image_path" : path as Any,
-            "profile_image_url" : url as Any,
+            DBUser.CodingKeys.profileImagePath.rawValue : path as Any,
+            DBUser.CodingKeys.profileImageUrl.rawValue : url as Any,
         ]
         
         try await userDocument(userId: userId).updateData(data)
@@ -177,7 +152,7 @@ final class UserManager {
    
     func addFriend(userId: String, friendId: String) async throws {
         let data: [String:Any] = [
-            "friend_list" : FieldValue.arrayUnion([friendId]) // appends new values to the current array
+            DBUser.CodingKeys.friendList.rawValue : FieldValue.arrayUnion([friendId]) // appends new values to the current array
         ]
         try await userDocument(userId: userId).updateData(data)
     }
@@ -187,11 +162,11 @@ final class UserManager {
         
         // The query contains a single document since userId is unique
         let querySnapshot = try await userCollection
-            .whereField("user_id", isEqualTo: userId)
-            .whereField("friend_list", arrayContains: friendId).getDocuments()
+            .whereField(DBUser.CodingKeys.userId.rawValue, isEqualTo: userId)
+            .whereField(DBUser.CodingKeys.friendList.rawValue, arrayContains: friendId).getDocuments()
         
         for document in querySnapshot.documents {
-            let returnedUser = try document.data(as: DBUser.self, decoder: dencoder)
+            let returnedUser = try document.data(as: DBUser.self)
             
             if returnedUser.userId == userId{
                 return true
@@ -203,20 +178,3 @@ final class UserManager {
 }
 
 
-
-
-// MARK: - Generic Fetch function
-// Use generic to fetch all documents
-// The generic function gets any document of type T  and returns [T]
-extension Query {
-    
-    func fetchDocumets<T>(as type: T.Type) async throws -> [T] where T: Decodable {
-        let snapshot = try await self.getDocuments()
-        
-        return  try snapshot.documents.map({document in
-            return  try document.data(as: T.self)
-        })
-        
-    }
-    
-}

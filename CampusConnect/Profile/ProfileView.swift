@@ -81,6 +81,7 @@ struct ProfileView: View {
                         Image(systemName: "gear")
                             .font(.headline)
                             .foregroundColor(.black)
+                            //.padding(.horizontal, 3)
                     }
                 }
             }
@@ -88,7 +89,7 @@ struct ProfileView: View {
                 try? await profileViewModel.loadCurrentUser()
             }
             .navigationTitle("Profile")
-            //.navigationBarTitleDisplayMode(.inline)
+            .navigationBarTitleDisplayMode(.inline)
         }
        
         

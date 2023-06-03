@@ -9,60 +9,52 @@ import SwiftUI
 
 struct MessageGilmpseView: View {
     
-    let name: String
-    let department: String
+    let department: String?
     let profilePicUrl: String?
-    let message: String
-    let dateSent: String
+    let message: String?
+    let bannerName: String?
+    let dateSent:  () -> String?
     
     var body: some View {
         VStack(alignment: .leading) {
             HStack() {
-                // Load Profile image
-                if let urlString = profilePicUrl, let url = URL(string: urlString) {
-                    AsyncImage(url: url) { image in
-                        image.resizable()
-                            .foregroundColor(.white)
-                            .frame(width: 60, height: 60)
-                            .cornerRadius(50)
-                    } placeholder: {
-                        ProgressView()
-                            .frame(width: 60, height: 60)
-                    }
-                    
-                }else {
-                    ProfileAvatarView(personSize: 40, frameSize: 60)
-                }
                 
+                // Load Profile image
+                ProfileAvatarView(profilePicUrl: profilePicUrl, personSize: 40, frameSize: 60)
+                
+
                 VStack(alignment: .leading, spacing: 5) {
                     HStack{
-                        Text(name)
+                        Text(bannerName ?? "Anonymous")
                             .fontWeight(.bold)
                             .font(.subheadline)
-                        Text(department)
+                        Text(department ?? "")
                             .font(.caption)
                             .foregroundColor(.gray)
                     }
                     .padding(.horizontal, 10)
                     
-                    Text(message)
+                    Text(message ?? "")
                         .padding(.horizontal, 10)
                         .font(.footnote)
                 }
                 
-                Text(dateSent).font(.caption)
+                Spacer()
+                
+                Text(dateSent() ?? "-").font(.caption)
                 
             }
             
         }
         .padding()
         .frame(maxWidth: .infinity, maxHeight: 70)
-        .background(Color("AliceBlue"))
+        .background(Color("SmithApple").opacity(0.6))
+        //.background(Color("AliceBlue"))
     }
 }
 
 struct MessageGilmpseView_Previews: PreviewProvider {
     static var previews: some View {
-        MessageGilmpseView(name: "Herbert", department: "컴퓨터학부", profilePicUrl: nil, message: "it is fun. 어제 재미있었어. 잘 가요.어제 재미있었어. 잘 가요.어제 재미있었어. 잘 가요.어제 재미있었어. 잘 가요", dateSent: "Yesterday")
+        MessageGilmpseView(department: "컴퓨터학부", profilePicUrl: nil, message: "it is fun. 어제 재미있었어. 잘 가요.어제 재미있었어. 잘 가요.어제 재미있었어. 잘 가요.어제 재미있었어. 잘 가요",bannerName: "Sparrow", dateSent: {"Yesterday"})
     }
 }

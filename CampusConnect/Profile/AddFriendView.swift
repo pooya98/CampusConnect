@@ -23,11 +23,6 @@ final class AddFriendViewModel: ObservableObject {
     @Published var groupId: String? = nil
     
     
-    enum GroupType: String {
-        case twoPersosn = "two-person"
-    }
-    
-    
     
     // MARK: - Create Group
     // Checks whether groups exists before creating a group
@@ -37,7 +32,7 @@ final class AddFriendViewModel: ObservableObject {
     // 2. If the group doesn't exist create a new group with currentUser(group creator) assigned as the admin and load groupId
     // 3. If it exists laod groupId and skip group creation
     
-    func createGroup(currentUserId: String, seekedUserId: String) async throws {
+    func createGroup(currentUserId: String, seekedUserId: String, displayName: String) async throws {
         
         var group: (isPresent: Bool, groupId: String?) = (false, nil)
         
@@ -64,7 +59,7 @@ final class AddFriendViewModel: ObservableObject {
         
         if(!group.isPresent) {
             
-            let groupData = ChatGroup(groupMembers: [currentUserId, seekedUserId], groupType: GroupType.twoPersosn.rawValue)
+            let groupData = ChatGroup(groupMembers: [currentUserId, seekedUserId], groupType: GroupType.twoPerson.rawValue, displayName: [displayName])
                 
             self.groupId = try await ChatManager.shared.createChatGroup(groupData: groupData)
             print("Created new chat room!")
@@ -90,6 +85,8 @@ final class AddFriendViewModel: ObservableObject {
         // Only one user is appended to the array since email is unique to every user
         let userlist:[DBUser] = try await UserManager.shared.getUser(email: emailID)
         
+        //print(userlist)
+        
         seekedUser = userlist.first
         
         matchFound = userlist.isEmpty  ? false : true
@@ -104,10 +101,12 @@ final class AddFriendViewModel: ObservableObject {
         accountOwner = seekedUser.userId == currentUser.userId ? true : false
         friend = try await UserManager.shared.checkFriendExists(userId: currentUser.userId, friendId: seekedUser.userId)
         
+        print("friend of current user: ",friend)
+        
         // MARK: - Find User And Create Group
         
         if(friend) {
-            try await createGroup(currentUserId: currentUser.userId, seekedUserId: seekedUser.userId)
+            try await createGroup(currentUserId: currentUser.userId, seekedUserId: seekedUser.userId, displayName: seekedUser.firstName ?? "")
             
         // MARK: - Load Messages
             // try await loadMessages()
@@ -134,7 +133,7 @@ final class AddFriendViewModel: ObservableObject {
         
         // MARK: - Add Friend And Create Group
         
-        try await createGroup(currentUserId: currentUser.userId, seekedUserId: seekedUser.userId)
+        try await createGroup(currentUserId: currentUser.userId, seekedUserId: seekedUser.userId, displayName: seekedUser.firstName ?? "")
         
         // Refetch data to appear on the screen
     }
@@ -187,6 +186,8 @@ struct AddFriendView: View {
             // TODO: Add progress spinner
             Button {
                 Task{
+                    // MARK: - TODO
+                    // TODO: use a do catch  to capture the error
                     try await addFriendViewModel.findUser()
                     
                     if(!addFriendViewModel.accountOwner && !addFriendViewModel.friend) {
@@ -196,6 +197,7 @@ struct AddFriendView: View {
                             
                         }
                     }
+                    
                 }
                 
                 // Enable add friend button when user finds an new friend
@@ -269,10 +271,10 @@ struct AddFriendView: View {
                                                 
                         NavigationLink {
                             
-                            ChatView(groupId: addFriendViewModel.groupId ?? "lG6CpNumnRMTjyny3755",profileImageUrl: addFriendViewModel.seekedUser?.profileImageUrl, name: addFriendViewModel.seekedUser?.firstName//, messages: addFriendViewModel.groupMessages ?? []
+                            ChatThreadView(groupId: addFriendViewModel.groupId ?? "lG6CpNumnRMTjyny3755",profileImageUrl: addFriendViewModel.seekedUser?.profileImageUrl, name: addFriendViewModel.seekedUser?.firstName//, messages: addFriendViewModel.groupMessages ?? []
                             )
                             
-                            //ChatView(messages: <#T##[Message]#>)
+                            //ChatThreadView(messages: <#T##[Message]#>)
                             
                         } label: {
                             // Display chat room when clicked
@@ -296,11 +298,15 @@ struct AddFriendView: View {
                             
                             showLoading.toggle()
                             Task {
+                                
+                                // MARK: - TODO
+                                // TODO: Use a do catch to capture error
                                 try await addFriendViewModel.addFriend()
                                 
                                 // Disables button after friend is added to the friend list
                                 // A disalbed button is enabled when search button is pressed is pressed
                                 addFriendButtonDisabled = true
+                                
                             }
                             showLoading.toggle()
                             
@@ -412,7 +418,7 @@ struct AddFriendView: View {
             }
             .padding(.top, 70)
             /*.fullScreenCover(isPresented: $showChatRoom) {
-                ChatView(showChatRoom: $showChatRoom, profileImageUrl: addFriendViewModel.seekedUser?.profileImageUrl, name: addFriendViewModel.seekedUser?.firstName)
+                ChatThreadView(showChatRoom: $showChatRoom, profileImageUrl: addFriendViewModel.seekedUser?.profileImageUrl, name: addFriendViewModel.seekedUser?.firstName)
                 
             }
             */

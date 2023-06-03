@@ -70,7 +70,7 @@ struct MessageBubbleView: View {
 
 struct MessageBubbleView_Previews: PreviewProvider {
     static var previews: some View {
-        let message = Message(id: "message1", content: "Hi there. Coding is fun as long as you know how to make it fun.", senderId: "pYgifG6NKqYLexX5tOMytADwhVc2", senderName: "Jack Sparrow", dateCreated: Date(), messageType: "text")
+        let message = Message(id: "1", content: "Hi there. Coding is fun as long as you know how to make it fun.", senderId: "pYgifG6NKqYLexX5tOMytADwhVc2", senderName: "Jack Sparrow", dateCreated: Date(), messageType: "text")
         
         MessageBubbleView(message: message, showNameAndTime: {
             return true
@@ -80,9 +80,10 @@ struct MessageBubbleView_Previews: PreviewProvider {
 
 struct MessageBubbleView_Preview: PreviewProvider {
     static var previews: some View {
-        let message = Message(id: "message1", content: "Hi there coding bot, you'll soon become a rigid machine machine.", senderId: "pYgifG6NKqYLexX5tOMytADwhVc2", senderName: "Anonymous", dateCreated: Date(), messageType: "text")
+        let message = Message(id: "2", content: "Hi there coding bot, you'll soon become a rigid machine machine.", senderId: "pYgifG6NKqYLexX5tOMytADwhVc2", senderName: "Anonymous", dateCreated: Date(), messageType: "text")
         MessageBubbleView(message: message, showNameAndTime: {
             return true
         }, isSentByCurrentUser: {false})
+        
     }
 }

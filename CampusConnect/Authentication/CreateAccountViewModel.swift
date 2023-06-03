@@ -90,7 +90,7 @@ final class CreateAccountViewModel: ObservableObject {
         try await UserManager.shared.createNewUser(authData: authDataResult, registrationDetails: regDetails)
         
         //let userDetails = DBUser(authData: authDataResult, accountDetails: regDetails)
-        //try UserManager.shared.createNewUser(user: userDetails)
+       // try UserManager.shared.createNewUser(user: userDetails)
         
         printLoginStatus()
         

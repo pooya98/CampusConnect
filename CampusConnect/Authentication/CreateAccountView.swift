@@ -47,8 +47,8 @@ struct CreateAccountView: View {
                 }
 
                 TextField("Email", text: $createAccountViewModel.email)
-                    //.autocapitalization(.none)
-                    //.textCase(.lowercase)
+                    .autocapitalization(.none)
+                    .textCase(.lowercase)
                     .padding()
                     .background(Color.gray.opacity(0.4))
                     .cornerRadius(10)
