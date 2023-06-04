@@ -33,6 +33,7 @@ struct ProfileAvatarView: View {
     var profilePicUrl: String?
     var personSize: CGFloat
     var frameSize: CGFloat
+    var imageName: String?
     
     var body: some View {
         
@@ -52,12 +53,23 @@ struct ProfileAvatarView: View {
         } else {
             HStack {
                 
-                Image(systemName: "person.fill")
-                    .resizable()
-                    .foregroundColor(.white)
-                    .frame(width: personSize, height: personSize)
-                    .opacity(0.7)
-                    .cornerRadius(40)
+                if let image = imageName {
+                    Image(systemName: image)
+                        .resizable()
+                        .foregroundColor(.white)
+                        .frame(width: personSize, height: personSize)
+                        .opacity(0.7)
+                        .cornerRadius(40)
+                } else {
+                    Image(systemName: "person.fill")
+                        .resizable()
+                        .foregroundColor(.white)
+                        .frame(width: personSize, height: personSize)
+                        .opacity(0.7)
+                        .cornerRadius(40)
+                }
+                
+                
             }
             .frame(width: frameSize, height: frameSize)
             .background(Color("LavenderGray"))

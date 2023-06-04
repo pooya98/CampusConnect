@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct DBUser: Codable {
+struct DBUser: Codable, Hashable {
     let userId: String // Use this in ForEach id to confirm to type Identifiable
     let firstName: String?
     let lastName: String?
@@ -20,7 +20,8 @@ struct DBUser: Codable {
     let friendList: [String]?
     let department: String?
     let studentId: String?
-    let groups: [String]?
+    var groups: [String]?
+    //var isSelected: Bool = false
     //let isActive: Bool = true
     
     // for identifiable

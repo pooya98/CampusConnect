@@ -271,6 +271,7 @@ struct AddFriendView: View {
                                                 
                         NavigationLink {
                             
+                            // TODO: handle cases with nil as input 
                             ChatThreadView(groupId: addFriendViewModel.groupId ?? "lG6CpNumnRMTjyny3755",profileImageUrl: addFriendViewModel.seekedUser?.profileImageUrl, name: addFriendViewModel.seekedUser?.firstName//, messages: addFriendViewModel.groupMessages ?? []
                             )
                             

@@ -82,8 +82,18 @@ final class ChatManager {
 
         }
         
+        if let recentMessage = groupData.recentMessage {
+            data[ChatGroup.CodingKeys.recentMessage.rawValue] =  recentMessage
+
+        }
+        
         if let groupProfileImage = groupData.groupProfileImage {
             data[ChatGroup.CodingKeys.groupProfileImage.rawValue] = groupProfileImage
+        }
+        
+        
+        if let groupProfileImagePath = groupData.groupProfileImagePath {
+            data[ChatGroup.CodingKeys.groupProfileImagePath.rawValue] = groupProfileImagePath
         }
         
         if let groupType = groupData.groupType {
@@ -169,12 +179,14 @@ final class ChatManager {
         try await groupCollection.order(by: ChatGroup.CodingKeys.recentMessage.rawValue).getDocuments(as: ChatGroup.self)
     }*/
     
+    // MARK: - TODO
+    // TODO: fix ordering of messages in the chat view page. It should display messages based on the time that they were sent and not their ascii order
     func getGroups(userId: String)  async throws -> [ChatGroup] {
         
         var groups: [ChatGroup] = []
         let querySnapshot = try await groupCollection
             .whereField(ChatGroup.CodingKeys.groupMembers.rawValue, arrayContains: userId)
-            .whereField(ChatGroup.CodingKeys.recentMessage.rawValue, isNotEqualTo: "").order(by: ChatGroup.CodingKeys.recentMessage.rawValue, descending: true).getDocuments()
+            .whereField(ChatGroup.CodingKeys.recentMessage.rawValue, isNotEqualTo: "").order(by: ChatGroup.CodingKeys.recentMessage.rawValue).getDocuments()
         
         for document in querySnapshot.documents{
             let group = try document.data(as: ChatGroup.self)
@@ -187,6 +199,19 @@ final class ChatManager {
         
         return groups
     }
+    
+    
+    func updateGroupProfileImagePath(groupId: String, path: String?, url: String?) async throws {
+      
+        let data: [String:Any] = [
+            DBUser.CodingKeys.profileImagePath.rawValue : path as Any,
+            DBUser.CodingKeys.profileImageUrl.rawValue : url as Any,
+        ]
+        
+        try await groupDocument(groupId: groupId).updateData(data)
+    }
+    
+    
    
     
 

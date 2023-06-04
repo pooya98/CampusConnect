@@ -23,6 +23,7 @@
 		E53CBA782A1F639400FBE367 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = E53CBA772A1F639400FBE367 /* FirebaseStorage */; };
 		E53CBA7D2A20352A00FBE367 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E53CBA7C2A20352A00FBE367 /* MainView.swift */; };
 		E53CBA802A20365200FBE367 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E53CBA7F2A20365200FBE367 /* HomeView.swift */; };
+		E553A8F42A2C7085002045FC /* GroupChatDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E553A8F32A2C7085002045FC /* GroupChatDetailsView.swift */; };
 		E56A21D12A24628C00279853 /* FriendTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56A21D02A24628C00279853 /* FriendTagView.swift */; };
 		E58F9AE62A078FB1007CF2AB /* ChangePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E58F9AE52A078FB1007CF2AB /* ChangePasswordView.swift */; };
 		E58F9AE82A079DC8007CF2AB /* CreateAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E58F9AE72A079DC8007CF2AB /* CreateAccountViewModel.swift */; };
@@ -68,6 +69,7 @@
 		E523A3A32A02725A00A81A14 /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
 		E53CBA7C2A20352A00FBE367 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		E53CBA7F2A20365200FBE367 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		E553A8F32A2C7085002045FC /* GroupChatDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChatDetailsView.swift; sourceTree = "<group>"; };
 		E56A21D02A24628C00279853 /* FriendTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendTagView.swift; sourceTree = "<group>"; };
 		E58F9AE52A078FB1007CF2AB /* ChangePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordView.swift; sourceTree = "<group>"; };
 		E58F9AE72A079DC8007CF2AB /* CreateAccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountViewModel.swift; sourceTree = "<group>"; };
@@ -228,6 +230,7 @@
 				E597D6D42A239ACA0008C4B2 /* ChatView.swift */,
 				E597D6BD2A20AA910008C4B2 /* ChatThreadView.swift */,
 				E5FD3D9A2A2AE2D800F3BC22 /* CreateMultiPersonGroupView.swift */,
+				E553A8F32A2C7085002045FC /* GroupChatDetailsView.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -415,6 +418,7 @@
 				E597D6C02A20AD860008C4B2 /* MessageBubbleView.swift in Sources */,
 				E59B12FA2A053AE90079AA9E /* AccountView.swift in Sources */,
 				E523A3A42A02725A00A81A14 /* AuthenticationManager.swift in Sources */,
+				E553A8F42A2C7085002045FC /* GroupChatDetailsView.swift in Sources */,
 				E59B12FD2A05514F0079AA9E /* UserManager.swift in Sources */,
 				82F058CE2A010F410015480C /* CampusConnectApp.swift in Sources */,
 				E5934BA02A0B54F800383A01 /* ResetPasswordView.swift in Sources */,

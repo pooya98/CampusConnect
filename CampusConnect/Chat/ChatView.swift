@@ -85,7 +85,6 @@ final class ChatVieModel: ObservableObject {
         
         if var groups =  chatGroup{
             for i in 0..<groups.count {
-                print("loading image ...")
                 if let element = try? await getDisplayImage(chatGroup: groups[i]) {
                     
                     groups[i].displayImage = element
@@ -95,6 +94,15 @@ final class ChatVieModel: ObservableObject {
             self.groupChats = groups
         }
         
+    }
+    
+    
+    func getGroupName(group: ChatGroup) ->String? {
+        if group.groupType == GroupType.multiPerson.rawValue {
+            return group.groupName
+        }else {
+            return user?.userId == group.groupMembers?.first ? group.displayName?.last : group.displayName?.first
+        }
     }
     
     
@@ -147,11 +155,21 @@ struct ChatView: View {
                     ScrollView {
                         ForEach(chatViewModel.groupChats, id: \.groupId) { group in
                             
-                            MessageGilmpseView(department: nil, profilePicUrl: group.groupType == GroupType.twoPerson.rawValue ? group.displayImage : group.groupProfileImage, message: group.recentMessage?.content, bannerName: chatViewModel.user?.userId == group.groupMembers?.first ? group.displayName?.last : group.displayName?.first) {
+                            NavigationLink {
+                                ChatThreadView(groupId: group.groupId ?? "lG6CpNumnRMTjyny3755", profileImageUrl: group.groupType == GroupType.twoPerson.rawValue ? group.displayImage : group.groupProfileImage, name: chatViewModel.getGroupName(group: group))
+                            } label: {
+                                MessageGilmpseView(department: nil, profilePicUrl: group.groupType == GroupType.twoPerson.rawValue ? group.displayImage : group.groupProfileImage, message: group.recentMessage?.content, bannerName: chatViewModel.user?.userId == group.groupMembers?.first ? group.displayName?.last : group.displayName?.first) {
+                                    
+                                    chatViewModel.timeSinceSent(dateCreated: group.recentMessage?.dateCreated)
+                                    
+                                }
+                            }
+
+                            /*MessageGilmpseView(department: nil, profilePicUrl: group.groupType == GroupType.twoPerson.rawValue ? group.displayImage : group.groupProfileImage, message: group.recentMessage?.content, bannerName: chatViewModel.user?.userId == group.groupMembers?.first ? group.displayName?.last : group.displayName?.first) {
                                 
                                 chatViewModel.timeSinceSent(dateCreated: group.recentMessage?.dateCreated)
                                 
-                            }
+                            }*/
                             
                             
                         }
@@ -170,8 +188,8 @@ struct ChatView: View {
             .toolbar {  // New in  iOS 16
                 ToolbarItem(placement: .navigationBarTrailing) {
                     NavigationLink {
-                        //CreateMultiPersonGroupView()
-                        AddFriendView()
+                        CreateMultiPersonGroupView()
+                        //AddFriendView()
                     } label: {
                         Image(systemName: "bubble.left.and.bubble.right.fill")
                             .font(.headline)
@@ -190,7 +208,7 @@ struct ChatView: View {
                 let groups = try? await chatViewModel.getGroupChats()
                 print("Group chats fetched!")
                 
-                print("Attaching profileUrl to two person chat groups...")
+                print("Attaching profileUrl to two-person chat groups...")
                 try? await chatViewModel.setDisplayImage(chatGroup: groups)
                 print("profileUrls Attached!")
                 

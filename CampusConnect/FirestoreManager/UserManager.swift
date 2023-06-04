@@ -134,13 +134,7 @@ final class UserManager {
     }
     
     func updateUserProfileImagePath(userId: String, path: String?, url: String?) async throws {
-        // Use after defining CodingKeys
-        /*
-         let data: [String:Any] = [
-            DBUser.CodingKeys.profileImagePath.rawValue : path
-        ]
-         */
-        
+     
         let data: [String:Any] = [
             DBUser.CodingKeys.profileImagePath.rawValue : path as Any,
             DBUser.CodingKeys.profileImageUrl.rawValue : url as Any,
@@ -175,6 +169,22 @@ final class UserManager {
         
         return false
     }
+    
+    
+    func getFiendsList(friendList: [String]) async throws -> [DBUser] {
+        var groups: [DBUser] = []
+        
+        let querySnapshot = try await userCollection.whereField(DBUser.CodingKeys.userId.rawValue, in: friendList).getDocuments()
+        
+        for document in querySnapshot.documents{
+            let group = try document.data(as: DBUser.self)
+            
+            groups.append(group)
+        }
+        
+        return groups
+    }
+    
 }
 
 

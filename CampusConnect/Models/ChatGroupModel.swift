@@ -21,6 +21,7 @@ struct ChatGroup: Codable {
     var displayImage: String?
     let recentMessage: Message?
     let groupProfileImage: String?
+    let groupProfileImagePath: String?
     let groupType: String?
     let dateCreated: Date
     
@@ -36,6 +37,7 @@ struct ChatGroup: Codable {
         case displayImage = "display_Image"
         case recentMessage = "recent_message"
         case groupProfileImage = "group_profile_image"
+        case groupProfileImagePath = "group_profile_Image_path"
         case groupType = "group_type"
         case dateCreated = "date_created"
     }
@@ -50,6 +52,7 @@ struct ChatGroup: Codable {
         self.displayImage = nil
         self.recentMessage = nil
         self.groupProfileImage = nil
+        self.groupProfileImagePath = nil
         self.groupType = groupType
         self.dateCreated = Date()
     }
@@ -58,7 +61,7 @@ struct ChatGroup: Codable {
     // groupId will be provided by firestore
     // groupName will be used insted of displayName
     // groupProfileImage will be used insted of displayImage
-    init(groupId: String? = nil, groupName: String?, groupMembers: [String]?, groupAdminId: [String]?, displayName: [String]? = nil, displayImage: String? = nil, recentMessage: Message?, groupProfileImage: String?, groupType: String?, dateCreated: Date) {
+    init(groupId: String? = nil, groupName: String?, groupMembers: [String]?, groupAdminId: [String]?, displayName: [String]? = nil, displayImage: String? = nil, recentMessage: Message?, groupProfileImage: String?, groupProfileImagePath: String?, groupType: String?, dateCreated: Date) {
         self.groupId = groupId
         self.groupName = groupName
         self.groupMembers = groupMembers
@@ -67,6 +70,7 @@ struct ChatGroup: Codable {
         self.displayImage = displayImage
         self.recentMessage = recentMessage
         self.groupProfileImage = groupProfileImage
+        self.groupProfileImagePath = groupProfileImagePath
         self.groupType = groupType
         self.dateCreated = dateCreated
     }

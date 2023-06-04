@@ -8,6 +8,14 @@
 import Foundation
 
 
+enum MessageType: String {
+    case text = "text"
+    case audio = "audio"
+    case image = "image"
+    case video = "video"
+    case coordinates = "coordinates"
+}
+
 struct Message: Identifiable, Codable {
     var id: String?
     let content: String?

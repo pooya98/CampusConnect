@@ -23,6 +23,10 @@ final class StorageManager {
         storage.child("users").child(userId)
     }
     
+    private func groupReference(groupId: String) -> StorageReference {
+        storage.child("groups").child(groupId)
+    }
+    
     func getImagePath(path: String) -> StorageReference{
         Storage.storage().reference(withPath: path)
     }
@@ -81,6 +85,24 @@ final class StorageManager {
     
     func deleteImage(path: String) async throws{
         try await getImagePath(path: path).delete()
+    }
+    
+    // MARK: - Group Image functions
+    
+    func saveGroupImage(data: Data, groupId: String) async throws -> (path: String, name: String) {
+        
+        let meta = StorageMetadata()
+        meta.contentType = "image/jpeg"
+        
+        let path = "\(UUID().uuidString).jpeg"
+        let returnedMetaData = try await groupReference(groupId: groupId).child(path).putDataAsync(data, metadata: meta)
+        
+        guard let returnedPath = returnedMetaData.path, let returnedName = returnedMetaData.name else {
+            //TODO: cutomize error message
+            throw URLError(.badServerResponse)
+        }
+        
+        return (returnedPath, returnedName)
     }
     
    
