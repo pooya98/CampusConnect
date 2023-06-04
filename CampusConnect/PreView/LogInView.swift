@@ -45,7 +45,7 @@ struct LogInView: View {
             Spacer().frame(height: 20)  // 버튼과 링크 사이에 간격 추가
             
             NavigationLink(
-                destination: HomeView2(),
+                destination: HomeView(),
                 isActive: $isLoggedIn,
                 label: { EmptyView() }
             )

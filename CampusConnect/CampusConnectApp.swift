@@ -11,6 +11,8 @@ import Firebase
 @main
 struct CampusConnectApp: App {
     
+    private var preview : Bool = true
+    
     //Method1: Connecting firebase without app delegate.
     init(){
         FirebaseApp.configure()
@@ -30,9 +32,6 @@ struct CampusConnectApp: App {
     
     let appearance: UITabBarAppearance = UITabBarAppearance()
     
-//    init() {
-//        UITabBar.appearance().scrollEdgeAppearance = appearance
-//    }
 }
 
 

@@ -17,8 +17,10 @@ struct RootView: View {
                 if showLoginView == false { // prevents page from displaying before successful login
                     
                     // Default View after successful login
-                    MainView(showLoginView: $showLoginView)
+                    //MainView(showLoginView: $showLoginView)
                     //SettingsView(showLoginView: $showLoginView)
+                    
+                    MainView(showLoginView: $showLoginView)
                 }
                 
             }

@@ -35,6 +35,7 @@ struct LoginView: View {
     @Binding var showLoginView: Bool
     @State private var loginErrorAlert = false
     @State private var loginErrorMessage = ""
+    @State private var showingPreview = true
     
     var body: some View {
         VStack{
@@ -140,6 +141,7 @@ struct LoginView: View {
         .navigationTitle("Login")
         
     }
+    
 }
 
 struct LoginView_Previews: PreviewProvider {

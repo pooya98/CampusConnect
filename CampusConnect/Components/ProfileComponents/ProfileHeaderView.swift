@@ -16,38 +16,23 @@ struct ProfileHeaderView: View {
     var profilePicUrl: String?
  
     var body: some View {
-        ZStack{
-            HStack {
-                
-                /*if let image {
-                    image.resizable()
-                        .foregroundColor(.white)
-                        .frame(width: 100, height: 100)
-                        .cornerRadius(50)
-                }else{
-                   ProfileAvatarView(personSize: 80, frameSize: 100)
-                }*/
-                
+        VStack{
+            HStack{
                 ProfileAvatarView(profilePicUrl: profilePicUrl, personSize: 47, frameSize: 70 )
-                
-                VStack(alignment: .leading) {
+                VStack(alignment: .leading){
                     Text(name ?? "Anonymous")
-                        .font(.title3)
+                        .font(.title2)
                         .fontWeight(.bold)
-                        .foregroundColor(.black)
-                    HStack{
-                        Text(department ?? "")
-                            .font(.caption)
-                            .foregroundColor(.gray)
-                        Text(studentId ?? "")
-                            .font(.caption)
-                            .foregroundColor(.gray)
-                    }
+                    
+                    Text(department ?? "")
+                        .font(.subheadline)
+                        .fontWeight(.regular)
+                        .foregroundColor(.gray)
                 }
-                .padding()
+                Spacer()
+                Image(systemName: "chevron.right")
             }
         }
-       
     }
 }
 
