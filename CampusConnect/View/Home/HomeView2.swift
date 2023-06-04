@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct HomeView: View {
+struct HomeView2: View {
     @State private var isShowingSearchView = false
 
     var body: some View {

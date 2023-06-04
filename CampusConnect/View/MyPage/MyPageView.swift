@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MyPageView: View {
     
-    let DBuser: User = CurrentUser
+    let DBuser: User2 = CurrentUser
     
     var body: some View {
         NavigationView{

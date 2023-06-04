@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ChatView: View {
+struct ChatView2: View {
     let chatlist : [Chat]
     
     var body: some View {
@@ -23,7 +23,7 @@ struct ChatView: View {
     }
 }
 
-extension ChatView {
+extension ChatView2 {
     var titlebar : some View {
         HStack {
             Text("채팅")
@@ -57,8 +57,8 @@ extension ChatView {
     }
 }
 
-struct ChatView_Previews: PreviewProvider {
+struct ChatView2_Previews: PreviewProvider {
     static var previews: some View {
-        ChatView(chatlist: ChatSamples)
+        ChatView2(chatlist: ChatSamples)
     }
 }

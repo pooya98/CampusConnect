@@ -53,7 +53,7 @@ extension MainTabView {
     }
     
     var chat: some View {
-        ChatView(chatlist: ChatSamples)
+        ChatView2(chatlist: ChatSamples)
             .tag(Tabs.chat)
             .tabItem {
                 Image(systemName: "circle")
