@@ -21,6 +21,11 @@
 		82EC574E2A20714B00827B6D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82EC574D2A20714B00827B6D /* User.swift */; };
 		82EC57502A20F50400827B6D /* ChatRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82EC574F2A20F50400827B6D /* ChatRow.swift */; };
 		82EC57522A2114FD00827B6D /* ChatDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82EC57512A2114FD00827B6D /* ChatDetailView.swift */; };
+		82EDFF922A2CCA8600B1E3D3 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826AFD552A2603DA008B87A9 /* SplashView.swift */; };
+		82EDFF932A2CCAAB00B1E3D3 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826AFD562A2603DA008B87A9 /* OnboardingView.swift */; };
+		82EDFF942A2CCAB000B1E3D3 /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826AFD572A260403008B87A9 /* ForgotPasswordView.swift */; };
+		82EDFF952A2CCAB200B1E3D3 /* LogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826AFD582A26040B008B87A9 /* LogInView.swift */; };
+		82EDFF962A2CCAB400B1E3D3 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826AFD592A260419008B87A9 /* SignUpView.swift */; };
 		82F058CE2A010F410015480C /* CampusConnectApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F058CD2A010F410015480C /* CampusConnectApp.swift */; };
 		82F058D22A010F420015480C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82F058D12A010F420015480C /* Assets.xcassets */; };
 		82F058D52A010F420015480C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82F058D42A010F420015480C /* Preview Assets.xcassets */; };
@@ -243,6 +248,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				826AFD512A260399008B87A9 /* SearchView.swift in Sources */,
+				82EDFF922A2CCA8600B1E3D3 /* SplashView.swift in Sources */,
 				823EA48A2A1E1DD400A58361 /* MyPageView.swift in Sources */,
 				826AFD542A2603B8008B87A9 /* NotificationView.swift in Sources */,
 				824751882A21EFA6009C0076 /* DummyView.swift in Sources */,
@@ -251,11 +257,15 @@
 				826AFD5B2A260535008B87A9 /* myMapView.swift in Sources */,
 				823EA4842A1E1DAD00A58361 /* GroupView.swift in Sources */,
 				824AECCB2A1DE21300AC9321 /* MainTabView.swift in Sources */,
+				82EDFF952A2CCAB200B1E3D3 /* LogInView.swift in Sources */,
 				82EC574E2A20714B00827B6D /* User.swift in Sources */,
 				82EC574C2A2070F000827B6D /* Chat.swift in Sources */,
 				82EC57522A2114FD00827B6D /* ChatDetailView.swift in Sources */,
 				823EA4882A1E1DCA00A58361 /* ChatView.swift in Sources */,
 				82EC57502A20F50400827B6D /* ChatRow.swift in Sources */,
+				82EDFF962A2CCAB400B1E3D3 /* SignUpView.swift in Sources */,
+				82EDFF932A2CCAAB00B1E3D3 /* OnboardingView.swift in Sources */,
+				82EDFF942A2CCAB000B1E3D3 /* ForgotPasswordView.swift in Sources */,
 				823EA4862A1E1DB800A58361 /* CreateView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

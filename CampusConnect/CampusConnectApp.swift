@@ -11,7 +11,7 @@ import SwiftUI
 struct CampusConnectApp: App {
     var body: some Scene {
         WindowGroup {
-            MainTabView()
+            SplashView()
         }
     }
     
