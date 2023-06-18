@@ -9,7 +9,36 @@ import SwiftUI
 
 struct GroupView: View {
     var body: some View {
-        Text("MyGroup")
+        NavigationView{
+            VStack{
+                ScrollView(.vertical, showsIndicators: false) {
+                    VStack(alignment: .leading) {
+                        Divider()
+                        //profile
+                        Divider()
+                        //myActivity
+                        //Divider()
+                        //mySchool
+                    }
+                }
+            }
+            .toolbar {  // New in  iOS 16
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    NavigationLink {
+                        AddFriendView()
+                    } label: {
+                        Image(systemName: "person.badge.plus")
+                            .font(.headline)
+                            .foregroundColor(.black)
+                    }
+                }
+            }
+            .task {
+                //try? await profileViewModel.loadCurrentUser()
+            }
+            .navigationTitle("Profile")
+            .navigationBarTitleDisplayMode(.inline)
+        }
     }
 }
 
