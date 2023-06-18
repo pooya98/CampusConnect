@@ -7,35 +7,25 @@
 
 import SwiftUI
 
+
 struct RootView: View {
     
-    @State private var showLoginView: Bool = false
+    @EnvironmentObject var ownerview : OwnerView
     
     var body: some View {
         VStack {
-            NavigationStack {
-                if showLoginView == false { // prevents page from displaying before successful login
-                    
-                    // Default View after successful login
-                    //MainView(showLoginView: $showLoginView)
-                    //SettingsView(showLoginView: $showLoginView)
-                    
-                    MainView(showLoginView: $showLoginView)
-                }
-                
+            switch(ownerview.owner){
+            case .splashview:
+                SplashView()
+            case .onboardingview:
+                OnboardingView()
+            case .signupview:
+                CreateAccountView()
+            case .signinview:
+                LoginView()
+            case .mainview:
+                MainView()
             }
-            
-            
-            /*if showLoginView == false { // prevents page from displaying before successful login
-                
-                // Default View after successful login
-                MainView(showLoginView: $showLoginView)
-                //SettingsView(showLoginView: $showLoginView)
-            }*/
-            
-            //SettingsView(showLoginView: $showLoginView)
-            
-            
         }
         .onAppear {
             // MARK: - TODO
@@ -48,19 +38,13 @@ struct RootView: View {
             let loginStatus = authenticatedUser == nil ? "logged out" : "logged in"
             print("User Login Status: \(loginStatus)")
             
-            self.showLoginView = authenticatedUser == nil
         }
-        .fullScreenCover(isPresented: $showLoginView) {
-            NavigationStack{
-                LoginView(showLoginView: $showLoginView)
-            }
-        }
-        
     }
 }
 
 struct RootView_Previews: PreviewProvider {
     static var previews: some View {
         RootView()
+            .environmentObject(OwnerView())
     }
 }

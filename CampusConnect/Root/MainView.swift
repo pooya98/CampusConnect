@@ -13,12 +13,11 @@ struct MainView: View {
     }
     
     @State private var selectedTab: Tabs = .home
-    @Binding var showLoginView: Bool
     
     var body: some View {
         TabView(selection: $selectedTab) {
             home
-            mymap
+            //mymap
             group
             chat
             myPage
@@ -64,7 +63,7 @@ extension MainView {
     }
     
     var myPage: some View {
-        ProfileView(showLoginView: $showLoginView)
+        ProfileView()
             .tag(Tabs.myPage)
             .tabItem {
                 Image(systemName: "circle")
@@ -75,6 +74,6 @@ extension MainView {
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        MainView(showLoginView: .constant(false))
+        MainView()
     }
 }

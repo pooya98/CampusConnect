@@ -27,11 +27,41 @@ struct CampusConnectApp: App {
     var body: some Scene {
         WindowGroup {
             RootView()
+                .environmentObject(OwnerView())
         }
     }
     
     let appearance: UITabBarAppearance = UITabBarAppearance()
     
+}
+
+enum ownerview {
+    case splashview
+    case onboardingview
+    case signinview
+    case signupview
+    case mainview
+}
+
+class OwnerView: ObservableObject {
+    @Published var owner : ownerview
+    
+    init(){
+        self.owner = .splashview
+        self.owner = firstloadcheck()
+    }
+    
+    private func firstloadcheck() -> ownerview{
+        let launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
+        
+        if launchedBefore == false {
+            UserDefaults.standard.set(true, forKey: "launchedBefore")
+            return ownerview.splashview
+        }
+        else{
+            return ownerview.signinview
+        }
+    }
 }
 
 
