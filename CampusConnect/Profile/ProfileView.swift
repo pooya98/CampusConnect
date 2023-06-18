@@ -39,7 +39,6 @@ struct ProfileView: View {
     
     
     @StateObject private var profileViewModel =  ProfileViewModel()
-    @Binding var showLoginView: Bool
     @State private var selectedPhoto: PhotosPickerItem?  = nil
     @State private var url: URL? = nil
     
@@ -71,7 +70,7 @@ struct ProfileView: View {
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     NavigationLink {
-                        SettingsView(showLoginView: $showLoginView)
+                        SettingsView()
                     } label: {
                         Image(systemName: "gear")
                             .font(.headline)
@@ -267,6 +266,6 @@ extension ProfileView {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView(showLoginView: .constant(false))
+        ProfileView()
     }
 }
