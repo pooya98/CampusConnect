@@ -21,7 +21,9 @@ struct MainView: View {
             group
             chat
             myPage
-        }.edgesIgnoringSafeArea(.top)
+        }
+        .edgesIgnoringSafeArea(.top)
+        .accentColor(.black)
     }
 }
 
@@ -30,26 +32,28 @@ extension MainView {
         HomeView()
             .tag(Tabs.home)
             .tabItem {
-                Image(systemName: "circle")
-                Text("홈")
+                Image(selectedTab == .home ? "HomeIconFilled" : "HomeIconOutlined")
+                .renderingMode(.template)
             }
     }
     
+    /*
     var mymap: some View {
         myMapView()
             .tag(Tabs.create)
             .tabItem {
-                Image(systemName: "circle")
-                Text("map")
+                Image(selectedTab == .mymap ? "MapIconFilled" : "MapIconOutlined")
+                .renderingMode(.template)
             }
     }
+     */
     
     var group: some View {
         GroupView()
             .tag(Tabs.group)
             .tabItem {
-                Image(systemName: "circle")
-                Text("내모임")
+                Image(selectedTab == .group ? "MyGroupIconFilled" : "MyGroupIconOutlined")
+                .renderingMode(.template)
             }
     }
     
@@ -57,8 +61,8 @@ extension MainView {
         ChatView()
             .tag(Tabs.chat)
             .tabItem {
-                Image(systemName: "circle")
-                Text("채팅")
+                Image(selectedTab == .chat ? "ChatIconFilled" : "ChatIconOutlined")
+                .renderingMode(.template)
             }
     }
     
@@ -66,8 +70,8 @@ extension MainView {
         ProfileView()
             .tag(Tabs.myPage)
             .tabItem {
-                Image(systemName: "circle")
-                Text("마이페이지")
+                Image(selectedTab == .myPage ? "MyPageIconFilled" : "MyPageIconOutlined")
+                .renderingMode(.template)
             }
     }
 }

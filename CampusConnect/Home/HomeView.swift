@@ -12,7 +12,7 @@ struct HomeView: View {
     @State private var isShowingNotificationView = false
     @State private var selectedTab = "For You"
     @State var buttonExpanded = false
-    @State var ShowButton : Bool = true
+    @State private var isShowingStory = false
     
     let stories: [Story] = [
         Story(imageName: "profile1", username: "Username1"),
@@ -69,13 +69,13 @@ struct HomeView: View {
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 18) {
                                 ForEach(stories.reversed()) { story in
-                                    NavigationLink(
-                                        destination: StoryDetailView(story: story)
-                                            .navigationBarBackButtonHidden(true)
-                                            .navigationBarHidden(true)
-                                    ) {
-                                        StoryView(story: story)
-                                    }
+                                    StoryView(story: story)
+                                        .onTapGesture {
+                                            isShowingStory = true
+                                        }
+                                        .fullScreenCover(isPresented: $isShowingStory) {
+                                            StoryDetailView(story: story)
+                                        }
                                 }
                                 Spacer()
                             }
@@ -181,16 +181,9 @@ struct HomeView: View {
                 Color.gray
                     .opacity(0.7)
                     .animation(.default)
+                    .edgesIgnoringSafeArea(.top)
             }
-            if ShowButton == true {
-                AnimatedExpandableButton(isExpanded: $buttonExpanded)
-            }
-        }
-        .onDisappear(){
-            ShowButton = false
-        }
-        .onAppear(){
-            ShowButton = true
+            AnimatedExpandableButton(isExpanded: $buttonExpanded)
         }
     }
 }
