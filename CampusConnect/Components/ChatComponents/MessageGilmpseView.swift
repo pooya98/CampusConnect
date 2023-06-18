@@ -28,20 +28,25 @@ struct MessageGilmpseView: View {
                         Text(bannerName ?? "Anonymous")
                             .fontWeight(.bold)
                             .font(.subheadline)
+                            .foregroundColor(.black)
                         Text(department ?? "")
                             .font(.caption)
                             .foregroundColor(.gray)
+                            .foregroundColor(.black)
                     }
                     .padding(.horizontal, 10)
                     
                     Text(message ?? "")
                         .padding(.horizontal, 10)
                         .font(.footnote)
+                        .foregroundColor(.black)
                 }
                 
                 Spacer()
                 
-                Text(dateSent() ?? "-").font(.caption)
+                Text(dateSent() ?? "-")
+                    .font(.caption)
+                    .foregroundColor(.black)
                 
             }
             

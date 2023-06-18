@@ -26,7 +26,7 @@ struct ChatTitleView: View {
             
             VStack(alignment: .leading) {
                 Text(name ?? "Anonymous")
-                    .font(.title)
+                    .font(.title2)
                     .bold()
                 Text("Online")
                     .font(.caption)

@@ -21,6 +21,7 @@ struct DBUser: Codable, Hashable {
     let department: String?
     let studentId: String?
     var groups: [String]?
+    var meetUps: [String]?
     //var isSelected: Bool = false
     //let isActive: Bool = true
     
@@ -44,9 +45,11 @@ struct DBUser: Codable, Hashable {
         case department = "department"
         case studentId = "student_id"
         case groups = "groups"
+        case meetUps = "meet_ups"
     }
     
     
+    // Utilized in CreateAccountViewModel when creating a new user account
     init(authData: AuthDataResultModel, accountDetails: AccountRegistrationDetails) {
         self.userId = authData.uid
         self.firstName = accountDetails.firstName
@@ -61,9 +64,11 @@ struct DBUser: Codable, Hashable {
         self.department = nil
         self.studentId = nil
         self.groups = nil
+        self.meetUps = nil
     }
     
-    init(userId: String, firstName: String?, lastName: String?, email: String?, photoUrl: String?, dateCreated: Date?, profileImageUrl: String?, profileImagePath: String?, friendList: [String]?, department: String?, studentId: String?, groups: [String]?) {
+    //
+    /*init(userId: String, firstName: String?, lastName: String?, email: String?, photoUrl: String?, dateCreated: Date?, profileImageUrl: String?, profileImagePath: String?, friendList: [String]?, department: String?, studentId: String?, groups: [String]?, meetUps: [String]?) {
         self.userId = userId
         self.firstName = firstName
         self.lastName = lastName
@@ -76,6 +81,7 @@ struct DBUser: Codable, Hashable {
         self.department = department
         self.studentId = studentId
         self.groups = groups
-    }
+        self.meetUps = meetUps
+    }*/
     
 }

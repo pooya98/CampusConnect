@@ -22,7 +22,6 @@ struct Message: Identifiable, Codable {
     let senderId: String?
     let senderName: String?
     let dateCreated: Date
-    //var received: Bool
     let messageType: String?
     
     enum CodingKeys: String, CodingKey {

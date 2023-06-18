@@ -34,6 +34,11 @@ struct ProfileAvatarView: View {
     var personSize: CGFloat
     var frameSize: CGFloat
     var imageName: String?
+    var imageCornerRadius: CGFloat?
+    var frameCornerRadius: CGFloat?
+    var foregroundColor: Color?
+    var backgroundColor: Color?
+    var opacity: CGFloat?
     
     var body: some View {
         
@@ -42,9 +47,9 @@ struct ProfileAvatarView: View {
             AsyncImage(url: URL(string: url)) { image in
                 image
                     .resizable()
-                    .foregroundColor(.white)
+                    .foregroundColor(foregroundColor ?? .white)
                     .frame(width: frameSize, height: frameSize)
-                    .cornerRadius(50)
+                    .cornerRadius(imageCornerRadius ?? 50)
             } placeholder: {
                 ProgressView()
                     .frame(width: frameSize, height: frameSize)
@@ -56,24 +61,24 @@ struct ProfileAvatarView: View {
                 if let image = imageName {
                     Image(systemName: image)
                         .resizable()
-                        .foregroundColor(.white)
+                        .foregroundColor(foregroundColor ?? .white)
                         .frame(width: personSize, height: personSize)
-                        .opacity(0.7)
-                        .cornerRadius(40)
+                        .opacity(opacity ?? 0.7)
+                        .cornerRadius(imageCornerRadius ?? 50)
                 } else {
                     Image(systemName: "person.fill")
                         .resizable()
-                        .foregroundColor(.white)
+                        .foregroundColor(foregroundColor ?? .white)
                         .frame(width: personSize, height: personSize)
-                        .opacity(0.7)
-                        .cornerRadius(40)
+                        .opacity(opacity ?? 0.7)
+                        .cornerRadius(imageCornerRadius ?? 50)
                 }
                 
                 
             }
             .frame(width: frameSize, height: frameSize)
-            .background(Color("LavenderGray"))
-            .cornerRadius(50)
+            .background(backgroundColor ?? Color("LavenderGray"))
+            .cornerRadius(frameCornerRadius ?? 50)
             
         }
     }

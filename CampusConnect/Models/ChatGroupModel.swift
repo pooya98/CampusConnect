@@ -43,6 +43,7 @@ struct ChatGroup: Codable {
     }
     
     
+    // Utilized in addFriendView Model
     init(groupMembers: [String], groupType: String, displayName: [String]?) {
         self.groupId = nil
         self.groupName = nil
@@ -57,6 +58,8 @@ struct ChatGroup: Codable {
         self.dateCreated = Date()
     }
 
+    
+    // Utilized when creating group chats e.g in GroupChatDetailsViewModel
     
     // groupId will be provided by firestore
     // groupName will be used insted of displayName

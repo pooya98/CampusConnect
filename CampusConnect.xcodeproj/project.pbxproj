@@ -61,6 +61,13 @@
 		E59B13002A0696180079AA9E /* PasswordAndSecurityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59B12FF2A0696180079AA9E /* PasswordAndSecurityView.swift */; };
 		E59B13062A0751B80079AA9E /* LoginSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59B13052A0751B70079AA9E /* LoginSheetView.swift */; };
 		E59B13082A0752720079AA9E /* PasswordAndSecurityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59B13072A0752720079AA9E /* PasswordAndSecurityViewModel.swift */; };
+		E5E1C5072A3D9FB600589BD5 /* MeetUpGroupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E1C5062A3D9FB600589BD5 /* MeetUpGroupModel.swift */; };
+		E5E1C5092A3DA2DE00589BD5 /* CreateGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E1C5082A3DA2DE00589BD5 /* CreateGroupView.swift */; };
+		E5E1C50F2A3DCA5D00589BD5 /* MeetUpManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E1C50E2A3DCA5D00589BD5 /* MeetUpManager.swift */; };
+		E5E1C5112A3E1BCB00589BD5 /* EnumModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E1C5102A3E1BCB00589BD5 /* EnumModels.swift */; };
+		E5E1C5142A3EC76700589BD5 /* MeetUpGlimpseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E1C5132A3EC76700589BD5 /* MeetUpGlimpseView.swift */; };
+		E5E1C5162A3EF82000589BD5 /* GroupDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E1C5152A3EF82000589BD5 /* GroupDetailsView.swift */; };
+		E5E1C5182A3EF95600589BD5 /* MeetupDetailsTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E1C5172A3EF95600589BD5 /* MeetupDetailsTitleView.swift */; };
 		E5EA47DE2A02941300D2A5E7 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5EA47DD2A02941300D2A5E7 /* RootView.swift */; };
 		E5EA47E32A029D2B00D2A5E7 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5EA47E22A029D2B00D2A5E7 /* SettingsView.swift */; };
 		E5FD3D9B2A2AE2D800F3BC22 /* CreateMultiPersonGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5FD3D9A2A2AE2D800F3BC22 /* CreateMultiPersonGroupView.swift */; };
@@ -116,6 +123,13 @@
 		E59B12FF2A0696180079AA9E /* PasswordAndSecurityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordAndSecurityView.swift; sourceTree = "<group>"; };
 		E59B13052A0751B70079AA9E /* LoginSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSheetView.swift; sourceTree = "<group>"; };
 		E59B13072A0752720079AA9E /* PasswordAndSecurityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordAndSecurityViewModel.swift; sourceTree = "<group>"; };
+		E5E1C5062A3D9FB600589BD5 /* MeetUpGroupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetUpGroupModel.swift; sourceTree = "<group>"; };
+		E5E1C5082A3DA2DE00589BD5 /* CreateGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGroupView.swift; sourceTree = "<group>"; };
+		E5E1C50E2A3DCA5D00589BD5 /* MeetUpManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetUpManager.swift; sourceTree = "<group>"; };
+		E5E1C5102A3E1BCB00589BD5 /* EnumModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumModels.swift; sourceTree = "<group>"; };
+		E5E1C5132A3EC76700589BD5 /* MeetUpGlimpseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetUpGlimpseView.swift; sourceTree = "<group>"; };
+		E5E1C5152A3EF82000589BD5 /* GroupDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailsView.swift; sourceTree = "<group>"; };
+		E5E1C5172A3EF95600589BD5 /* MeetupDetailsTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetupDetailsTitleView.swift; sourceTree = "<group>"; };
 		E5EA47DD2A02941300D2A5E7 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		E5EA47E22A029D2B00D2A5E7 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		E5FD3D9A2A2AE2D800F3BC22 /* CreateMultiPersonGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMultiPersonGroupView.swift; sourceTree = "<group>"; };
@@ -152,6 +166,8 @@
 			isa = PBXGroup;
 			children = (
 				823EA4832A1E1DAD00A58361 /* GroupView.swift */,
+				E5E1C5082A3DA2DE00589BD5 /* CreateGroupView.swift */,
+				E5E1C5152A3EF82000589BD5 /* GroupDetailsView.swift */,
 			);
 			path = Group;
 			sourceTree = "<group>";
@@ -270,6 +286,8 @@
 				E591CAD72A297C8E005E2FF2 /* ChatGroupModel.swift */,
 				E591CAD92A297CFC005E2FF2 /* MessageModel.swift */,
 				E591CADB2A297D5B005E2FF2 /* DBUserModel.swift */,
+				E5E1C5062A3D9FB600589BD5 /* MeetUpGroupModel.swift */,
+				E5E1C5102A3E1BCB00589BD5 /* EnumModels.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -279,6 +297,7 @@
 			children = (
 				E5FF1FE22A24AD2F00F6DA48 /* ProfileComponents */,
 				E5FF1FE12A24AD0100F6DA48 /* ChatComponents */,
+				E5E1C5122A3EC71000589BD5 /* MeetUpComponents */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -318,6 +337,7 @@
 			children = (
 				E59B12FC2A05514F0079AA9E /* UserManager.swift */,
 				E597D6C52A20F7170008C4B2 /* ChatManager.swift */,
+				E5E1C50E2A3DCA5D00589BD5 /* MeetUpManager.swift */,
 			);
 			path = FirestoreManager;
 			sourceTree = "<group>";
@@ -331,6 +351,15 @@
 				E58F9AE52A078FB1007CF2AB /* ChangePasswordView.swift */,
 			);
 			path = PasswordAndSecurity;
+			sourceTree = "<group>";
+		};
+		E5E1C5122A3EC71000589BD5 /* MeetUpComponents */ = {
+			isa = PBXGroup;
+			children = (
+				E5E1C5132A3EC76700589BD5 /* MeetUpGlimpseView.swift */,
+				E5E1C5172A3EF95600589BD5 /* MeetupDetailsTitleView.swift */,
+			);
+			path = MeetUpComponents;
 			sourceTree = "<group>";
 		};
 		E5EA47E12A029CA400D2A5E7 /* Settings */ = {
@@ -454,6 +483,7 @@
 				823EA4822A1E1DA100A58361 /* HomeView.swift in Sources */,
 				82F058CE2A010F410015480C /* CampusConnectApp.swift in Sources */,
 				826AFD5B2A260535008B87A9 /* myMapView.swift in Sources */,
+				E5E1C5142A3EC76700589BD5 /* MeetUpGlimpseView.swift in Sources */,
 				823EA4842A1E1DAD00A58361 /* GroupView.swift in Sources */,
 				824AECCB2A1DE21300AC9321 /* MainView.swift in Sources */,
 				82EDFF952A2CCAB200B1E3D3 /* LogInView.swift in Sources */,
@@ -466,6 +496,7 @@
 				E56A21D12A24628C00279853 /* FriendTagView.swift in Sources */,
 				E5EA47E32A029D2B00D2A5E7 /* SettingsView.swift in Sources */,
 				E597D6D92A23C6470008C4B2 /* MessageGilmpseView.swift in Sources */,
+				E5E1C5162A3EF82000589BD5 /* GroupDetailsView.swift in Sources */,
 				E5934BA42A0BA7AA00383A01 /* EmailReauthView.swift in Sources */,
 				E591CADA2A297CFC005E2FF2 /* MessageModel.swift in Sources */,
 				E597D6BE2A20AA910008C4B2 /* ChatThreadView.swift in Sources */,
@@ -475,7 +506,11 @@
 				E5EA47DE2A02941300D2A5E7 /* RootView.swift in Sources */,
 				E58F9AE62A078FB1007CF2AB /* ChangePasswordView.swift in Sources */,
 				E597D6CD2A22802B0008C4B2 /* EditProfileView.swift in Sources */,
+				E5E1C5072A3D9FB600589BD5 /* MeetUpGroupModel.swift in Sources */,
 				E597D6C22A20C5D90008C4B2 /* MessageFieldView.swift in Sources */,
+				E5E1C5112A3E1BCB00589BD5 /* EnumModels.swift in Sources */,
+				E5E1C5182A3EF95600589BD5 /* MeetupDetailsTitleView.swift in Sources */,
+				E5E1C5092A3DA2DE00589BD5 /* CreateGroupView.swift in Sources */,
 				E597D6CB2A226C1F0008C4B2 /* ProfileHeaderView.swift in Sources */,
 				E597D6D72A23A7B80008C4B2 /* FriendListView.swift in Sources */,
 				E59B13062A0751B80079AA9E /* LoginSheetView.swift in Sources */,
@@ -489,6 +524,7 @@
 				E59B12FA2A053AE90079AA9E /* AccountView.swift in Sources */,
 				E523A3A42A02725A00A81A14 /* AuthenticationManager.swift in Sources */,
 				E553A8F42A2C7085002045FC /* GroupChatDetailsView.swift in Sources */,
+				E5E1C50F2A3DCA5D00589BD5 /* MeetUpManager.swift in Sources */,
 				E59B12FD2A05514F0079AA9E /* UserManager.swift in Sources */,
 				82F058CE2A010F410015480C /* CampusConnectApp.swift in Sources */,
 				E5934BA02A0B54F800383A01 /* ResetPasswordView.swift in Sources */,

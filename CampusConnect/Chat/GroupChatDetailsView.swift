@@ -70,7 +70,7 @@ final class GroupChatDetailsViewModel: ObservableObject {
             return
         }
         
-        let message = Message(id: "007", content: "New group Chat", senderId: "007", senderName: "System", dateCreated: Date(), messageType: MessageType.text.rawValue)
+        //let message = Message(id: "007", content: "New group Chat", senderId: "007", senderName: "System", dateCreated: Date(), messageType: MessageType.text.rawValue)
         
         let groupData = ChatGroup(groupName: groupName, groupMembers: groupMembers, groupAdminId: [currentUser.userId], recentMessage: nil, groupProfileImage: nil, groupProfileImagePath: nil, groupType: GroupType.multiPerson.rawValue, dateCreated: Date())
         
@@ -110,10 +110,10 @@ struct GroupChatDetailsView: View {
                 
                 Button {
                     Task {
-                        print("Group Creation ...")
+                        print("Chat Group Creation ...")
                         print("Members: \(groupChatMembers)")
                         try await groupChatDetailsViewModel.createGroup(groupMembers: groupChatMembers)
-                        print("Group Creation complete!")
+                        print("Chat Group Creation complete!")
                     }
                 } label: {
                     Text("Create Group")
