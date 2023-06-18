@@ -128,6 +128,7 @@ struct ChatView: View {
     
     @StateObject private var chatViewModel = ChatVieModel()
     @State private var returnedValue = false
+    @State private var selectedTab = "Group Chat"
     
     var body: some View {
         NavigationView {
@@ -151,36 +152,73 @@ struct ChatView: View {
                         Text("Account")
                             .foregroundColor(.blue)
                     }*/
+                    Picker("", selection: $selectedTab) {
+                        Text("모임 채팅")
+                            .tag("Group Chat")
+                        Text("개인 채팅").tag("1to1 Chat")
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                    .padding()
                     
-                    ScrollView {
-                        ForEach(chatViewModel.groupChats, id: \.groupId) { group in
-                            
-                            NavigationLink {
-                                ChatThreadView(groupId: group.groupId ?? "lG6CpNumnRMTjyny3755", profileImageUrl: group.groupType == GroupType.twoPerson.rawValue ? group.displayImage : group.groupProfileImage, name: chatViewModel.getGroupName(group: group))
-                            } label: {
-                                MessageGilmpseView(department: nil, profilePicUrl: group.groupType == GroupType.twoPerson.rawValue ? group.displayImage : group.groupProfileImage, message: group.recentMessage?.content, bannerName: chatViewModel.user?.userId == group.groupMembers?.first ? group.displayName?.last : group.displayName?.first) {
+                    if selectedTab == "Group Chat"{
+                        ScrollView {
+                            ForEach(chatViewModel.groupChats, id: \.groupId) { group in
+                                if group.groupType == "multi-person" {
+                                    NavigationLink {
+                                        ChatThreadView(groupId: group.groupId ?? "lG6CpNumnRMTjyny3755", profileImageUrl: group.groupType == GroupType.twoPerson.rawValue ? group.displayImage : group.groupProfileImage, name: chatViewModel.getGroupName(group: group))
+                                    } label: {
+                                        MessageGilmpseView(department: nil, profilePicUrl: group.groupType == GroupType.twoPerson.rawValue ? group.displayImage : group.groupProfileImage, message: group.recentMessage?.content, bannerName: chatViewModel.user?.userId == group.groupMembers?.first ? group.displayName?.last : group.displayName?.first) {
+                                            
+                                            chatViewModel.timeSinceSent(dateCreated: group.recentMessage?.dateCreated)
+                                            
+                                        }
+                                    }
+                                }
+
+                                /*MessageGilmpseView(department: nil, profilePicUrl: group.groupType == GroupType.twoPerson.rawValue ? group.displayImage : group.groupProfileImage, message: group.recentMessage?.content, bannerName: chatViewModel.user?.userId == group.groupMembers?.first ? group.displayName?.last : group.displayName?.first) {
                                     
                                     chatViewModel.timeSinceSent(dateCreated: group.recentMessage?.dateCreated)
                                     
-                                }
+                                }*/
+                                
+                                
                             }
-
-                            /*MessageGilmpseView(department: nil, profilePicUrl: group.groupType == GroupType.twoPerson.rawValue ? group.displayImage : group.groupProfileImage, message: group.recentMessage?.content, bannerName: chatViewModel.user?.userId == group.groupMembers?.first ? group.displayName?.last : group.displayName?.first) {
-                                
-                                chatViewModel.timeSinceSent(dateCreated: group.recentMessage?.dateCreated)
-                                
-                            }*/
-                            
                             
                         }
-                        
+                        .padding(.top, 10)
+                        .background(.white)
                     }
-                    .padding(.top, 10)
-                    .background(.white)
+                    else{
+                        ScrollView {
+                            ForEach(chatViewModel.groupChats, id: \.groupId) { group in
+                                if group.groupType == "two-person" {
+                                    NavigationLink {
+                                        ChatThreadView(groupId: group.groupId ?? "lG6CpNumnRMTjyny3755", profileImageUrl: group.groupType == GroupType.twoPerson.rawValue ? group.displayImage : group.groupProfileImage, name: chatViewModel.getGroupName(group: group))
+                                    } label: {
+                                        MessageGilmpseView(department: nil, profilePicUrl: group.groupType == GroupType.twoPerson.rawValue ? group.displayImage : group.groupProfileImage, message: group.recentMessage?.content, bannerName: chatViewModel.user?.userId == group.groupMembers?.first ? group.displayName?.last : group.displayName?.first) {
+                                            
+                                            chatViewModel.timeSinceSent(dateCreated: group.recentMessage?.dateCreated)
+                                            
+                                        }
+                                    }
+                                }
+
+                                /*MessageGilmpseView(department: nil, profilePicUrl: group.groupType == GroupType.twoPerson.rawValue ? group.displayImage : group.groupProfileImage, message: group.recentMessage?.content, bannerName: chatViewModel.user?.userId == group.groupMembers?.first ? group.displayName?.last : group.displayName?.first) {
+                                    
+                                    chatViewModel.timeSinceSent(dateCreated: group.recentMessage?.dateCreated)
+                                    
+                                }*/
+                                
+                                
+                            }
+                            
+                        }
+                        .padding(.top, 10)
+                        .background(.white)
+                    }
                     
                 }
-                
-                .background(Color("SmithApple"))
+                //.background(Color("SmithApple"))
                 
             }
             .navigationTitle("Chats")

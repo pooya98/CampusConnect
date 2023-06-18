@@ -48,7 +48,7 @@ struct MessageGilmpseView: View {
         }
         .padding()
         .frame(maxWidth: .infinity, maxHeight: 70)
-        .background(Color("SmithApple").opacity(0.6))
+        //.background(Color("SmithApple").opacity(0.6))
         //.background(Color("AliceBlue"))
     }
 }
