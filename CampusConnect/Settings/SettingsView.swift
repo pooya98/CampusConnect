@@ -16,7 +16,8 @@ final class SettingsViewModel: ObservableObject {
 
 struct SettingsView: View {
     @StateObject private var viewModel = SettingsViewModel()
-    @Binding var showLoginView: Bool
+    
+    @EnvironmentObject var ownerview : OwnerView
     
     var body: some View {
         
@@ -31,7 +32,7 @@ struct SettingsView: View {
                 Task {
                     do {
                         try viewModel.logout()
-                        showLoginView = true
+                        ownerview.owner = .signinview
                     }catch{
                         // MARK: - TODO
                         
@@ -54,7 +55,7 @@ extension SettingsView {
     private var accountSection: some View {
         Section {
             NavigationLink{
-                AccountView(showLoginView: $showLoginView)
+                AccountView()
             } label: {
                 Text("Account")
                     .foregroundColor(.blue)
@@ -68,7 +69,7 @@ extension SettingsView {
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            SettingsView(showLoginView: .constant(false))
+            SettingsView()
         }
         
     }

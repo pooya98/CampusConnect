@@ -12,7 +12,6 @@ struct AccountView: View {
     //@StateObject private var accountViewModel = AccountViewModel()
     @State var showDeleteAlert = false
     @State var showReauthSheet = false
-    @Binding var showLoginView: Bool
     
     
     var body: some View {
@@ -62,7 +61,7 @@ extension AccountView {
                     .fontWeight(.medium)
             }
             .sheet(isPresented: $showReauthSheet){
-                EmailReauthView(showLoginView: $showLoginView, showReauthSheet: $showReauthSheet)
+                EmailReauthView(showReauthSheet: $showReauthSheet)
             }
             
         } header: {
@@ -75,7 +74,7 @@ extension AccountView {
 struct AccountView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            AccountView(showLoginView: .constant(false))
+            AccountView()
         }
         
     }

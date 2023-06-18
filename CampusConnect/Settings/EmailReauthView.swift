@@ -71,7 +71,6 @@ struct EmailReauthView: View {
     @StateObject private var emailReauthViewModel = EmailReauthViewModel()
     @State private var reauthError = ""
     @State private var showReauthErrorAlert = false
-    @Binding var showLoginView: Bool
     @Binding var showReauthSheet : Bool
     
     var body: some View {
@@ -125,7 +124,7 @@ struct EmailReauthView: View {
                                 print("Logged out")
                                 
                                 // Display login screen
-                                showLoginView = true
+                                //showLoginView = true
                             }
                             
                         } catch {
@@ -167,6 +166,6 @@ struct EmailReauthView: View {
 
 struct EmailReauthView_Previews: PreviewProvider {
     static var previews: some View {
-        EmailReauthView(showLoginView: .constant(false), showReauthSheet: .constant(false))
+        EmailReauthView(showReauthSheet: .constant(false))
     }
 }
