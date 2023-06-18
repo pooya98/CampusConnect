@@ -70,7 +70,7 @@ final class GroupChatDetailsViewModel: ObservableObject {
             return
         }
         
-        //let message = Message(id: "007", content: "New group Chat", senderId: "007", senderName: "System", dateCreated: Date(), messageType: MessageType.text.rawValue)
+        let message = Message(id: "007", content: "New group Chat", senderId: "007", senderName: "System", dateCreated: Date(), messageType: MessageType.text.rawValue)
         
         let groupData = ChatGroup(groupName: groupName, groupMembers: groupMembers, groupAdminId: [currentUser.userId], recentMessage: nil, groupProfileImage: nil, groupProfileImagePath: nil, groupType: GroupType.multiPerson.rawValue, dateCreated: Date())
         
@@ -79,6 +79,11 @@ final class GroupChatDetailsViewModel: ObservableObject {
         if let pickedPhoto = selectedPhoto, let groupID = groupId {
             saveGroupProfileImage(item: pickedPhoto, groupId: groupID)
         }
+        
+        if let groupID = groupId {
+            try await ChatManager.shared.sendSystemMessage(groupId: groupID, message: message)
+        }
+        
         print("Created multi-person chat room!")
     }
     

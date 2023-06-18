@@ -35,7 +35,7 @@ struct MeetUpGlimpseView: View {
                     Text(groupName?.prefix(2).uppercased() ?? "GR")
                         .padding()
                         .foregroundColor(.black)
-                        .font(.title3)
+                        .font(.headline)
                         .fontWeight(.semibold)
                         .frame(width: 60, height: 60)
                         .background(Color("SmithApple"))

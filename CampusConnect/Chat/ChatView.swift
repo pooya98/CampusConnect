@@ -97,8 +97,17 @@ final class ChatVieModel: ObservableObject {
     }
     
     
+    /*func getGroupName(group: ChatGroup) ->String? {
+        if group.groupType == GroupType.multiPerson.rawValue {
+            return group.groupName
+        }else {
+            return user?.userId == group.groupMembers?.first ? group.displayName?.last : group.displayName?.first
+        }
+    }*/
+    
     func getGroupName(group: ChatGroup) ->String? {
         if group.groupType == GroupType.multiPerson.rawValue {
+            print("groupName: \(String(describing: group.groupName))")
             return group.groupName
         }else {
             return user?.userId == group.groupMembers?.first ? group.displayName?.last : group.displayName?.first
@@ -158,7 +167,7 @@ struct ChatView: View {
                             NavigationLink {
                                 ChatThreadView(groupId: group.groupId ?? "lG6CpNumnRMTjyny3755", profileImageUrl: group.groupType == GroupType.twoPerson.rawValue ? group.displayImage : group.groupProfileImage, name: chatViewModel.getGroupName(group: group))
                             } label: {
-                                MessageGilmpseView(department: nil, profilePicUrl: group.groupType == GroupType.twoPerson.rawValue ? group.displayImage : group.groupProfileImage, message: group.recentMessage?.content, bannerName: chatViewModel.user?.userId == group.groupMembers?.first ? group.displayName?.last : group.displayName?.first) {
+                                MessageGilmpseView(department: nil, profilePicUrl: group.groupType == GroupType.twoPerson.rawValue ? group.displayImage : group.groupProfileImage, message: group.recentMessage?.content, bannerName: chatViewModel.getGroupName(group: group)) {
                                     
                                     chatViewModel.timeSinceSent(dateCreated: group.recentMessage?.dateCreated)
                                     

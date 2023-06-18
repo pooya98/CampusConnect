@@ -19,6 +19,7 @@ final class CreateGroupViewModel: ObservableObject {
     @Published var selectedDate = Date()
     @Published var selectedPhoto: PhotosPickerItem?  = nil
     @Published var groupId : String? = nil
+    @Published var chatGroupId: String? = nil
     
     func loadCurrentUser() async throws {
         let authDataResult = try AuthenticationManager.shared.getAuthenticatedUser()
@@ -76,8 +77,36 @@ final class CreateGroupViewModel: ObservableObject {
         
         //MARK: - TODO
         // TODO: add creation of meetUp group chat
+        print("Creating meet-up chat group...")
+        try await createMeetUPChatGroup()
+        print("Chat group created")
         
-        print("Created meet-up group!")
+        print("Meet-up group created!")
+    }
+    
+    func createMeetUPChatGroup() async throws {
+        
+        guard let currentUser = user else {
+            print("Error! user data not loaded!. User might not have logged in")
+            return
+        }
+        
+        let message = Message(id: "007", content: "New group Chat", senderId: "007", senderName: "System", dateCreated: Date(), messageType: MessageType.text.rawValue)
+        
+        let groupData = ChatGroup(groupName: groupName, groupMembers: [currentUser.userId], groupAdminId: [currentUser.userId], recentMessage: nil, groupProfileImage: nil, groupProfileImagePath: nil, groupType: GroupType.multiPerson.rawValue, dateCreated: Date())
+        
+        self.chatGroupId = try await ChatManager.shared.createChatGroup(groupData: groupData)
+        
+        // Save profile image to chat group
+        if let pickedPhoto = selectedPhoto, let groupID = chatGroupId {
+            saveMeetUpProfileImage(item: pickedPhoto, groupId: groupID)
+        }
+        
+        if let groupID = chatGroupId {
+            try await ChatManager.shared.sendSystemMessage(groupId: groupID, message: message)
+        }
+        
+        print("Created multi-person chat room!")
     }
 }
 
