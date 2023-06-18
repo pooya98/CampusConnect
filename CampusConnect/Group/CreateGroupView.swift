@@ -73,6 +73,10 @@ final class CreateGroupViewModel: ObservableObject {
         if let pickedPhoto = selectedPhoto, let groupID = groupId {
             saveMeetUpProfileImage(item: pickedPhoto, groupId: groupID)
         }
+        
+        //MARK: - TODO
+        // TODO: add creation of meetUp group chat
+        
         print("Created meet-up group!")
     }
 }
@@ -105,12 +109,6 @@ struct CreateGroupView: View {
                             .foregroundColor(.red)
                             .font(.footnote)
                     }
-                    
-                    /*TextField("Department", text: $createGroupViewModel.department)
-                        .padding()
-                        .background(Color.gray.opacity(0.4))
-                        .cornerRadius(10)
-                        .disableAutocorrection(true)*/
                 }
                 
                 
