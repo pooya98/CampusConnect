@@ -84,13 +84,6 @@ struct MessageFieldView: View {
     }
 }
 
-struct MessageFieldView_Previews: PreviewProvider {
-    static var previews: some View {
-       // MessageFieldView(showNameAndTime: .constant(true))
-        MessageFieldView(groupId: "1234")
-    }
-}
-
 struct CustomTextField: View {
     var placeholder: Text
     @Binding var text: String
@@ -106,5 +99,12 @@ struct CustomTextField: View {
             
             TextField("", text: $text, onEditingChanged: editingChanged, onCommit: commit)
         }
+    }
+}
+
+struct MessageFieldView_Previews: PreviewProvider {
+    static var previews: some View {
+       // MessageFieldView(showNameAndTime: .constant(true))
+        MessageFieldView(groupId: "1234")
     }
 }
