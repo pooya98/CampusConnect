@@ -14,10 +14,10 @@ struct AuthDataResultModel {
     let email: String?
     let photoUrl: String?
     
-    init(user: User){
-        self.uid = user.uid
-        self.email = user.email
-        self.photoUrl = user.photoURL?.absoluteString
+    init(userUid: String, userEmail: String?, userPhotoUrl: String?){
+        self.uid = userUid
+        self.email = userEmail
+        self.photoUrl = userPhotoUrl
     }
 }
 
@@ -32,13 +32,13 @@ final class AuthenticationManager {
     @discardableResult
     func createUser (email: String, password: String) async throws -> AuthDataResultModel { // async since it pings the server and waits for a response
         let authDataResult = try await Auth.auth().createUser(withEmail: email, password: password)
-        return AuthDataResultModel(user: authDataResult.user)
+        return AuthDataResultModel(userUid: authDataResult.user.uid, userEmail: authDataResult.user.email, userPhotoUrl: authDataResult.user.photoURL?.absoluteString)
     }
     
     @discardableResult
     func signInUser (email: String, password: String) async throws -> AuthDataResultModel {
         let authDataResult = try await Auth.auth().signIn(withEmail: email, password: password)
-        return AuthDataResultModel(user: authDataResult.user)
+        return AuthDataResultModel(userUid: authDataResult.user.uid, userEmail: authDataResult.user.email, userPhotoUrl: authDataResult.user.photoURL?.absoluteString)
     }
     
     
@@ -52,7 +52,7 @@ final class AuthenticationManager {
             throw URLError(.badServerResponse) // auth might not have finished initializing
         }
         
-        return AuthDataResultModel(user: user)
+        return AuthDataResultModel(userUid: user.uid, userEmail: user.email, userPhotoUrl: user.photoURL?.absoluteString)
     }
     
     /*func reauthenticateUser(credential: AuthCredential) async throws {

@@ -17,27 +17,26 @@ struct CreateAccountView: View {
     @State private var createAccountErrorMsg = ""
     
     var body: some View {
-        VStack{
+        VStack(alignment: .leading){
             
             Group{
-                TextField("First Name", text: $createAccountViewModel.firstName)
-                    .padding()
-                    .background(Color.gray.opacity(0.4))
-                    .cornerRadius(10)
-                    .disableAutocorrection(true)
+                Text("이름")
+                    .font(.caption)
+                    .foregroundColor(Color.gray)
                 
+                CustomTextField1(text: $createAccountViewModel.firstName)
                 
                 if(createAccountViewModel.firstNameNotfilled){
                     Text("First Name Required")
                         .foregroundColor(.red)
                         .font(.footnote)
                 }
-
-                TextField("Last Name", text: $createAccountViewModel.lastName)
-                    .padding()
-                    .background(Color.gray.opacity(0.4))
-                    .cornerRadius(10)
-                    .disableAutocorrection(true)
+                
+                Text("성")
+                    .font(.caption)
+                    .foregroundColor(Color.gray)
+                
+                CustomTextField1(text: $createAccountViewModel.lastName)
                 
                 
                 if(createAccountViewModel.lastNameNotfilled){
@@ -45,14 +44,12 @@ struct CreateAccountView: View {
                         .foregroundColor(.red)
                         .font(.footnote)
                 }
-
-                TextField("Email", text: $createAccountViewModel.email)
-                    .autocapitalization(.none)
-                    .textCase(.lowercase)
-                    .padding()
-                    .background(Color.gray.opacity(0.4))
-                    .cornerRadius(10)
-                    .disableAutocorrection(true)
+                
+                Text("이메일")
+                    .font(.caption)
+                    .foregroundColor(Color.gray)
+                
+                CustomTextField1(text: $createAccountViewModel.email)
                 
                 if(createAccountViewModel.isInvalidEmail){
                     Text("Invalid email address")
@@ -62,15 +59,17 @@ struct CreateAccountView: View {
                 
             }
             
+            Text("비밀번호")
+                .font(.caption)
+                .foregroundColor(Color.gray)
             
-            Group {
-                SecureField("Password", text: $createAccountViewModel.password)
-                SecureField("re-enter password", text: $createAccountViewModel.reEnteredPassword)
-            }
-            .padding()
-            .background(Color.gray.opacity(0.4))
-            .cornerRadius(10)
+            CustomSecureField(text: $createAccountViewModel.password)
             
+            Text("비밀번호 확인")
+                .font(.caption)
+                .foregroundColor(Color.gray)
+            
+            CustomSecureField(text: $createAccountViewModel.reEnteredPassword)
             
             Group{
                 
@@ -107,13 +106,12 @@ struct CreateAccountView: View {
                     }
                 }
             } label: {
-                Text("Create Account")
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .frame(height: 55)
-                    .frame(maxWidth: .infinity)
-                    .background(Color.blue)
-                    .cornerRadius(10)
+                Text("회원가입") // 버튼 텍스트
+                    .font(.headline) // 텍스트 크기 조정
+                    .foregroundColor(.white) // 텍스트 색상 설정
+                    .frame(width: 350, height: 50) // 버튼 크기 설정
+                    .background(Color(red: 247/255, green: 202/255, blue: 246/255)) // 배경색 설정
+                    .cornerRadius(10.0)
             }
             .padding(.top, 20)
             
@@ -137,12 +135,40 @@ struct CreateAccountView: View {
                 Text(createAccountErrorMsg)
                     .fontWeight(.medium)
             }
-            
         }
         .padding()
-        .navigationTitle("Create Account")
+        
     }
-    
+}
+
+struct CustomTextField1: View {
+    @Binding var text: String
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            TextField("", text: $text) // 빈 텍스트 필드, text 바인딩
+                .padding(.vertical, 0) // 수직(padding) 방향으로 음수 마진 적용하여 필드 내부 공간 조정
+                .foregroundColor(Color(red: 90/255, green: 90/255, blue: 90/255)) // 텍스트 색상 설정
+
+            Divider() // 구분선
+                .background(Color.gray) // 배경색 설정
+        }
+    }
+}
+
+struct CustomSecureField: View {
+    @Binding var text: String
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            SecureField("", text: $text) // 빈 텍스트 필드, text 바인딩
+                .padding(.vertical, 0) // 수직(padding) 방향으로 음수 마진 적용하여 필드 내부 공간 조정
+                .foregroundColor(Color(red: 90/255, green: 90/255, blue: 90/255)) // 텍스트 색상 설정
+
+            Divider() // 구분선
+                .background(Color.gray) // 배경색 설정
+        }
+    }
 }
 
 struct CreateAccountView_Previews: PreviewProvider {

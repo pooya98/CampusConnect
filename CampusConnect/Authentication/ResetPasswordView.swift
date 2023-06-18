@@ -41,10 +41,8 @@ struct ResetPasswordView: View {
         VStack{
             Text("Enter your account email")
             
-            TextField("Email", text: $resetPassViewModel.email)
+            CustomTextField1(text: $resetPassViewModel.email)
                 .padding()
-                .background(Color.gray.opacity(0.4))
-                .cornerRadius(10)
             
             if (resetPassViewModel.emailPasswordNotFilled) {
                 Text("Must provide an email")
@@ -73,12 +71,11 @@ struct ResetPasswordView: View {
                 }
             } label: {
                 Text("Send")
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .frame(height: 55)
-                    .frame(maxWidth: .infinity)
-                    .background(Color.blue)
-                    .cornerRadius(10)
+                    .font(.headline) // 텍스트 크기 조정
+                    .foregroundColor(.white) // 텍스트 색상 설정
+                    .frame(width: 350, height: 50) // 버튼 크기 설정
+                    .background(Color(red: 247/255, green: 202/255, blue: 246/255)) // 배경색 설정
+                    .cornerRadius(10.0)
             }
             .padding(.top, 20)
             
