@@ -38,7 +38,7 @@ struct MeetUpGlimpseView: View {
                         .font(.headline)
                         .fontWeight(.semibold)
                         .frame(width: 60, height: 60)
-                        .background(Color("SmithApple"))
+                        .background(Color(red: 246/255, green: 201/255, blue: 246/255))
                         .cornerRadius(50)
                 }
                 

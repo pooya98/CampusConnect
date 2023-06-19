@@ -37,21 +37,21 @@ struct StoryDetailView: View {
                     .font(.title)
                     .foregroundColor(Color.black)
                     .fontWeight(.bold)
-                    .frame(width: 350).background(Color.white)
+                    .frame(width: 300).background(Color.white)
 
                 
                 Text("- 장소 : \(i_location ?? "")")
                     .font(.title3)
                     .foregroundColor(Color.black)
                     .fontWeight(.bold)
-                    .frame(width: 350)
+                    .frame(width: 300)
                     .background(Color.white)
                 
                 Text("- 시각 : \(i_time ?? "")")
                     .font(.title3)
                     .foregroundColor(Color.black)
                     .fontWeight(.bold)
-                    .frame(width: 350)
+                    .frame(width: 300)
                     .background(Color.white)
             }
             .padding([.bottom], 150)
