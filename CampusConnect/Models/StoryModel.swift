@@ -9,6 +9,6 @@ import Foundation
 
 struct Story: Identifiable {
     let id = UUID()
-    let imageName: String
-    let username: String
+    let imageUrl: String
+    let storyname: String
 }

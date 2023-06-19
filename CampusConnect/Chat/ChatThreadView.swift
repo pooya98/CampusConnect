@@ -108,7 +108,7 @@ struct ChatThreadView: View {
                 //.background(Color(.gray))
                 
             }
-            .background(chatThreadViewModel.groupMessages.isEmpty ? Color(.white) : Color("SmithApple"))
+            .background(chatThreadViewModel.groupMessages.isEmpty ? Color(.white) : Color(red: 246/255, green: 201/255, blue: 246/255))
             
             //MessageFieldView(showNameAndTime: $showNameAndTime)
             MessageFieldView(groupId: groupId)

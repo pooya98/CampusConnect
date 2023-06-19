@@ -290,6 +290,7 @@ struct AddFriendView: View {
 
                     }
                     else {
+                        // TODO: Add Alert (Complete)
                         // Add Friend to friend list
                         Button {
                             

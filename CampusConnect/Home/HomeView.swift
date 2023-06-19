@@ -7,22 +7,27 @@
 
 import SwiftUI
 
+@MainActor
+final class HomeViewModel: ObservableObject {
+    
+    @Published var impromptu_list : [Impromptu] = []
+    
+    func getImpromptus() async throws {
+        self.impromptu_list = try await ImpromptuManager.shared.getImpromptus()
+    }
+
+}
+
 struct HomeView: View {
+    
+    @StateObject var homeViewModel = HomeViewModel()
+    
     @State private var isShowingSearchView = false
     @State private var isShowingNotificationView = false
     @State private var selectedTab = "For You"
     @State var buttonExpanded = false
+    @State var isShowingCreateView = "none"
     @State private var isShowingStory = false
-    
-    let stories: [Story] = [
-        Story(imageName: "profile1", username: "Username1"),
-        Story(imageName: "story2", username: "Username2"),
-        Story(imageName: "profile3", username: "Username3"),
-        Story(imageName: "profile4", username: "Username4"),
-        Story(imageName: "profile5", username: "Username5"),
-        Story(imageName: "profile6", username: "Username6"),
-        Story(imageName: "profile7", username: "Username7"),
-    ]
     
     var categories: [Category] = [
         Category(imageName: "Communication", categoryName: "인간관계(친목)"),
@@ -40,79 +45,14 @@ struct HomeView: View {
             NavigationView {
                 ScrollView {
                     VStack {
-                        HStack {
-                            Spacer()
-                            Button(action: {
-                                isShowingSearchView = true
-                            }) {
-                                Image(systemName: "magnifyingglass")
-                                    .font(.title)
-                                    .foregroundColor(.black)
-                            }
-                            .fullScreenCover(isPresented: $isShowingSearchView) {
-                                SearchView()
-                            }
-                            
-                            Button(action: {
-                                isShowingNotificationView = true
-                            }) {
-                                Image(systemName: "bell")
-                                    .font(.title)
-                                    .foregroundColor(.black)
-                            }
-                            .fullScreenCover(isPresented: $isShowingNotificationView) {
-                                NotificationView()
-                            }
-                        }
-                        .padding(.horizontal)
+                        topBar
+                        impromptulist
                         
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 18) {
-                                ForEach(stories.reversed()) { story in
-                                    StoryView(story: story)
-                                        .onTapGesture {
-                                            isShowingStory = true
-                                        }
-                                        .fullScreenCover(isPresented: $isShowingStory) {
-                                            StoryDetailView(story: story)
-                                        }
-                                }
-                                Spacer()
-                            }
-                            .padding(.horizontal)
-                        }
+                        Divider().background(Color.gray)
                         
-                        Divider()
-                            .background(Color.gray)
+                        subTabBar
+                        middleboxbackground
                         
-                        HStack {
-                            Text("For You")
-                                .font(.headline)
-                                .fontWeight(selectedTab == "For You" ? .bold : .light)
-                                .underline(selectedTab == "For You", color: .black)
-                                .foregroundColor(selectedTab == "For You" ? .black : .gray)
-                                .onTapGesture {
-                                    selectedTab = "For You"
-                                }
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                            
-                            Text("Discover")
-                                .font(.headline)
-                                .fontWeight(selectedTab == "Discover" ? .bold : .light)
-                                .underline(selectedTab == "Discover", color: selectedTab == "Discover" ? .black : .black)
-                                .foregroundColor(selectedTab == "Discover" ? .black : .gray)
-                                .onTapGesture {
-                                    selectedTab = "Discover"
-                                }
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                        }
-                        .padding(.leading, 20)
-                        .padding(.trailing, 220)
-                        
-                        Rectangle()
-                            .fill(selectedTab == "Discover" ? Color(red: 254/255, green: 248/255, blue: 203/255) : Color(red: 228/255, green: 236/255, blue: 253/255))
-                            .frame(height: 100)
-                            .padding(.top, -13)
                         
                         if selectedTab == "For You" {
                             Text("Herbert님을 위해 인간지능으로 한땀 한땀 골라봤어요!")
@@ -183,10 +123,96 @@ struct HomeView: View {
                     .animation(.default)
                     .edgesIgnoringSafeArea(.top)
             }
-            AnimatedExpandableButton(isExpanded: $buttonExpanded)
+            AnimatedExpandableButton(isExpanded: $buttonExpanded, selected: $isShowingCreateView)
+        }
+        .task {
+            try? await homeViewModel.getImpromptus()
+            print(homeViewModel.impromptu_list)
         }
     }
 }
+
+extension HomeView {
+    var topBar : some View {
+        HStack {
+            Spacer()
+            Button(action: {
+                isShowingSearchView = true
+            }) {
+                Image(systemName: "magnifyingglass")
+                    .font(.title)
+                    .foregroundColor(.black)
+            }
+            .fullScreenCover(isPresented: $isShowingSearchView) {
+                SearchView()
+            }
+            
+            Button(action: {
+                isShowingNotificationView = true
+            }) {
+                Image(systemName: "bell")
+                    .font(.title)
+                    .foregroundColor(.black)
+            }
+            .fullScreenCover(isPresented: $isShowingNotificationView) {
+                NotificationView()
+            }
+        }
+        .padding(.horizontal)
+    }
+    
+    var impromptulist : some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 18) {
+                ForEach(homeViewModel.impromptu_list, id: \.ImpromptuImageUrl) { impromptu in
+                    StoryView(story: Story(imageUrl: impromptu.ImpromptuImageUrl ?? "", storyname: impromptu.ImpromptuName ?? ""))
+                        .onTapGesture {
+                            isShowingStory = true
+                        }
+                        .fullScreenCover(isPresented: $isShowingStory) {
+                            StoryDetailView(i_url: impromptu.ImpromptuImageUrl, i_name: impromptu.ImpromptuName, i_location: impromptu.ImpromptuLocation, i_time: impromptu.ImpromptuTime)
+                        }
+                }
+                Spacer()
+            }
+            .padding(.horizontal)
+        }
+    }
+    
+    var subTabBar : some View {
+        HStack {
+            Text("For You")
+                .font(.headline)
+                .fontWeight(selectedTab == "For You" ? .bold : .light)
+                .underline(selectedTab == "For You", color: .black)
+                .foregroundColor(selectedTab == "For You" ? .black : .gray)
+                .onTapGesture {
+                    selectedTab = "For You"
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+            
+            Text("Discover")
+                .font(.headline)
+                .fontWeight(selectedTab == "Discover" ? .bold : .light)
+                .underline(selectedTab == "Discover", color: selectedTab == "Discover" ? .black : .black)
+                .foregroundColor(selectedTab == "Discover" ? .black : .gray)
+                .onTapGesture {
+                    selectedTab = "Discover"
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .padding(.leading, 20)
+        .padding(.trailing, 220)
+    }
+    
+    var middleboxbackground : some View {
+        Rectangle()
+            .fill(selectedTab == "Discover" ? Color(red: 254/255, green: 248/255, blue: 203/255) : Color(red: 228/255, green: 236/255, blue: 253/255))
+            .frame(height: 100)
+            .padding(.top, -13)
+    }
+}
+
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {

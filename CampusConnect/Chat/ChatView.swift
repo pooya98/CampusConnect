@@ -142,7 +142,7 @@ struct ChatView: View {
                     
                 }
                 .frame(maxWidth: .infinity)
-                .background(Color("SmithApple"))
+                .background(Color(red: 246/255, green: 201/255, blue: 246/255))
                 
                 //Spacer()
                 VStack(alignment: .leading) {

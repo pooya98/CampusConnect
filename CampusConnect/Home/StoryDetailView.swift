@@ -9,7 +9,10 @@ import SwiftUI
 
 struct StoryDetailView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    let story: Story
+    var i_url: String?
+    var i_name: String?
+    var i_location: String?
+    var i_time: String?
     @State private var isStoryActive = true
     @State private var progressValue: Float = 0.0
     @State private var isPlaying = true
@@ -17,11 +20,41 @@ struct StoryDetailView: View {
     var body: some View {
         ZStack {
             Color.black.edgesIgnoringSafeArea(.all)
+            
+            AsyncImage(url: URL(string: i_url ?? "")) { image in
+                image
+                    .resizable()
+                    .scaledToFit()
+            } placeholder: {
+                ProgressView()
+                    .frame(width: 60, height: 60)
+            }
+            
+            VStack(){
+                Spacer()
+                
+                Text("\'\(i_name ?? "")\'\n")
+                    .font(.title)
+                    .foregroundColor(Color.black)
+                    .fontWeight(.bold)
+                    .frame(width: 350).background(Color.white)
 
-            Image(story.imageName)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .edgesIgnoringSafeArea(.all)
+                
+                Text("- 장소 : \(i_location ?? "")")
+                    .font(.title3)
+                    .foregroundColor(Color.black)
+                    .fontWeight(.bold)
+                    .frame(width: 350)
+                    .background(Color.white)
+                
+                Text("- 시각 : \(i_time ?? "")")
+                    .font(.title3)
+                    .foregroundColor(Color.black)
+                    .fontWeight(.bold)
+                    .frame(width: 350)
+                    .background(Color.white)
+            }
+            .padding([.bottom], 150)
             
             VStack {
                 ProgressView(value: progressValue, total: 100)
@@ -92,8 +125,8 @@ struct StoryDetailView: View {
     }
 }
 
-struct StoryDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        StoryDetailView(story: Story(imageName: "profile1", username: "Username1"))
-    }
-}
+//struct StoryDetailView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        StoryDetailView(presentationMode: <#T##Environment<Binding<PresentationMode>>#>, i_url: <#T##String?#>, i_name: <#T##String?#>, i_location: <#T##String?#>, i_time: <#T##String?#>)
+//    }
+//}

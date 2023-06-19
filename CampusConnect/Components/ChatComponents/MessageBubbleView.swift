@@ -36,13 +36,13 @@ struct MessageBubbleView: View {
                     
                     Text(message.content ?? "")
                         .padding()
-                        .background(isSentByCurrentUser() ? Color("SmithApple") : Color("LavenderGray"))
+                        .background(isSentByCurrentUser() ? Color(red: 246/255, green: 201/255, blue: 246/255): Color("LavenderGray"))
                         .cornerRadius(35)
                 } else {
                     
                     Text(message.content ?? "")
                         .padding()
-                        .background(isSentByCurrentUser() ? Color("SmithApple") : Color("LavenderGray"))
+                        .background(isSentByCurrentUser() ? Color(red: 246/255, green: 201/255, blue: 246/255) : Color("LavenderGray"))
                         .cornerRadius(35)
                     
                     if(showNameAndTime()) {

@@ -70,7 +70,7 @@ struct MessageFieldView: View {
                     Image(systemName: "paperplane.fill")
                         .padding(10)
                         .foregroundColor(.black.opacity(0.7))
-                        .background(Color("LumGreen"))
+                        .background(Color(red: 246/255, green: 201/255, blue: 246/255))
                         .cornerRadius(15)
                 }
             }
