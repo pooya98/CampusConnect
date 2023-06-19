@@ -99,39 +99,16 @@ extension ProfileView {
             }
             
             HStack{
-                Spacer()
                 NavigationLink(destination: FriendListView()){
-                    VStack{
-                        Image(systemName: "circle.fill")
-                            .resizable()
-                            .frame(width: 50, height: 50)
-                        Text("Friends")
-                            .font(.footnote)
-                    }
+                    Text("Friends")
+                        .fontWeight(.bold)
+                        .frame(width: 300, height: 40)
+                        .foregroundColor(.white)
+                        .background(Color(red: 246/255, green: 201/255, blue: 246/255))
+                        .cornerRadius(10)
                 }
-                
-                Spacer()
-                NavigationLink(destination: DummyView()){
-                    VStack{
-                        Image(systemName: "circle.fill")
-                            .resizable()
-                            .frame(width: 50, height: 50)
-                        Text("Attendance")
-                            .font(.footnote)
-                    }
-                }
-                Spacer()
-                NavigationLink(destination: DummyView()){
-                    VStack{
-                        Image(systemName: "circle.fill")
-                            .resizable()
-                            .frame(width: 50, height: 50)
-                        Text("관심목록")
-                            .font(.footnote)
-                    }
-                }
-                Spacer()
             }
+            
         }
         .padding([.leading, .trailing], 10)
         .padding([ .bottom], 15)

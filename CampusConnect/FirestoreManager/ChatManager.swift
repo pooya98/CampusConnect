@@ -340,30 +340,18 @@ final class ChatManager {
     }
     
     
+    func sendSystemMessage(groupId: String, message: Message) async throws {
+        guard let recentMessage = try? enconder.encode(message) else {
+            // TODO: Customize error message
+            print("Error adding message to database")
+            throw URLError(.badServerResponse)
+        }
+        
+        try await groupDocument(groupId: groupId).updateData([ChatGroup.CodingKeys.recentMessage.rawValue : recentMessage])
+    }
+    
+    
     // ********************************** Chat Thread Functions ********************************** //
-    
-    
-   
-    
-    
-    
-    
-    
-    
-    
-  
-    
-    
-    
-    
-   
-    
-    
-    
-    
-   
-    
-    
     
     
 }

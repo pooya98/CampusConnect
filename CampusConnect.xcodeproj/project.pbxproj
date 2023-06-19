@@ -15,7 +15,13 @@
 		8204A6412A40321C007C1AC6 /* ImpromptuModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8204A6402A40321C007C1AC6 /* ImpromptuModel.swift */; };
 		8204A6472A40747F007C1AC6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8204A6462A40747F007C1AC6 /* GoogleService-Info.plist */; };
 		8204A6492A40A925007C1AC6 /* RecommendGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8204A6482A40A925007C1AC6 /* RecommendGroup.swift */; };
-		8204A64B2A40AA63007C1AC6 /* RecommendGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8204A64A2A40AA63007C1AC6 /* RecommendGroupView.swift */; };
+		8204A6502A40B1A9007C1AC6 /* CreateGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8204A64F2A40B1A9007C1AC6 /* CreateGroupView.swift */; };
+		8204A6522A40B1C3007C1AC6 /* GroupDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8204A6512A40B1C3007C1AC6 /* GroupDetailsView.swift */; };
+		8204A6542A40B200007C1AC6 /* MeetUpGroupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8204A6532A40B200007C1AC6 /* MeetUpGroupModel.swift */; };
+		8204A6562A40B21B007C1AC6 /* EnumModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8204A6552A40B21B007C1AC6 /* EnumModels.swift */; };
+		8204A6582A40B244007C1AC6 /* MeetUpManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8204A6572A40B244007C1AC6 /* MeetUpManager.swift */; };
+		8204A65B2A40B28B007C1AC6 /* MeetUpGlimpseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8204A65A2A40B28B007C1AC6 /* MeetUpGlimpseView.swift */; };
+		8204A65D2A40B2A1007C1AC6 /* MeetupDetailsTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8204A65C2A40B2A1007C1AC6 /* MeetupDetailsTitleView.swift */; };
 		8204D5402A3DA0930014918C /* GroupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8204D53F2A3DA0930014918C /* GroupModel.swift */; };
 		8204D5422A3DB8F60014918C /* GroupGilmpseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8204D5412A3DB8F60014918C /* GroupGilmpseView.swift */; };
 		823EA4822A1E1DA100A58361 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823EA4812A1E1DA100A58361 /* HomeView.swift */; };
@@ -86,7 +92,13 @@
 		8204A6402A40321C007C1AC6 /* ImpromptuModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImpromptuModel.swift; sourceTree = "<group>"; };
 		8204A6462A40747F007C1AC6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8204A6482A40A925007C1AC6 /* RecommendGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendGroup.swift; sourceTree = "<group>"; };
-		8204A64A2A40AA63007C1AC6 /* RecommendGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendGroupView.swift; sourceTree = "<group>"; };
+		8204A64F2A40B1A9007C1AC6 /* CreateGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGroupView.swift; sourceTree = "<group>"; };
+		8204A6512A40B1C3007C1AC6 /* GroupDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailsView.swift; sourceTree = "<group>"; };
+		8204A6532A40B200007C1AC6 /* MeetUpGroupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetUpGroupModel.swift; sourceTree = "<group>"; };
+		8204A6552A40B21B007C1AC6 /* EnumModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumModels.swift; sourceTree = "<group>"; };
+		8204A6572A40B244007C1AC6 /* MeetUpManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetUpManager.swift; sourceTree = "<group>"; };
+		8204A65A2A40B28B007C1AC6 /* MeetUpGlimpseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetUpGlimpseView.swift; sourceTree = "<group>"; };
+		8204A65C2A40B2A1007C1AC6 /* MeetupDetailsTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetupDetailsTitleView.swift; sourceTree = "<group>"; };
 		8204D53F2A3DA0930014918C /* GroupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupModel.swift; sourceTree = "<group>"; };
 		8204D5412A3DB8F60014918C /* GroupGilmpseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupGilmpseView.swift; sourceTree = "<group>"; };
 		823EA4812A1E1DA100A58361 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -168,6 +180,15 @@
 			path = Impromptu;
 			sourceTree = "<group>";
 		};
+		8204A6592A40B27B007C1AC6 /* MeetUpComponents */ = {
+			isa = PBXGroup;
+			children = (
+				8204A65A2A40B28B007C1AC6 /* MeetUpGlimpseView.swift */,
+				8204A65C2A40B2A1007C1AC6 /* MeetupDetailsTitleView.swift */,
+			);
+			path = MeetUpComponents;
+			sourceTree = "<group>";
+		};
 		8204D53E2A3DA0760014918C /* GroupComponents */ = {
 			isa = PBXGroup;
 			children = (
@@ -185,7 +206,6 @@
 				824E20432A3E32680033753A /* StoryView.swift */,
 				824E20492A3E33100033753A /* StoryDetailView.swift */,
 				8204A6342A3EE5A3007C1AC6 /* AnimatedExpandableButton.swift */,
-				8204A64A2A40AA63007C1AC6 /* RecommendGroupView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -196,6 +216,8 @@
 				823EA4832A1E1DAD00A58361 /* GroupView.swift */,
 				8204A6362A3F324B007C1AC6 /* GroupRow.swift */,
 				8204A6392A3F326C007C1AC6 /* GroupDetailView.swift */,
+				8204A64F2A40B1A9007C1AC6 /* CreateGroupView.swift */,
+				8204A6512A40B1C3007C1AC6 /* GroupDetailsView.swift */,
 			);
 			path = Group;
 			sourceTree = "<group>";
@@ -317,6 +339,8 @@
 				824E20472A3E32DE0033753A /* GroupCategoryModel.swift */,
 				8204A6402A40321C007C1AC6 /* ImpromptuModel.swift */,
 				8204A6482A40A925007C1AC6 /* RecommendGroup.swift */,
+				8204A6532A40B200007C1AC6 /* MeetUpGroupModel.swift */,
+				8204A6552A40B21B007C1AC6 /* EnumModels.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -324,6 +348,7 @@
 		E597D6B92A20A0D90008C4B2 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				8204A6592A40B27B007C1AC6 /* MeetUpComponents */,
 				8204D53E2A3DA0760014918C /* GroupComponents */,
 				E5FF1FE22A24AD2F00F6DA48 /* ProfileComponents */,
 				E5FF1FE12A24AD0100F6DA48 /* ChatComponents */,
@@ -367,6 +392,7 @@
 				E59B12FC2A05514F0079AA9E /* UserManager.swift */,
 				E597D6C52A20F7170008C4B2 /* ChatManager.swift */,
 				8204A63E2A4022C3007C1AC6 /* ImpromptuManager.swift */,
+				8204A6572A40B244007C1AC6 /* MeetUpManager.swift */,
 			);
 			path = FirestoreManager;
 			sourceTree = "<group>";
@@ -510,6 +536,7 @@
 				824AECCB2A1DE21300AC9321 /* MainView.swift in Sources */,
 				8204A6352A3EE5A3007C1AC6 /* AnimatedExpandableButton.swift in Sources */,
 				82EDFF932A2CCAAB00B1E3D3 /* OnboardingView.swift in Sources */,
+				8204A6522A40B1C3007C1AC6 /* GroupDetailsView.swift in Sources */,
 				E5FD3D9B2A2AE2D800F3BC22 /* CreateMultiPersonGroupView.swift in Sources */,
 				E597D6C62A20F7170008C4B2 /* ChatManager.swift in Sources */,
 				E58F9AE82A079DC8007CF2AB /* CreateAccountViewModel.swift in Sources */,
@@ -530,17 +557,20 @@
 				E597D6CD2A22802B0008C4B2 /* EditProfileView.swift in Sources */,
 				E597D6C22A20C5D90008C4B2 /* MessageFieldView.swift in Sources */,
 				E597D6CB2A226C1F0008C4B2 /* ProfileHeaderView.swift in Sources */,
+				8204A65D2A40B2A1007C1AC6 /* MeetupDetailsTitleView.swift in Sources */,
 				824E20442A3E32680033753A /* StoryView.swift in Sources */,
+				8204A6542A40B200007C1AC6 /* MeetUpGroupModel.swift in Sources */,
 				E597D6D72A23A7B80008C4B2 /* FriendListView.swift in Sources */,
-				8204A64B2A40AA63007C1AC6 /* RecommendGroupView.swift in Sources */,
 				E59B13062A0751B80079AA9E /* LoginSheetView.swift in Sources */,
 				E597D6D12A229B2F0008C4B2 /* AddFriendView.swift in Sources */,
+				8204A6562A40B21B007C1AC6 /* EnumModels.swift in Sources */,
 				824E20482A3E32DE0033753A /* GroupCategoryModel.swift in Sources */,
 				E591CADC2A297D5B005E2FF2 /* DBUserModel.swift in Sources */,
 				824E204A2A3E33100033753A /* StoryDetailView.swift in Sources */,
 				8204A6412A40321C007C1AC6 /* ImpromptuModel.swift in Sources */,
 				E597D6D52A239ACA0008C4B2 /* ChatView.swift in Sources */,
 				E59B13082A0752720079AA9E /* PasswordAndSecurityViewModel.swift in Sources */,
+				8204A65B2A40B28B007C1AC6 /* MeetUpGlimpseView.swift in Sources */,
 				E523A3A22A02629100A81A14 /* CreateAccountView.swift in Sources */,
 				E597D6CF2A2290DF0008C4B2 /* ProfileAvatarView.swift in Sources */,
 				E597D6C02A20AD860008C4B2 /* MessageBubbleView.swift in Sources */,
@@ -548,7 +578,9 @@
 				E523A3A42A02725A00A81A14 /* AuthenticationManager.swift in Sources */,
 				E553A8F42A2C7085002045FC /* GroupChatDetailsView.swift in Sources */,
 				E59B12FD2A05514F0079AA9E /* UserManager.swift in Sources */,
+				8204A6502A40B1A9007C1AC6 /* CreateGroupView.swift in Sources */,
 				82F058CE2A010F410015480C /* CampusConnectApp.swift in Sources */,
+				8204A6582A40B244007C1AC6 /* MeetUpManager.swift in Sources */,
 				8204D5422A3DB8F60014918C /* GroupGilmpseView.swift in Sources */,
 				E5934BA02A0B54F800383A01 /* ResetPasswordView.swift in Sources */,
 				E591CAD52A2976AC005E2FF2 /* Extensions.swift in Sources */,
