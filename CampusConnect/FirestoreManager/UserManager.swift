@@ -174,12 +174,14 @@ final class UserManager {
     func getFiendsList(friendList: [String]) async throws -> [DBUser] {
         var groups: [DBUser] = []
         
-        let querySnapshot = try await userCollection.whereField(DBUser.CodingKeys.userId.rawValue, in: friendList).getDocuments()
-        
-        for document in querySnapshot.documents{
-            let group = try document.data(as: DBUser.self)
+        if !friendList.isEmpty {
+            let querySnapshot = try await userCollection.whereField(DBUser.CodingKeys.userId.rawValue, in: friendList).getDocuments()
             
-            groups.append(group)
+            for document in querySnapshot.documents{
+                let group = try document.data(as: DBUser.self)
+                
+                groups.append(group)
+            }
         }
         
         return groups

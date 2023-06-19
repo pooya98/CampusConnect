@@ -80,7 +80,7 @@ final class ImpromptuManager {
     func getImpromptus()  async throws -> [Impromptu] {
         
         var impromptus: [Impromptu] = []
-        let querySnapshot = try await impromptuCollection.order(by: Impromptu.CodingKeys.dateCreated.rawValue).limit(to: 10).getDocuments()
+        let querySnapshot = try await impromptuCollection.order(by: Impromptu.CodingKeys.dateCreated.rawValue, descending: true).limit(to: 10).getDocuments()
         
         for document in querySnapshot.documents{
             let im = try document.data(as: Impromptu.self)

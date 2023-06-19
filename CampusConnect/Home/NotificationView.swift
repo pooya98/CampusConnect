@@ -26,7 +26,7 @@ struct NotificationView: View {
             }
 
             // NotificationView2의 나머지 내용 추가
-            Text("검색")
+            Text("알림")
                 .font(.largeTitle)
             
             Spacer() // 나머지 콘텐츠 아래에 공간 추가

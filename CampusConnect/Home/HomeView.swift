@@ -40,6 +40,30 @@ struct HomeView: View {
         Category(imageName: "CategoryAll", categoryName: "전체보기")
     ]
     
+    let recommendGroups: [RecommendGroup] = [
+        RecommendGroup(imageName: "Barbeque", title: "옥상 낭만 🍖바베큐파티!", description: "옥탑방 바베큐파티~"),
+        RecommendGroup(imageName: "SpaceCrew", title: "협동 갓겜 <스페이스 크루>", description: "[협동 + 우주] 보드게임"),
+        RecommendGroup(imageName: "Talking", title: "남 얘기 들어보기", description: "친구도 한때는 '남'이었다")
+    ]
+    
+    let hotGroups: [RecommendGroup] = [
+        RecommendGroup(imageName: "Tea", title: "다도🫖배우기", description: "같이 보이차 마셔요!"),
+        RecommendGroup(imageName: "Beer", title: "수제맥주 만들기", description: "퀄리티 있는 수제 맥주 직접 만들자"),
+        RecommendGroup(imageName: "Flower", title: "꽃 좋아하세요?", description: "플로리스트 체험하기")
+    ]
+
+    let closingSoonGroups: [RecommendGroup] = [
+        RecommendGroup(imageName: "Wine", title: "저녁 와인 한 잔", description: "같이 와인🍷 한 잔 어때?"),
+        RecommendGroup(imageName: "Movie", title: "인생 영화 찾기", description: "당신의 영화 취향🎬"),
+        RecommendGroup(imageName: "Whisky", title: "위스키 마십시다", description: "요즘 🔥한 위스키")
+    ]
+
+    let newGroups: [RecommendGroup] = [
+        RecommendGroup(imageName: "Dogs", title: "MUNK: 강아지 산책", description: "같이 🐶강아지 산책시켜요"),
+        RecommendGroup(imageName: "Yori", title: "Yori보고 Zori보고", description: "직접 만들어 먹는 재미"),
+        RecommendGroup(imageName: "Soccer", title: "축.구.클.럽", description: "공 한 번 찹시다")
+    ]
+    
     var body: some View {
         ZStack{
             NavigationView {
@@ -114,6 +138,115 @@ struct HomeView: View {
                             .padding(.top, 70)
                             .padding()
                         }
+                        
+                        
+                        VStack{
+                            if selectedTab == "For You" {
+                                // 취향 맞춤 소모임
+                                VStack(alignment: .leading) {
+                                    Text("✔️ 취향 맞춤 소모임")
+                                        .font(.headline)
+                                        .foregroundColor(.black)
+                                        .padding(.leading, 20)
+                                    
+                                    
+                                    Text("관심사 기반으로 추천해드려요")
+                                        .font(.subheadline)
+                                        .foregroundColor(.gray)
+                                        .padding(.bottom, -20)
+                                        .padding(.leading, 20)
+                                    
+                                    ScrollView(.horizontal, showsIndicators: false) {
+                                        HStack(spacing: -10) {
+                                            ForEach(recommendGroups) { group in
+                                                RecommendGroupView(group: group)
+                                            }
+                                        }
+                                        .padding()
+                                    }
+                                }
+                                Divider()
+                                    .padding(.top, -20)
+                            }
+                            // 받고 있는 소모임
+                            VStack(alignment: .leading) {
+                                Text("❤️ 받고 있는 소모임")
+                                    .font(.headline)
+                                    .foregroundColor(.black)
+                                    .padding(.leading, 20)
+                                    .padding(.top, -10)
+                                
+                                
+                                Text("최근 찜을 받은 소모임이에요")
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                                    .padding(.bottom, -20)
+                                    .padding(.leading, 20)
+                                
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    HStack(spacing: -10) {
+                                        ForEach(hotGroups) { group in
+                                            RecommendGroupView(group: group)
+                                        }
+                                    }
+                                    .padding()
+                                }
+                                Divider()
+                                    .padding(.top, -20)
+                            }
+                            
+                            // 마감 임박 소모임
+                            VStack(alignment: .leading) {
+                                Text("⏰ 마감 임박 소모임")
+                                    .font(.headline)
+                                    .foregroundColor(.black)
+                                    .padding(.leading, 20)
+                                    .padding(.top, -10)
+                                
+                                Text("지금이 아니면 못 갈지 몰라요")
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                                    .padding(.bottom, -20)
+                                    .padding(.leading, 20)
+                                
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    HStack(spacing: -10) {
+                                        ForEach(closingSoonGroups) { group in
+                                            RecommendGroupView(group: group)
+                                        }
+                                    }
+                                    .padding()
+                                }
+                                Divider()
+                                    .padding(.top, -20)
+                            }
+                            
+                            // 따끈따끈 신규 소모임
+                            VStack(alignment: .leading) {
+                                Text("🐣 따끈따끈 신규 소모임")
+                                    .font(.headline)
+                                    .foregroundColor(.black)
+                                    .padding(.leading, 20)
+                                    .padding(.top, -10)
+                                
+                                
+                                Text("처음은 늘 특별해")
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                                    .padding(.bottom, -20)
+                                    .padding(.leading, 20)
+                                
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    HStack(spacing: -10) {
+                                        ForEach(newGroups) { group in
+                                            RecommendGroupView(group: group)
+                                        }
+                                    }
+                                    .padding()
+                                }
+                            }
+                        }
+                        
                     }
                 }
             }
@@ -212,6 +345,40 @@ extension HomeView {
             .padding(.top, -13)
     }
 }
+
+struct RecommendGroupView: View {
+    var group: RecommendGroup
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            Image(group.imageName)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 200, height: 120)
+                .clipped()
+                .cornerRadius(10)
+                .padding(.top, -10)
+                .padding(.leading, -10)
+            
+            Text(group.title)
+                .font(.headline)
+                .padding(.top, 5)
+                .padding(.leading, -10)
+            
+            Text(group.description)
+                .font(.subheadline)
+                .foregroundColor(.gray)
+                .lineLimit(2)  // 설명이 2줄을 넘지 않도록
+                .padding(.leading, -10)
+                .padding(.bottom, -10)
+            
+        }
+        .padding()
+        .background(Color.white)
+        .cornerRadius(10)
+    }
+}
+
 
 
 struct HomeView_Previews: PreviewProvider {
