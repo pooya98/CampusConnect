@@ -2,7 +2,7 @@
 //  ContentView.swift
 //  CampusConnect
 //
-//  Created by 강승우 on 2023/05/02.
+//  Created by Herbert on 2023/05/02.
 //
 
 import SwiftUI
